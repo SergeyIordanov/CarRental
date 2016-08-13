@@ -1,54 +1,71 @@
 ﻿@model IEnumerable<CarRental.WEB.ViewModels.CarViewModel>
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
 }
-
-<h3>@ViewBag.Title</h3>
-
-<table>
-    @foreach (var car in Model)
-    {
-        <tr>
-            <td>@car.Id</td>
-        </tr>
-        <tr>
-            <td>@car.Brand</td>
-        </tr>
-        <tr>
-            <td>@car.ModelName</td>
-        </tr>
-        <tr>
-            <td>@car.Class</td>
-        </tr>
-        <tr>
-            <td>@car.AirConditioning</td>
-        </tr>
-        <tr>
-            <td>@car.AutomaticTransmission</td>
-        </tr>
-        <tr>
-            @if (car.Seats != null)
-            {
-                <td>@car.Seats</td>
-            }
-            else
-            {
-                <td>No info</td>
-            }
-        </tr>
-        <tr>
-            <td>@car.PriceForDay</td>
-        </tr>
-        <tr>
-            @if (car.Photo != null)
-            {
-                <td>@car.Photo.ToString()</td>
-            }
-            else
-            {
-                <td>No photo</td>
-            }
-        </tr>
-    }
-</table>
+<div class="row no-margin-bot">
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Welcome</p>
+            <p class="flow-text sub-welcome-text centralized">We'll help you to find the car of your dream!</p>
+            <hr class="colored-hr" />
+            <div id="article_target" class="row">
+                <div class="row">
+                    <div class="col s4">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Car/Index">
+                                Cars
+                                <br />
+                                <br />
+                                <img width="120" class="responsive-img" src="~/Content/Images/car-icon.png" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Review/Index">
+                                Reviewes
+                                <br />
+                                <br />
+                                <img width="120" class="responsive-img" src="~/Content/Images/review-icon.png" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s4">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Home/Contacts">
+                                Contacts
+                                <br />
+                                <br />
+                                <img width="120" class="responsive-img" src="~/Content/Images/contacts-icon.png" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s3 push-s1">
+        @*<div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>*@
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { controller = "Home", action = "Index" }, new { @class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Cars", new { controller = "Car", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { controller = "Review", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Contacts", new { controller = "Home", action = "Contacts" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="poll-section" class="card">
+           @*     @Html.Action("Index", "Poll", new { id = 1 })*@
+            </div>
+        </div>
+    </div>
+</div>
