@@ -3,7 +3,11 @@ using CarRental.Entities.General;
 
 namespace CarRental.DAL.EF
 {
-    public class RentDbInitializer : DropCreateDatabaseIfModelChanges<RentContext>
+    /// <summary>
+    /// Drops database on each restart of the server and sets initial values to DB
+    /// Should be changed/removed before deployment
+    /// </summary>
+    public class RentDbInitializer : DropCreateDatabaseAlways<RentContext>
     {
         protected override void Seed(RentContext db)
         {

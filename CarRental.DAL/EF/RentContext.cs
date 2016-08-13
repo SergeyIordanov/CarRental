@@ -7,10 +7,14 @@ namespace CarRental.DAL.EF
     {
         public DbSet<Car> Cars { get; set; }
 
+        /// <summary>
+        /// Static constructor for seting DB initializer
+        /// </summary>
         static RentContext()
         {
-            Database.SetInitializer<RentContext>(new RentDbInitializer());
+            Database.SetInitializer(new RentDbInitializer());
         }
+
         public RentContext(string connectionString)
             : base(connectionString)
         {

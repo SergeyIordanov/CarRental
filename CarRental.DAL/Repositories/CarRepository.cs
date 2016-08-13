@@ -13,7 +13,7 @@ namespace CarRental.DAL.Repositories
 
         public CarRepository(RentContext context)
         {
-            this._db = context;
+            _db = context;
         }
 
         public IEnumerable<Car> GetAll()
