@@ -1,5 +1,54 @@
-﻿@{
+﻿@model IEnumerable<CarRental.WEB.ViewModels.CarViewModel>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <h3>@ViewBag.Title</h3>
+
+<table>
+    @foreach (var car in Model)
+    {
+        <tr>
+            <td>@car.Id</td>
+        </tr>
+        <tr>
+            <td>@car.Brand</td>
+        </tr>
+        <tr>
+            <td>@car.ModelName</td>
+        </tr>
+        <tr>
+            <td>@car.Class</td>
+        </tr>
+        <tr>
+            <td>@car.AirConditioning</td>
+        </tr>
+        <tr>
+            <td>@car.AutomaticTransmission</td>
+        </tr>
+        <tr>
+            @if (car.Seats != null)
+            {
+                <td>@car.Seats</td>
+            }
+            else
+            {
+                <td>No info</td>
+            }
+        </tr>
+        <tr>
+            <td>@car.PriceForDay</td>
+        </tr>
+        <tr>
+            @if (car.Photo != null)
+            {
+                <td>@car.Photo.ToString()</td>
+            }
+            else
+            {
+                <td>No photo</td>
+            }
+        </tr>
+    }
+</table>

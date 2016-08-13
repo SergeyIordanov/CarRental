@@ -12,7 +12,7 @@ namespace CarRental.DAL.EF
         protected override void Seed(RentContext db)
         {
             db.Cars.Add(new Car { Id = 1, AirConditioning = true, AutomaticTransmission = false, Brand = "Renault", Class = "Standard", ModelName = "Duster", PriceForDay = 45M, Seats = 5});
-            db.Cars.Add(new Car { Id = 2, AirConditioning = true, AutomaticTransmission = true, Brand = "Renault", Class = "Premium", ModelName = "Fluence", PriceForDay = 73.12M, Seats = 5 });
+            db.Cars.Add(new Car { Id = 2, AirConditioning = true, AutomaticTransmission = true, Brand = "Renault", Class = "Premium", ModelName = "Fluence", PriceForDay = 73.12M, Seats = null });
             db.Cars.Add(new Car { Id = 3, AirConditioning = false, AutomaticTransmission = false, Brand = "Kia", Class = "Econom", ModelName = "Rio", PriceForDay = 28.5M, Seats = 5 });
             db.Cars.Add(new Car { Id = 4, AirConditioning = true, AutomaticTransmission = true, Brand = "Bmw", Class = "Premium", ModelName = "X6", PriceForDay = 255M, Seats = 5 });
             db.Cars.Add(new Car { Id = 5, AirConditioning = true, AutomaticTransmission = true, Brand = "Lamborghini", Class = "Sport", ModelName = "Gallardo", PriceForDay = 1766M, Seats = 2 });

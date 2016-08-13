@@ -18,7 +18,7 @@ namespace CarRental.Entities.General
         [DataType(DataType.Upload)]
         public byte[] Photo { get; set; }
 
-        public int Seats { get; set; }
+        public int? Seats { get; set; }
 
         public bool AirConditioning { get; set; }
 

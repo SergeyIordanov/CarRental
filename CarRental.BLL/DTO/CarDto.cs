@@ -14,7 +14,7 @@
 
         public byte[] Photo { get; set; }
 
-        public int Seats { get; set; }
+        public int? Seats { get; set; }
 
         public bool AirConditioning { get; set; }
 
