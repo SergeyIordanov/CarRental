@@ -52,7 +52,7 @@
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\IRentService.cs" />
-    <Compile Include="Models\SearchCarModel.cs" />
+    <Compile Include="DTO\FilterDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RentService.cs" />
   </ItemGroup>

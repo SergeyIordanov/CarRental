@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="row">
                     <div class="col s12">
-                        <p class="flow-text welcome-text centralized">Search</p>
+                        @Html.Partial("Partials/_Search")
                     </div>                  
                 </div>
             </div>
@@ -19,9 +19,9 @@
             <div class="card">
                 <div class="row"></div>
                 <p class="flow-text welcome-text centralized">Filters</p>
-                <hr class="colored-hr"/>
+                <hr class="colored-hr no-margin-bot"/>
                 <div class="row">
-
+                    @Html.Action("ShowFilters")
                 </div>
             </div>
         </div>
@@ -58,6 +58,10 @@
 
             <hr class="colored-hr"/>
             <div id="cars_target" class="row">
+                <div id="loading" class="loading-el">
+                    <br/>
+                    <p class="flow-text welcome-text centralized">Loading...</p>
+                </div>
                 @Html.Partial("Partials/_CarsList")
             </div>
         </div>

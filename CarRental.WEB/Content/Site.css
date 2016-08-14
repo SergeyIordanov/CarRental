@@ -2,6 +2,16 @@
     background: #a4bdd1 center url(Images/layout.jpg) no-repeat fixed;
 }
 
+/* Change materialize standard color */
+[type="checkbox"]:checked + label:before {
+    border-right: 2px solid #D76135 !important;
+    border-bottom: 2px solid #D76135 !important;
+}
+.dropdown-content li > span {
+    color: #D76135 !important;
+}
+/*-----*/
+
 .no-margin-vert{
     margin-bottom: 0;
     margin-top: 0;
@@ -59,4 +69,33 @@
 
 .main-color-background {
     background-color: #D76135 !important;
+}
+
+.search-btn {   
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    height: 34px;
+}
+
+.search-field:focus {
+    border-bottom: 1px solid #D76135 !important;
+    box-shadow: 0 1px 0 0 #D76135 !important;
+}
+
+.loading-el {
+    display:none; 
+}
+
+.checkbox-par {
+    padding: 5px !important;
+}
+
+.noUi-connect {
+    background: #D76135;
+}
+
+#range {    
+	height: 17px;
+	margin: 18px auto 5px;    
 }

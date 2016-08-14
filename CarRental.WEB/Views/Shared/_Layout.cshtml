@@ -6,14 +6,10 @@
     <title>@ViewBag.Title</title>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    @Styles.Render("~/Content/materialize")
-    @Styles.Render("~/Content/css")
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/materialize")
-    @Scripts.Render("~/bundles/init")
-    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/slider")
+    @Styles.Render("~/Content/materialize")   
+    @Styles.Render("~/Content/css")
 </head>
 <body>
     <div class="row">
@@ -37,5 +33,13 @@
             </div>
         </div>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/ajax")
+    @Scripts.Render("~/bundles/materialize")
+    @Scripts.Render("~/bundles/slider")
+    @Scripts.Render("~/bundles/init")
+    @Scripts.Render("~/bundles/modernizr")
+
 </body>
 </html>

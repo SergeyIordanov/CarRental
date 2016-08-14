@@ -1,0 +1,17 @@
+﻿@using (Ajax.BeginForm("Search", "Car", new AjaxOptions
+{
+    HttpMethod = "post", UpdateTargetId = "cars_target",
+    LoadingElementId = "loading"
+    //LoadingElementDuration = 1000
+}))
+{
+    <div class="row no-margin-bot">
+        <div class="input-field col s8">
+            <label for="search-field">Search</label>
+            <input class="text-box single-line search-field" id="search-field" maxlength="100" name="search" type="text">
+        </div>       
+        <div class="input-field col s2">
+            <input type="submit" value="go" class="btn btn-default main-color-background z-depth-0 search-btn">
+        </div>
+    </div>
+}

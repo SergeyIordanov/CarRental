@@ -4,7 +4,6 @@ using AutoMapper;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
-using CarRental.BLL.Models;
 using CarRental.DAL.Interfaces;
 using CarRental.Entities.General;
 
@@ -40,7 +39,18 @@ namespace CarRental.BLL.Services
             return mapper.Map<IEnumerable<CarDTO>>(Database.Cars.GetAll());
         }
 
-        public IEnumerable<CarDTO> GetCars(SearchCarModel searchModel)
+        public IEnumerable<CarDTO> GetCars(string searchString)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
+            var mapper = config.CreateMapper();
+
+            if (string.IsNullOrEmpty(searchString))
+                return mapper.Map<IEnumerable<CarDTO>>(Database.Cars.GetAll());
+
+            return mapper.Map<IEnumerable<CarDTO>>(Database.Cars.Find(car => (car.Brand + " " + car.ModelName).ToLower().Contains(searchString.ToLower())));
+        }
+
+        public IEnumerable<CarDTO> GetCars(FilterDTO searchModel)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
             var mapper = config.CreateMapper();
@@ -50,12 +60,12 @@ namespace CarRental.BLL.Services
 
             // compare each car with searchModel
             return mapper.Map<IEnumerable<CarDTO>>(Database.Cars.Find(
-                car => (searchModel.Brands?.Contains(car.Brand) ?? true) &&
-                       (searchModel.Classes?.Contains(car.Class) ?? true) &&
+                car => (searchModel.Brands == null || searchModel.Brands.Length < 1 || searchModel.Brands.Contains(car.Brand)) &&
+                       (searchModel.Classes == null || searchModel.Classes.Length < 1 || searchModel.Classes.Contains(car.Class)) &&
                        searchModel.MinPrice < car.PriceForDay &&
                        searchModel.MaxPrice > car.PriceForDay &&
-                       searchModel.AirConditioning == car.AirConditioning &&
-                       searchModel.AutomaticTransmission == car.AutomaticTransmission
+                       (searchModel.AirConditioning == null || searchModel.AirConditioning == car.AirConditioning) &&
+                       (searchModel.AutomaticTransmission == null || searchModel.AutomaticTransmission == car.AutomaticTransmission)
                 ));
         }
 

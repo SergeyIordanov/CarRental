@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CarRental.BLL.DTO;
-using CarRental.BLL.Models;
 
 namespace CarRental.BLL.Interfaces
 {
@@ -11,11 +10,18 @@ namespace CarRental.BLL.Interfaces
         IEnumerable<CarDTO> GetCars();
 
         /// <summary>
+        /// Filters cars by comparing 'searchString' arg with car's brand & model
+        /// </summary>
+        /// <param name="searchString">Search request</param>
+        /// <returns>Filtred cars collection</returns>
+        IEnumerable<CarDTO> GetCars(string searchString);
+
+        /// <summary>
         /// Filters cars using searchModel
         /// </summary>
-        /// <param name="searchModel">Model for filtering cars</param>
+        /// <param name="filterModel">Model for filtering cars</param>
         /// <returns>Filtred cars collection</returns>
-        IEnumerable<CarDTO> GetCars(SearchCarModel searchModel);
+        IEnumerable<CarDTO> GetCars(FilterDTO filterModel);
 
         void Dispose();
     }

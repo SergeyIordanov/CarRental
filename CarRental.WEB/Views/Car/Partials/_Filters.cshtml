@@ -1,0 +1,66 @@
+﻿@using CarRental.WEB.Helpers
+
+@model CarRental.WEB.ViewModels.FilterViewModel
+    
+@using (Ajax.BeginForm("Filter", "Car", new AjaxOptions
+{
+    HttpMethod = "post",
+    UpdateTargetId = "cars_target",
+    LoadingElementId = "loading"
+    //LoadingElementDuration = 1000
+}))
+{
+    <div class="row no-margin-bot">
+        <ul class="collapsible z-depth-0 no-margin-vert" data-collapsible="expandable">
+            <li>
+                <div class="collapsible-header "><i class="material-icons">drive_eta</i>Brands
+                </div>
+                <div class="collapsible-body">
+                    @Html.CreateCheckboxesList("brands", "Brands", Model.Brands, new {@class = "col s10 push-s1"})
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header "><i class="material-icons">star_half</i>Classes
+                </div>
+                <div class="collapsible-body">
+                    @Html.CreateCheckboxesList("classes", "Classes", Model.Classes, new {@class = "col s10 push-s1"})
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header "><i class="material-icons">build</i>Features
+                </div>
+                <div class="collapsible-body">
+                    <div class="input-field col s10 push-s1">
+                        @Html.CreateDropDown("All", new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new {@name = "AirConditioning"})
+                        <label>Air Conditioning</label>
+                    </div>
+                    <div class="input-field col s10 push-s1">
+                        @Html.CreateDropDown("All", new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new { @name = "AutomaticTransmission" })
+                        <label>Automatic transmission</label>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header "><i class="material-icons">business_center</i>Price
+                </div>
+                <div class="collapsible-body">
+                    <div class="col s10 push-s1">
+                        <div id="range"></div>
+                        <div class="row">
+                            <div class="input-field col s6 no-padding">
+                                <input name="MinPrice" id="value-input-low" value="0"/>
+                            </div>
+                            <div class="input-field col s6 no-padding">
+                                <input name="MaxPrice" id="value-input-high" value="0"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="input-field col s10 push-s1 centralized">
+            <input type="submit" value="Confirm" class="btn btn-default main-color-background"/>
+        </div>
+        <div class="row"></div>
+    </div>
+}

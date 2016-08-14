@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CarRental.BLL.Models
+﻿namespace CarRental.WEB.ViewModels
 {
-    public class SearchCarModel
+    public class FilterViewModel
     {
         public string[] Brands { get; set; }
 
