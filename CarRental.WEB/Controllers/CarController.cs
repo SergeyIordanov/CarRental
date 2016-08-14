@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity.Core.Mapping;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -35,7 +35,9 @@ namespace CarRental.WEB.Controllers
                 cfg.CreateMap<CarDTO, CarViewModel>();
             });
             var mapper = config.CreateMapper();
-            return PartialView("Partials/_CarsList", mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(search)));
+            var cars = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(search));
+            Session["CurrentCars"] = cars;
+            return PartialView("Partials/_CarsList", cars);
         }
 
         [HttpGet]
@@ -77,7 +79,58 @@ namespace CarRental.WEB.Controllers
             });
             var mapper = config.CreateMapper();
             var filterDTO = mapper.Map<FilterDTO>(filterModel);
-            return PartialView("Partials/_CarsList", mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(filterDTO)));
+            var cars = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(filterDTO));
+            Session["CurrentCars"] = cars;
+            return PartialView("Partials/_CarsList", cars);
+        }
+
+        [HttpPost]
+        public ActionResult SortByName(bool desc = false)
+        {
+            if (Session["CurrentCars"] == null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                var carsView = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars());
+                if (desc)
+                    return PartialView("Partials/_CarsList", carsView.OrderByDescending(x => x.Brand).ToList());
+                return PartialView("Partials/_CarsList", carsView.OrderBy(x => x.Brand).ToList());
+            }
+            else
+            {
+                var carsView = (List<CarViewModel>)Session["CurrentCars"];
+                if (desc)
+                    return PartialView("Partials/_CarsList", carsView.OrderByDescending(x => x.Brand).ToList());
+                return PartialView("Partials/_CarsList", carsView.OrderBy(x => x.Brand).ToList());
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SortByPrice(bool desc = false)
+        {
+            if (Session["CurrentCars"] == null)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                var carsView = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars());
+                if (desc)
+                    return PartialView("Partials/_CarsList", carsView.OrderByDescending(x => x.PriceForDay).ToList());
+                return PartialView("Partials/_CarsList", carsView.OrderBy(x => x.PriceForDay).ToList());
+            }
+            else
+            {
+                var carsView = (List<CarViewModel>)Session["CurrentCars"];
+                if (desc)
+                    return PartialView("Partials/_CarsList", carsView.OrderByDescending(x => x.PriceForDay).ToList());
+                return PartialView("Partials/_CarsList", carsView.OrderBy(x => x.PriceForDay).ToList());
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

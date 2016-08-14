@@ -31,7 +31,6 @@
             <div class="row"></div>
             
             <p class="flow-text welcome-text centralized">Available cars</p>
-
             <div class="row">
                 <div class="col s10 push-s1">
                     <ul class="collapsible z-depth-0 no-margin-vert" data-collapsible="accordion">
@@ -42,20 +41,22 @@
                             </div>
                             <div class="collapsible-body">
                                 <div class="collection no-margin-vert">
-                                    @Html.RouteLink("Alphabet", new {controller = "Car", action = "Sort"}, new {@class = "collection-item black-text"})
+                                    @Ajax.RouteLink("Alphabet", new { controller = "Car", action = "SortByName" },
+                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
                                 </div>
                                 <div class="collection no-margin-vert">
-                                    @Html.RouteLink("Price (low to high)", new {controller = "Car", action = "Sort"}, new {@class = "collection-item black-text" })
+                                    @Ajax.RouteLink("Price (low to high)", new { controller = "Car", action = "SortByPrice" },
+                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
                                 </div>
                                 <div class="collection no-margin-vert">
-                                    @Html.RouteLink("Price (high to low)", new { controller = "Car", action = "Sort" }, new { @class = "collection-item black-text" })
+                                    @Ajax.RouteLink("Price (high to low)", new { controller = "Car", action = "SortByPrice", desc = true },
+                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-
             <hr class="colored-hr"/>
             <div id="cars_target" class="row">
                 <div id="loading" class="loading-el">
