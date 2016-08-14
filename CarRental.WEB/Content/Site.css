@@ -45,6 +45,10 @@
     color: tomato;
 }
 
+.car-title:hover {
+    text-decoration: underline;
+}
+
 .colored-hr{
     border: 2px solid #D76135;
 }

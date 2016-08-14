@@ -22,6 +22,9 @@ namespace CarRental.WEB
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/init").Include(
+                        "~/Scripts/initializer.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css"));
 
