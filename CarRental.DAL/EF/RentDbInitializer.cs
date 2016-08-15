@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.IO;
 using CarRental.Entities.General;
 
@@ -23,6 +24,12 @@ namespace CarRental.DAL.EF
             db.Cars.Add(new Car { Id = 3, AirConditioning = false, AutomaticTransmission = false, Brand = "Kia", Class = "Econom", ModelName = "Rio", PriceForDay = 28.5M, Seats = 5, Photo = GetImage(rio) });
             db.Cars.Add(new Car { Id = 4, AirConditioning = true, AutomaticTransmission = true, Brand = "Bmw", Class = "Premium", ModelName = "X6", PriceForDay = 255M, Seats = 5, Photo = GetImage(x6) });
             db.Cars.Add(new Car { Id = 5, AirConditioning = true, AutomaticTransmission = true, Brand = "Lamborghini", Class = "Sport", ModelName = "Gallardo", PriceForDay = 1766M, Seats = 2, Photo = GetImage(gallardo) });
+
+            db.Reviews.Add(new Review {Id = 1, UserId = null, PublishDate = DateTime.Now.AddHours(-8), Text = "Car was exactly as expected. Pick-up and drop off simple & straightforward.\n\rI will use Car4Rent again." });
+            db.Reviews.Add(new Review { Id = 2, UserId = null, PublishDate = DateTime.Now.AddHours(-5), Text = "A good solution for a holiday although the car we booked was out of stock and rather than take a smaller option we paid a little bit more for a bigger car. \n\rThe new car was very good" });
+            db.Reviews.Add(new Review { Id = 3, UserId = null, PublishDate = DateTime.Now.AddHours(-4), Text = "Too expensive!!" });
+            db.Reviews.Add(new Review { Id = 4, UserId = null, PublishDate = DateTime.Now.AddHours(-2), Text = "Quick and simple online booking process. Professional and friendly staff. \n\rGreat service, would definitely recommend." });
+
             db.SaveChanges();
         }
 

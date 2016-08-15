@@ -12,6 +12,8 @@ namespace CarRental.DAL.Interfaces
     {
         IRepository<Car> Cars { get; }
 
+        IRepository<Review> Reviews { get; }
+
         /// <summary>
         /// Saves all changes to the database
         /// </summary>

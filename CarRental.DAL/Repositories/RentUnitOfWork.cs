@@ -9,12 +9,14 @@ namespace CarRental.DAL.Repositories
     {
         private readonly RentContext _db;
         private CarRepository _carRepository;
+        private ReviewRepository _reviewRepository;
 
         public RentUnitOfWork(string connectionString)
         {
             _db = new RentContext(connectionString);
         }
         public IRepository<Car> Cars => _carRepository ?? (_carRepository = new CarRepository(_db));
+        public IRepository<Review> Reviews => _reviewRepository ?? (_reviewRepository = new ReviewRepository(_db));
 
         public void Save()
         {

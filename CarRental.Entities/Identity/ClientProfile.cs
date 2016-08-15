@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CarRental.Entities.General;
 
 namespace CarRental.Entities.Identity
 {
@@ -12,5 +14,7 @@ namespace CarRental.Entities.Identity
         public string Name { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

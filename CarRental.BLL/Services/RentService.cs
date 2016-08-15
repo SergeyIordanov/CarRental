@@ -18,6 +18,26 @@ namespace CarRental.BLL.Services
             Database = uow;
         }
 
+        #region Create
+
+        public void CreateReview(ReviewDTO reviewDto)
+        {
+            if (reviewDto == null)
+                throw new ValidationException("Cannot create review from null", "");
+            if (reviewDto.Text == null)
+                throw new ValidationException("This property cannot be null", "Text");
+            if (reviewDto.PublishDate == null)
+                throw new ValidationException("This property cannot be null", "PublishDate");
+            Mapper.Initialize(cfg => cfg.CreateMap<ReviewDTO, Review>());
+            var review = Mapper.Map<Review>(reviewDto);
+            Database.Reviews.Create(review);
+            Database.Save();
+        }
+
+        #endregion
+
+        #region Get
+
         public CarDTO GetCar(int? id)
         {
             if (id == null)
@@ -68,6 +88,18 @@ namespace CarRental.BLL.Services
                        (searchModel.AutomaticTransmission == null || searchModel.AutomaticTransmission == car.AutomaticTransmission)
                 ));
         }
+
+        public IEnumerable<ReviewDTO> GetReviews()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Review, ReviewDTO>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<IEnumerable<ReviewDTO>>(Database.Reviews.GetAll());
+        }
+
+        #endregion
 
         public void Dispose()
         {

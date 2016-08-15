@@ -7,6 +7,8 @@ namespace CarRental.DAL.EF
     {
         public DbSet<Car> Cars { get; set; }
 
+        public DbSet<Review> Reviews { get; set; }
+
         /// <summary>
         /// Static constructor for seting DB initializer
         /// </summary>

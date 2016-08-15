@@ -5,6 +5,14 @@ namespace CarRental.BLL.Interfaces
 {
     public interface IRentService
     {
+        #region Create
+
+        void CreateReview(ReviewDTO review);
+
+        #endregion
+
+        #region Get
+
         CarDTO GetCar(int? id);
 
         IEnumerable<CarDTO> GetCars();
@@ -22,6 +30,10 @@ namespace CarRental.BLL.Interfaces
         /// <param name="filterModel">Model for filtering cars</param>
         /// <returns>Filtred cars collection</returns>
         IEnumerable<CarDTO> GetCars(FilterDTO filterModel);
+
+        IEnumerable<ReviewDTO> GetReviews();
+
+        #endregion
 
         void Dispose();
     }
