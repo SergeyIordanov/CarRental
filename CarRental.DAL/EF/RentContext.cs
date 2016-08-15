@@ -10,7 +10,7 @@ namespace CarRental.DAL.EF
         public DbSet<Review> Reviews { get; set; }
 
         /// <summary>
-        /// Static constructor for seting DB initializer
+        /// Static constructor for setting DB initializer
         /// </summary>
         static RentContext()
         {

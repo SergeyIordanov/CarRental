@@ -22,7 +22,7 @@ namespace CarRental.WEB
 
         private IUserService CreateUserService()
         {
-            return _serviceCreator.CreateUserService("RentContext");
+            return _serviceCreator.CreateUserService("AuthContext");
         }
     }
 }

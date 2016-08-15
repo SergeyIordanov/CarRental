@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using CarRental.Auth.BLL.DTO;
 using CarRental.Auth.BLL.Infrastructure;
 using CarRental.Auth.BLL.Interfaces;
@@ -20,29 +19,29 @@ namespace CarRental.Auth.BLL.Services
             Database = uow;
         }
 
-        public async Task<OperationDetails> Create(UserDTO userDto)
+        public OperationDetails Create(UserDTO userDto)
         {
-            ApplicationUser user = await Database.UserManager.FindByEmailAsync(userDto.Email);
+            ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
             if (user == null)
             {
                 user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
-                IdentityResult result = await Database.UserManager.CreateAsync(user, userDto.Password);
+                IdentityResult result = Database.UserManager.Create(user, userDto.Password);
                 if (result.Errors.Any())
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
                 // add role
-                await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                Database.UserManager.AddToRole(user.Id, userDto.Role);
                 // create user profile
                 var clientProfile = new ClientProfile { Id = user.Id, Name = userDto.Name };
                 Database.ClientManager.Create(clientProfile);
-                await Database.SaveAsync();
+                Database.SaveAsync();
                 return new OperationDetails(true, "Registration succeed", "");
             }
             return new OperationDetails(false, "User with such login already exists", "Email");
         }
 
-        public async Task<UserDTO> Get(string id)
+        public UserDTO Get(string id)
         {
-            ApplicationUser user = await Database.UserManager.FindByIdAsync(id);
+            ApplicationUser user = Database.UserManager.FindById(id);
             if (user != null)
             {
                 return new UserDTO
@@ -56,30 +55,30 @@ namespace CarRental.Auth.BLL.Services
             return null;
         }
 
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
+        public ClaimsIdentity Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
             // search for user
-            ApplicationUser user = await Database.UserManager.FindAsync(userDto.Email, userDto.Password);
+            ApplicationUser user = Database.UserManager.Find(userDto.Email, userDto.Password);
             // authorize user and return ClaimsIdentity object
             if (user != null)
-                claim = await Database.UserManager.CreateIdentityAsync(user,
+                claim = Database.UserManager.CreateIdentity(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
         }
 
-        public async Task SetInitialData(UserDTO adminDto, List<string> roles)
+        public void SetInitialData(UserDTO adminDto, List<string> roles)
         {
             foreach (string roleName in roles)
             {
-                ApplicationRole role = await Database.RoleManager.FindByNameAsync(roleName);
+                ApplicationRole role = Database.RoleManager.FindByName(roleName);
                 if (role == null)
                 {
                     role = new ApplicationRole { Name = roleName };
-                    await Database.RoleManager.CreateAsync(role);
+                    Database.RoleManager.Create(role);
                 }
             }
-            await Create(adminDto);
+            Create(adminDto);
         }
 
         public void Dispose()

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CarRental.Auth.BLL.DTO;
@@ -27,13 +26,13 @@ namespace CarRental.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginModel model)
+        public ActionResult Login(LoginModel model)
         {
-            await SetInitialDataAsync();
+            SetInitialDataAsync();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                ClaimsIdentity claim = UserService.Authenticate(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Invalid login or password");
@@ -64,9 +63,9 @@ namespace CarRental.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterModel model)
+        public ActionResult Register(RegisterModel model)
         {
-            await SetInitialDataAsync();
+            SetInitialDataAsync();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO
@@ -76,7 +75,7 @@ namespace CarRental.WEB.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                OperationDetails operationDetails = await UserService.Create(userDto);
+                OperationDetails operationDetails = UserService.Create(userDto);
 
                 if (!operationDetails.Succedeed)
                     ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
@@ -85,9 +84,9 @@ namespace CarRental.WEB.Controllers
             }
             return View(model);
         }
-        private async Task SetInitialDataAsync()
+        private void SetInitialDataAsync()
         {
-            await UserService.SetInitialData(new UserDTO
+            UserService.SetInitialData(new UserDTO
             {
                 Email = "admin@gmail.com",
                 UserName = "admin@gmail.com",

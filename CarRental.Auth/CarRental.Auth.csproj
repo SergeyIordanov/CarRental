@@ -64,6 +64,7 @@
     <Compile Include="BLL\Services\ServiceCreator.cs" />
     <Compile Include="BLL\Services\UserService.cs" />
     <Compile Include="DAL\EF\AuthContext.cs" />
+    <Compile Include="DAL\EF\AuthDbInitializer.cs" />
     <Compile Include="DAL\Identity\ApplicationRoleManager.cs" />
     <Compile Include="DAL\Identity\ApplicationUserManager.cs" />
     <Compile Include="DAL\Interfaces\IClientManager.cs" />

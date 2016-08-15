@@ -32,7 +32,7 @@ namespace CarRental.WEB.Controllers
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
                     dest.UserName =
-                        GetUserViewModel(src.UserId).Result == null ? null : GetUserViewModel(src.UserId).Result.Name);
+                        GetUserViewModel(src.UserId) == null ? null : GetUserViewModel(src.UserId).Name);
             });
             var mapper = config.CreateMapper();
             return View(mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
@@ -50,15 +50,17 @@ namespace CarRental.WEB.Controllers
             _rentService.CreateReview(mapper.Map<ReviewDTO>(reviewViewModel));
             config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ReviewDTO, ReviewViewModel>();
+                cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
+                    dest.UserName =
+                        GetUserViewModel(src.UserId) == null ? null : GetUserViewModel(src.UserId).Name);
             });
             mapper = config.CreateMapper();
             return PartialView("Partials/_ReviewsList", mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
         }
 
-        private async Task<UserViewModel> GetUserViewModel(string id)
+        private UserViewModel GetUserViewModel(string id)
         {
-            UserDTO userDto = await UserService.Get(id);
+            UserDTO userDto = UserService.Get(id);
             if (userDto != null)
             {
                 var config = new MapperConfiguration(cfg =>
