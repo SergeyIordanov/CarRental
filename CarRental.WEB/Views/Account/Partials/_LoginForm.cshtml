@@ -1,0 +1,27 @@
+﻿@model CarRental.WEB.Models.LoginModel
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col s12 centralized red-text">
+            @Html.ValidationSummary()
+        </div>
+    </div>
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="input-field col s8 push-s2">
+            @Html.LabelFor(model => model.Email, "Email")
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-field col s8 push-s2">
+            @Html.LabelFor(model => model.Password, "Password")
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-field col s8 push-s2 centralized">
+            <input type="submit" value="Send" class="btn btn-default main-color-background" />
+        </div>
+    </div>
+    <div class="row"></div>
+}

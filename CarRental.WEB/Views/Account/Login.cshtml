@@ -1,0 +1,40 @@
+﻿@model CarRental.WEB.Models.LoginModel
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="row no-margin-bot">
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Login</p>
+            <p class="flow-text sub-welcome-text centralized">
+                Not registred yet? @Html.RouteLink("Do it now!", new {controller = "Account", action = "Register"}, new {@class = "flow-text sub-welcome-text"})
+            </p>
+            <hr class="colored-hr no-margin-vert" />
+            @Html.Partial("Partials/_LoginForm", Model)
+        </div>
+    </div>
+    <!-- Right side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { controller = "Home", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { controller = "Car", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { controller = "Review", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Contacts", new { controller = "Home", action = "Contacts" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

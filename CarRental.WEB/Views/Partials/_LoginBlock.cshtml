@@ -11,9 +11,13 @@
                 <div class="collection no-margin-vert">
                     @if (User.IsInRole("admin"))
                     {
-                        @Html.RouteLink("Admin panel", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item" })
+                        @Html.RouteLink("Admin panel", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item main-color-text" })
                     }
-                    @Html.RouteLink("LogOut", new { controller = "Account", action = "Logout" }, new { @class = "collection-item" })
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                    {
+                        @Html.RouteLink("Manage panel", new { area = "Manage", controller = "Manage", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    }
+                    @Html.RouteLink("LogOut", new { controller = "Account", action = "Logout" }, new { @class = "collection-item main-color-text" })
                 </div>
             </div>
         </div>
