@@ -199,10 +199,16 @@
   <ItemGroup>
     <Content Include="Content\Images\car-icon.png" />
     <Content Include="Content\Images\contacts-icon.png" />
+    <Content Include="Content\Images\cooperator1.png" />
+    <Content Include="Content\Images\cooperator2.jpg" />
+    <Content Include="Content\Images\cooperator3.jpg" />
+    <Content Include="Content\Images\facebook.png" />
     <Content Include="Content\Images\header.png" />
+    <Content Include="Content\Images\instagram.png" />
     <Content Include="Content\Images\layout.jpg" />
     <Content Include="Content\Images\no-car-photo.png" />
     <Content Include="Content\Images\review-icon.png" />
+    <Content Include="Content\Images\vk.png" />
     <Content Include="Content\materialize\css\materialize.css" />
     <Content Include="Content\materialize\css\materialize.min.css" />
     <Content Include="Content\materialize\font\material-design-icons\LICENSE.txt" />
@@ -300,6 +306,7 @@
     <Content Include="Views\Account\Partials\_RegisterForm.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\SuccessRegister.cshtml" />
+    <Content Include="Views\Home\Contacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

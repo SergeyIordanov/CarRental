@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Contacts";
+}
+
+<div class="row no-margin-bot">
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Contacts</p>
+            <p class="flow-text sub-welcome-text centralized">You can contact us using information below</p>
+            <hr class="colored-hr"/>
+            <!-- Top row (people) -->
+            <div class="row"></div>
+            <div class="row">
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s10 push-s1">
+                            <img class="responsive-img circle" src="~/Content/Images/cooperator1.png"/>
+                        </div>
+                    </div>
+                    <p class="flow-text welcome-text centralized no-margin-bot">Tim Robinson</p>
+                    <p class="flow-text sub-welcome-text centralized no-margin-vert">General manager</p>
+                    <p class="flow-text contacts-text centralized no-margin-bot">E-mail: tim_robinson@gmail.com</p>
+                    <p class="flow-text contacts-text centralized no-margin-vert">Tel: 777-777-77-77</p>
+                </div>
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s10 push-s1">
+                            <img class="responsive-img circle" src="~/Content/Images/cooperator2.jpg"/>
+                        </div>
+                    </div>
+                    <p class="flow-text welcome-text centralized no-margin-bot">John Brown</p>
+                    <p class="flow-text sub-welcome-text centralized no-margin-vert">Human resources</p>
+                    <p class="flow-text contacts-text centralized no-margin-bot">E-mail: john.brown@gmail.com</p>
+                    <p class="flow-text contacts-text centralized no-margin-vert">Tel: 888-888-88-88</p>
+                </div>
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s10 push-s1">
+                            <img class="responsive-img circle" src="~/Content/Images/cooperator3.jpg"/>
+                        </div>
+                    </div>
+                    <p class="flow-text welcome-text centralized no-margin-bot">Julia Thomson</p>
+                    <p class="flow-text sub-welcome-text centralized no-margin-vert">Manager</p>
+                    <p class="flow-text contacts-text centralized no-margin-bot">E-mail: julia_thompson@gmail.com</p>
+                    <p class="flow-text contacts-text centralized no-margin-vert">Tel: 999-999-99-99</p>
+                </div>
+            </div>
+            <hr class="colored-hr-thin"/>
+            <!-- Center row (office) -->
+            <div class="row no-margin-bot">
+                <div class="col s4">
+                    <p class="flow-text welcome-text centralized">Office</p>
+                </div>
+                <div class="col s4">
+                    <p class="flow-text sub-welcome-text centralized">20 Some Str. Kharkiv, Ukraine</p>
+                </div>
+                <div class="col s4">
+                    <p class="flow-text sub-welcome-text centralized">Tel: 555-555-55-55</p>
+                </div>
+            </div>
+            <hr class="colored-hr-thin"/>
+            <!-- Bottom row (sotial) -->
+            <div class="row no-margin-bot">
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s3 push-s4">
+                            <img class="responsive-img" src="~/Content/Images/facebook.png" />
+                        </div>
+                    </div>
+                    <a href="#"><p class="flow-text sub-welcome-text centralized no-margin-top">facebook.com/car4rent</p></a>
+                </div>
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s3 push-s4">
+                            <img class="responsive-img" src="~/Content/Images/vk.png" />
+                        </div>
+                    </div>
+                    <a href="#"><p class="flow-text sub-welcome-text centralized no-margin-top">vk.com/car4rent</p></a>
+                </div>
+                <div class="col s4">
+                    <div class="row no-margin-bot">
+                        <div class="col s3 push-s4">
+                            <img class="responsive-img" src="~/Content/Images/instagram.png" />
+                        </div>
+                    </div>
+                    <a href="#"><p class="flow-text sub-welcome-text centralized no-margin-top">instagram.com/car4rent</p></a>
+                </div>
+            </div>
+            <div class="row"></div>
+        </div>
+    </div>
+    <!-- Right side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { controller = "Home", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { controller = "Car", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { controller = "Review", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Contacts", new { controller = "Home", action = "Contacts" }, new { @class = "collection-item main-color-background active" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

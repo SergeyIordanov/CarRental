@@ -37,6 +37,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
     margin-bottom: 0;
 }
 
+.no-margin-top {
+    margin-top: 0;
+}
+
 .no-padding{
      padding: 0 !important;
 }
@@ -67,6 +71,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
     font-size: 17px;
 }
 
+.contacts-text {
+    font-size: 14px;
+}
+
 .text-danger{
     color: tomato;
 }
@@ -77,6 +85,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .colored-hr{
     border: 2px solid #D76135;
+}
+
+.colored-hr-thin {
+    border: 1px solid #D76135;
 }
 
 .main-color-text {
