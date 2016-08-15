@@ -1,1 +1,15 @@
-﻿
+﻿@model CarRental.WEB.ViewModels.ReviewViewModel
+
+@using (Ajax.BeginForm("Index", "Review", new AjaxOptions { UpdateTargetId = "reviews_target" }))
+{
+    <div class="row">
+        <div class="input-field col s10 push-s1">
+            @Html.LabelFor(model => model.Text, "Write review:")
+            <textarea class="materialize-textarea" cols="20" id="review_text" name="Text" required="required" rows="2"></textarea>
+            @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+        </div>
+        <div class="input-field col s10 push-s1">
+            <input type="submit" value="Send" class="btn btn-default main-color-background" />
+        </div>
+    </div>
+}

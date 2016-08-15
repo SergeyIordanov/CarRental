@@ -10,7 +10,11 @@ namespace CarRental.Auth.BLL.Interfaces
     public interface IUserService : IDisposable
     {
         Task<OperationDetails> Create(UserDTO userDto);
+
+        Task<UserDTO> Get(string id);
+
         Task<ClaimsIdentity> Authenticate(UserDTO userDto);
+
         Task SetInitialData(UserDTO adminDto, List<string> roles);
     }
 }

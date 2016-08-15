@@ -40,6 +40,22 @@ namespace CarRental.Auth.BLL.Services
             return new OperationDetails(false, "User with such login already exists", "Email");
         }
 
+        public async Task<UserDTO> Get(string id)
+        {
+            ApplicationUser user = await Database.UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                return new UserDTO
+                {
+                    UserName = user.Email,
+                    Name = user.ClientProfile.Name,
+                    Email = user.Email,
+                    Id = user.Id
+                };
+            }
+            return null;
+        }
+
         public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
