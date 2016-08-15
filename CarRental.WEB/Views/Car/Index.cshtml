@@ -5,16 +5,20 @@
 }
 
 <div class="row no-margin-bot">
+    
+    <!-- Left side -->
     <div class="col s2 push-s1">
+        <!-- Search block -->
         <div class="row">
             <div class="card">
                 <div class="row">
                     <div class="col s12">
                         @Html.Partial("Partials/_Search")
-                    </div>                  
+                    </div>
                 </div>
             </div>
         </div>
+        <!-- Filters block -->
         <div class="row">
             <div class="card">
                 <div class="row"></div>
@@ -26,10 +30,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Main body -->
     <div class="col s5 push-s1">
         <div id="main-body" class="card">
+            <!-- Min body header -->
             <div class="row"></div>
-            
             <p class="flow-text welcome-text centralized">Available cars</p>
             <div class="row">
                 <div class="col s10 push-s1">
@@ -41,16 +47,16 @@
                             </div>
                             <div class="collapsible-body">
                                 <div class="collection no-margin-vert">
-                                    @Ajax.RouteLink("Alphabet", new { controller = "Car", action = "SortByName" },
-                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
+                                    @Ajax.RouteLink("Alphabet", new {controller = "Car", action = "SortByName"},
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
                                 </div>
                                 <div class="collection no-margin-vert">
-                                    @Ajax.RouteLink("Price (low to high)", new { controller = "Car", action = "SortByPrice" },
-                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
+                                    @Ajax.RouteLink("Price (low to high)", new {controller = "Car", action = "SortByPrice"},
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
                                 </div>
                                 <div class="collection no-margin-vert">
-                                    @Ajax.RouteLink("Price (high to low)", new { controller = "Car", action = "SortByPrice", desc = true },
-                                new AjaxOptions { HttpMethod = "post", UpdateTargetId = "cars_target" }, new { @class = "collection-item black-text" })
+                                    @Ajax.RouteLink("Price (high to low)", new {controller = "Car", action = "SortByPrice", desc = true},
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
                                 </div>
                             </div>
                         </li>
@@ -58,6 +64,7 @@
                 </div>
             </div>
             <hr class="colored-hr"/>
+            <!-- Cars list -->
             <div id="cars_target" class="row">
                 <div id="loading" class="loading-el">
                     <br/>
@@ -67,17 +74,21 @@
             </div>
         </div>
     </div>
+
+    <!-- Rigth side -->
     <div class="col s3 push-s1">
+        <!-- Login block -->
         <div class="row">
             @Html.Partial("../Partials/_Loginblock")
         </div>
+        <!-- Menu block -->
         <div class="row">
             <div id="right-sidebar" class="card centralized">
                 <div class="row"></div>
                 <p class="card-title flow-text">Menu</p>
                 <div class="collection with-header">
                     @Html.RouteLink("Main", new {controller = "Home", action = "Index"}, new {@class = "collection-item main-color-text"})
-                    @Html.RouteLink("Cars", new {controller = "Car", action = "Index"}, new {@class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Cars", new {controller = "Car", action = "Index"}, new {@class = "collection-item main-color-background active"})
                     @Html.RouteLink("Reviews", new {controller = "Review", action = "Index"}, new {@class = "collection-item main-color-text"})
                     @Html.RouteLink("Contacts", new {controller = "Home", action = "Contacts"}, new {@class = "collection-item main-color-text"})
                 </div>

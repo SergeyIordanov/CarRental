@@ -17,7 +17,7 @@ else
                                 <div class="row">
                                     @if (car.Photo != null && car.Photo.Length > 0)
                                     {
-                                        <img class="responsive-img materialboxed" data-caption="@car.Brand @car.ModelName" src="data:image/jpeg;base64,@Convert.ToBase64String(car.Photo)"/>
+                                        <img class="responsive-img" data-caption="@car.Brand @car.ModelName" src="data:image/jpeg;base64,@Convert.ToBase64String(car.Photo)"/>
                                     }
                                     else
                                     {
@@ -31,7 +31,7 @@ else
                             </div>
                             <div class="col s7">
                                 <div class="row centralized">
-                                    @Html.ActionLink(car.Brand + " " + car.ModelName, "Details", new { controller = "Car", id = car.Id }, new { @class = "flow-text black-text car-title" })
+                                    @Html.ActionLink(car.Brand + " " + car.ModelName, "Index", new { controller = "Order", id = car.Id }, new { @class = "flow-text black-text car-title" })
                                     <p class="flow-text centralized sub-welcome-text main-color-text">@car.Class</p>
                                 </div>
                                 <div class="row">
@@ -68,7 +68,7 @@ else
                                     }
                                 </div>
                                 <div class="row right-align no-margin-bot">
-                                    <a href="/Car/Details" class="waves-effect waves-light btn main-color-background">Open</a>
+                                    <a href="/Order/Index" class="waves-effect waves-light btn main-color-background">Open</a>
                                 </div>
                             </div>
                         </div>                      
