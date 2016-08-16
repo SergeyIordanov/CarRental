@@ -54,8 +54,13 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be null", "FromDate");
             if (orderDto.ToDate == null)
                 throw new ValidationException("This property cannot be null", "ToDate");
-            Mapper.Initialize(cfg => cfg.CreateMap<OrderDTO, Order>());
-            var order = Mapper.Map<Order>(orderDto);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<OrderDTO, Order>();
+                cfg.CreateMap<CarDTO, Car>();
+            });
+            var mapper = config.CreateMapper();
+            var order = mapper.Map<Order>(orderDto);
             Database.Orders.Create(order);
             Database.Save();
         }
@@ -69,7 +74,11 @@ namespace CarRental.BLL.Services
             if (Database.Orders.Get(orderDto.Id) == null)
                 throw new ValidationException("Order wasn't found", "");
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<OrderDTO, Order>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<OrderDTO, Order>();
+                cfg.CreateMap<CarDTO, Car>();
+            });
             var mapper = config.CreateMapper();
             var order = mapper.Map<Order>(orderDto);
 
@@ -145,7 +154,11 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<OrderDTO> GetOrders()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<Car, CarDTO>();
+            });
             var mapper = config.CreateMapper();
             return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.GetAll());
         }
@@ -155,7 +168,11 @@ namespace CarRental.BLL.Services
             if (string.IsNullOrEmpty(userId))
                 throw new ValidationException("User's id wasn't set", "");
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<Car, CarDTO>();
+            });
             var mapper = config.CreateMapper();
 
             return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.Find(order => order.UserId.Equals(userId)));
