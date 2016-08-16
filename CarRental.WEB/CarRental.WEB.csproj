@@ -201,6 +201,14 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\AuthDB.mdf" />
+    <Content Include="App_Data\AuthDB_log.ldf">
+      <DependentUpon>AuthDB.mdf</DependentUpon>
+    </Content>
+    <Content Include="App_Data\RentDB.mdf" />
+    <Content Include="App_Data\RentDB_log.ldf">
+      <DependentUpon>RentDB.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\Images\car-icon.png" />
     <Content Include="Content\Images\contacts-icon.png" />
     <Content Include="Content\Images\cooperator1.png" />
@@ -315,9 +323,7 @@
     <Content Include="Views\Review\Partials\_ReviewsList.cshtml" />
     <Content Include="Views\Review\Partials\_ReviewForm.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
