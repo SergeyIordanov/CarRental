@@ -7,6 +7,8 @@ namespace CarRental.DAL.EF
     {
         public DbSet<Car> Cars { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
         public DbSet<Review> Reviews { get; set; }
 
         /// <summary>
