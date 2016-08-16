@@ -3,11 +3,22 @@ using CarRental.BLL.DTO;
 
 namespace CarRental.BLL.Interfaces
 {
+    /// <summary>
+    /// Interface for working with BLL from Presentation layer (WEB)
+    /// </summary>
     public interface IRentService
     {
         #region Create
 
         void CreateReview(ReviewDTO review);
+
+        void CreateOrder(OrderDTO order);
+
+        #endregion
+
+        #region Update
+
+        void UpdateOrder(OrderDTO order);
 
         #endregion
 
@@ -32,6 +43,10 @@ namespace CarRental.BLL.Interfaces
         IEnumerable<CarDTO> GetCars(FilterDTO filterModel);
 
         IEnumerable<ReviewDTO> GetReviews();
+
+        IEnumerable<OrderDTO> GetOrders();
+
+        IEnumerable<OrderDTO> GetOrders(string userId);
 
         #endregion
 

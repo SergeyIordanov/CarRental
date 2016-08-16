@@ -34,6 +34,50 @@ namespace CarRental.BLL.Services
             Database.Save();
         }
 
+        public void CreateOrder(OrderDTO orderDto)
+        {
+            if (orderDto == null)
+                throw new ValidationException("Cannot create order from null", "");
+            if (orderDto.UserId == null)
+                throw new ValidationException("This property cannot be null", "UserId");
+            if (orderDto.Car == null)
+                throw new ValidationException("This property cannot be null", "Car");
+            if (orderDto.FirstName == null)
+                throw new ValidationException("This property cannot be null", "FirstName");
+            if (orderDto.LastName == null)
+                throw new ValidationException("This property cannot be null", "LastName");
+            if (orderDto.PhoneNumber == null)
+                throw new ValidationException("This property cannot be null", "PhoneNumber");
+            if (orderDto.PickUpAddress == null)
+                throw new ValidationException("This property cannot be null", "PickUpAddress");
+            if (orderDto.FromDate == null)
+                throw new ValidationException("This property cannot be null", "FromDate");
+            if (orderDto.ToDate == null)
+                throw new ValidationException("This property cannot be null", "ToDate");
+            Mapper.Initialize(cfg => cfg.CreateMap<OrderDTO, Order>());
+            var order = Mapper.Map<Order>(orderDto);
+            Database.Orders.Create(order);
+            Database.Save();
+        }
+
+        #endregion
+
+        #region Update
+
+        public void UpdateOrder(OrderDTO orderDto)
+        {
+            if (Database.Orders.Get(orderDto.Id) == null)
+                throw new ValidationException("Order wasn't found", "");
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<OrderDTO, Order>());
+            var mapper = config.CreateMapper();
+            var order = mapper.Map<Order>(orderDto);
+
+            Database.Orders.Update(order);
+
+            Database.Save();
+        }
+
         #endregion
 
         #region Get
@@ -97,6 +141,24 @@ namespace CarRental.BLL.Services
             });
             var mapper = config.CreateMapper();
             return mapper.Map<IEnumerable<ReviewDTO>>(Database.Reviews.GetAll());
+        }
+
+        public IEnumerable<OrderDTO> GetOrders()
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>());
+            var mapper = config.CreateMapper();
+            return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.GetAll());
+        }
+
+        public IEnumerable<OrderDTO> GetOrders(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+                throw new ValidationException("User's id wasn't set", "");
+
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Order, OrderDTO>());
+            var mapper = config.CreateMapper();
+
+            return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.Find(order => order.UserId.Equals(userId)));
         }
 
         #endregion

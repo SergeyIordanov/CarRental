@@ -7,6 +7,7 @@ using AutoMapper;
 using CarRental.Auth.BLL.DTO;
 using CarRental.Auth.BLL.Interfaces;
 using CarRental.BLL.DTO;
+using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
 using Microsoft.AspNet.Identity;
@@ -41,13 +42,23 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Index(ReviewViewModel reviewViewModel)
         {
-            reviewViewModel.PublishDate = DateTime.Now;
-            var config = new MapperConfiguration(cfg =>
+            MapperConfiguration config;
+            IMapper mapper;
+            try
             {
-                cfg.CreateMap<ReviewViewModel, ReviewDTO>().AfterMap((src, dest) => dest.UserId = User.Identity.GetUserId());
-            });
-            var mapper = config.CreateMapper();
-            _rentService.CreateReview(mapper.Map<ReviewDTO>(reviewViewModel));
+                reviewViewModel.PublishDate = DateTime.Now;
+                config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<ReviewViewModel, ReviewDTO>().AfterMap((src, dest) => dest.UserId = User.Identity.GetUserId());
+                });
+                mapper = config.CreateMapper();
+                _rentService.CreateReview(mapper.Map<ReviewDTO>(reviewViewModel));
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+                      
             config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
