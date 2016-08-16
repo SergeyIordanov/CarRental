@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
@@ -42,18 +43,18 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be null", "UserId");
             if (orderDto.Car == null)
                 throw new ValidationException("This property cannot be null", "Car");
-            if (orderDto.FirstName == null)
-                throw new ValidationException("This property cannot be null", "FirstName");
-            if (orderDto.LastName == null)
-                throw new ValidationException("This property cannot be null", "LastName");
-            if (orderDto.PhoneNumber == null)
-                throw new ValidationException("This property cannot be null", "PhoneNumber");
-            if (orderDto.PickUpAddress == null)
-                throw new ValidationException("This property cannot be null", "PickUpAddress");
-            if (orderDto.FromDate == null)
-                throw new ValidationException("This property cannot be null", "FromDate");
-            if (orderDto.ToDate == null)
-                throw new ValidationException("This property cannot be null", "ToDate");
+            if (string.IsNullOrEmpty(orderDto.FirstName))
+                throw new ValidationException("This property cannot be empty", "FirstName");
+            if (string.IsNullOrEmpty(orderDto.LastName))
+                throw new ValidationException("This property cannot be empty", "LastName");
+            if (Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
+                throw new ValidationException("Tel format: +38 xxx xxx xx xx (no spaces)", "PhoneNumber");
+            if (string.IsNullOrEmpty(orderDto.PickUpAddress))
+                throw new ValidationException("This property cannot be empty", "PickUpAddress");
+            if (orderDto.FromDate == null || orderDto.FromDate.Year == 1)
+                throw new ValidationException("This property cannot be empty", "FromDate");
+            if (orderDto.ToDate == null || orderDto.ToDate.Year == 1)
+                throw new ValidationException("This property cannot be empty", "ToDate");
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<OrderDTO, Order>();

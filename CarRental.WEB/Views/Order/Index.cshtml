@@ -1,0 +1,123 @@
+﻿@model CarRental.WEB.ViewModels.OrderViewModel
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<div class="row no-margin-bot">
+
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <!-- Min body header -->
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Rent</p>
+            <p class="flow-text sub-welcome-text centralized">Just fill form for rent (you have to be registred)</p>
+            <hr class="colored-hr"/>
+            <!-- Car details -->
+            <div class="row no-margin-bot">
+                <div class="col s12 centralized">
+                    <p class="flow-text black-text no-margin-vert">@Model.Car.Brand @Model.Car.ModelName</p>
+                    <p class="flow-text sub-welcome-text main-color-text no-margin-top">@Model.Car.Class</p>
+                </div>
+            </div>
+            <div class="row no-margin-bot">
+                <div class="col s4 push-s1">
+                    @if (Model.Car.Photo != null && Model.Car.Photo.Length > 0)
+                    {
+                        <img class="responsive-img materialboxed" data-caption="@Model.Car.Brand @Model.Car.ModelName" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Car.Photo)"/>
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/no-car-photo.png" alt="" class="responsive-img">
+                    }
+                </div>
+                <div class="col s3 push-s1 centralized">
+                    <p class="flow-text sub-welcome-text no-margin-bot">Price per day:</p>
+                    <p class="flow-text welcome-text no-margin-top">$@Model.Car.PriceForDay</p>
+                </div>
+                <div class="col s5 push-s1">
+                    @if (Model.Car.AirConditioning)
+                    {
+                        <p class="flow-text sub-welcome-text no-margin-bot">
+                            <i class="material-icons left">done</i>Air Conditioning
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="flow-text sub-welcome-text no-margin-bot">
+                            <i class="material-icons left">clear</i>Air Conditioning
+                        </p>
+                    }
+                    @if (Model.Car.AutomaticTransmission)
+                    {
+                        <p class="flow-text sub-welcome-text no-margin-vert">
+                            <i class="material-icons left">done</i>Automatic
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="flow-text sub-welcome-text no-margin-vert">
+                            <i class="material-icons left">clear</i>Automatic
+                        </p>
+                    }
+                    @if (Model.Car.Seats != null)
+                    {
+                        <p class="flow-text sub-welcome-text no-margin-top">
+                            <i class="material-icons left">group</i>
+                            @Model.Car.Seats seats
+                        </p>
+                    }
+                </div>
+            </div>
+            <hr class="colored-hr-thin no-margin-top" />
+            <!-- Order details -->
+            <div id="order_target" class="row">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.Partial("Partials/_OrderForm", Model)
+                }
+                else
+                {
+                    <div class="col s12">
+                        <p class="flow-text sub-welcome-text centralized">To create an order you have to sign up</p>
+                        <div class="row">
+                            <div class="col s4 push-s2">
+                                <div class="collection no-margin-vert">
+                                    @Html.RouteLink("LogIn", new { controller = "Account", action = "Login" }, new { @class = "collection-item main-color-text" })
+                                </div>
+                            </div>
+                            <div class="col s4 push-s2">
+                                <div class="collection no-margin-vert">
+                                    @Html.RouteLink("Register", new { controller = "Account", action = "Register" }, new { @class = "collection-item main-color-text" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Rigth side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { controller = "Home", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { controller = "Car", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { controller = "Review", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Contacts", new { controller = "Home", action = "Contacts" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

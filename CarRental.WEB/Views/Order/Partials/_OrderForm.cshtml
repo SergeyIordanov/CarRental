@@ -1,0 +1,87 @@
+﻿@model CarRental.WEB.ViewModels.OrderViewModel
+@using CarRental.WEB.Helpers
+
+<div class="row">
+    @using (Html.BeginForm("Index", "Order", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col s10 push-s1">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.Hidden("carId", Model.Car.Id)
+
+            <div class="row">
+                <div class="input-field col s12 m12 l6">
+                    @Html.LabelFor(model => model.FirstName)
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { required = "required" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    @Html.LabelFor(model => model.LastName)
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { required = "required" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s6">
+                    <p>
+                        @Html.RadioButtonFor(model => model.WithDriver, false, new {@class = "with-gap", @checked = "checked", id = "radio_2"})
+                        <label for="radio_2">Without driver</label>
+                    </p>
+                    <p>
+                        @Html.RadioButtonFor(model => model.WithDriver, true, new {@class = "with-gap", id = "radio_1"})
+                        <label for="radio_1">With driver</label>
+                    </p>
+                    @Html.ValidationMessageFor(model => model.WithDriver, "", new {@class = "text-danger"})
+                    <p class="flow-text sub-welcome-text"> ( + $20/day )</p>
+                </div>
+                <div class="col s6">
+                    <div class="input-field no-margin-top">
+                        @Html.LabelFor(model => model.PhoneNumber)
+                        <input name="PhoneNumber" type="text" class="validate" value="+38" pattern="\+38\d\d\d\d\d\d\d\d\d\d" required>
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new {@class = "text-danger"})
+                    </div>
+                    <div class="input-field">
+                        @Html.CreateDropDown("Choose address", false, new Dictionary<string, string>
+                        {
+                            {"Office 1: Some Str. Kharkiv, Ukraine", "Office 1: Some Str. Kharkiv, Ukraine"},
+                            {"Office 2: Another Str. Kiev, Ukraine", "Office 2: Another Str. Kiev, Ukraine"},
+                            {"Office 3: New Str. Lviv, Ukraine", "Office 3: New Str. Lviv, Ukraine"},
+                            {"Office 4: Straigh Str. New-York, USA", "Office 4: Straigh Str. New-York, USA"},
+                        }, new {name = "PickUpAddress"})
+                        @Html.LabelFor(model => model.PickUpAddress)
+                        @Html.ValidationMessageFor(model => model.PickUpAddress, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field col s12 m12 l6">
+                    <input name="FromDate" type="date" class="datepicker" required>
+                    @Html.LabelFor(model => model.FromDate)
+                    @Html.ValidationMessageFor(model => model.FromDate, "", new {@class = "text-danger"})
+                </div>
+                <div class="input-field col s12 m12 l6">
+                    <input name="ToDate" type="date" class="datepicker" required>
+                    @Html.LabelFor(model => model.ToDate)
+                    @Html.ValidationMessageFor(model => model.ToDate, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 push-s1 centralized">
+                    <span class="flow-text welcome-text">Total price: $</span>
+                    <span id="total_price" class="flow-text welcome-text">@Model.Car.PriceForDay</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col s10 push-s1 centralized">
+                    <input type="submit" value="Confirm" class="btn btn-default main-color-background" />
+                </div>
+            </div>
+
+        </div>
+    }
+</div>

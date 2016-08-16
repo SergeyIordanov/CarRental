@@ -6,14 +6,15 @@ namespace CarRental.WEB.Helpers
 {
     public static class DropDownList
     {
-        public static MvcHtmlString CreateDropDown(this HtmlHelper html, string header, Dictionary<string, string> options, object htmlAttributes = null)
+        public static MvcHtmlString CreateDropDown(this HtmlHelper html, string header, bool activeHeader, Dictionary<string, string> options, object htmlAttributes = null)
         {
             TagBuilder select = new TagBuilder("select");
 
             TagBuilder option = new TagBuilder("option");
             option.SetInnerText(header);
             option.Attributes.Add(new KeyValuePair<string, string>("value", ""));
-            //option.Attributes.Add(new KeyValuePair<string, string>("disabled", "disabled"));
+            if(!activeHeader)
+                option.Attributes.Add(new KeyValuePair<string, string>("disabled", "disabled"));
             option.Attributes.Add(new KeyValuePair<string, string>("selected", "selected"));
             select.InnerHtml += option.ToString();
 

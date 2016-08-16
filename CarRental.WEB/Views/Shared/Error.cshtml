@@ -1,13 +1,40 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-    <hgroup>
-        <h1>Error.</h1>
-        <h2>An error occurred while processing your request.</h2>
-    </hgroup>
-</body>
-</html>
+﻿@model Exception
+@{
+    Layout = "_Layout.cshtml";
+    ViewBag.Title = "Error";
+}
+
+<div class="row no-margin-bot">
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Error</p>
+            <hr class="colored-hr no-margin-vert"/>
+
+            <div id="error_target" class="row">
+                <p class="flow-text sub-welcome-text centralized">@Model.Message</p>
+            </div>
+        </div>
+    </div>
+    <!-- Right side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new {controller = "Home", action = "Index"}, new {@class = "collection-item main-color-background"})
+                    @Html.RouteLink("Cars", new {controller = "Car", action = "Index"}, new {@class = "collection-item main-color-text"})
+                    @Html.RouteLink("Reviews", new {controller = "Review", action = "Index"}, new {@class = "collection-item main-color-text"})
+                    @Html.RouteLink("Contacts", new {controller = "Home", action = "Contacts"}, new {@class = "collection-item main-color-text"})
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

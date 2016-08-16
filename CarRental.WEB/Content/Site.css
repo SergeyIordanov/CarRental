@@ -26,6 +26,43 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .dropdown-content li > span {
     color: #D76135 !important;
 }
+
+[type="radio"]:checked + label:after, 
+[type="radio"].with-gap:checked + label:before, 
+[type="radio"].with-gap:checked + label:after {
+    border: 2px solid #D76135;
+}
+
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after {
+    background-color: #D76135;
+    z-index: 0;
+}
+
+.picker__date-display {
+    background-color: #D76135;
+}
+
+.picker__weekday-display {
+    background-color: #B76135;
+}
+
+.picker__close, 
+.picker__today {
+    color: #D76135;
+}
+
+.picker__day.picker__day--today {
+    color: #D76135;
+}
+
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+    background-color: #D76135;
+}
+
+.picker__nav--prev:hover, .picker__nav--next:hover {
+    background: #F79175;
+}
+
 /*-----*/
 
 .no-margin-vert{

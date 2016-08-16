@@ -31,7 +31,7 @@ else
                             </div>
                             <div class="col s7">
                                 <div class="row centralized">
-                                    @Html.ActionLink(car.Brand + " " + car.ModelName, "Index", new { controller = "Order", id = car.Id }, new { @class = "flow-text black-text car-title" })
+                                    @Html.ActionLink(car.Brand + " " + car.ModelName, "Index", new { controller = "Order", carId = car.Id }, new { @class = "flow-text black-text car-title" })
                                     <p class="flow-text centralized sub-welcome-text main-color-text">@car.Class</p>
                                 </div>
                                 <div class="row">
@@ -68,7 +68,7 @@ else
                                     }
                                 </div>
                                 <div class="row right-align no-margin-bot">
-                                    <a href="/Order/Index" class="waves-effect waves-light btn main-color-background">Rent</a>
+                                    <a href="/Order/Index?carId=@car.Id" class="waves-effect waves-light btn main-color-background">Rent</a>
                                 </div>
                             </div>
                         </div>                      

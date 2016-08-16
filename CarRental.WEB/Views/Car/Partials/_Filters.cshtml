@@ -31,11 +31,11 @@
                 </div>
                 <div class="collapsible-body">
                     <div class="input-field col s10 push-s1">
-                        @Html.CreateDropDown("All", new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new {@name = "AirConditioning"})
+                        @Html.CreateDropDown("All", true, new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new {@name = "AirConditioning"})
                         <label>Air Conditioning</label>
                     </div>
                     <div class="input-field col s10 push-s1">
-                        @Html.CreateDropDown("All", new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new { @name = "AutomaticTransmission" })
+                        @Html.CreateDropDown("All", true, new Dictionary<string, string> {{"Yes", "true"}, {"No", "false"}}, new { @name = "AutomaticTransmission" })
                         <label>Automatic transmission</label>
                     </div>
                 </div>
