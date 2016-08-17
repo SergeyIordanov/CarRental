@@ -1,0 +1,94 @@
+﻿@using CarRental.WEB.ViewModels
+@model IEnumerable<OrderViewModel>
+
+@if (!Model.Any())
+{
+    <p class="flow-text centralized welcome-text">You have no orders yet..</p>
+}
+else
+{
+    foreach (var order in Model.Reverse())
+    {
+        if (order.OrderStatus == OrderViewModel.Status.Returned)
+        {
+            continue;
+        }
+        <div class="row">
+            <div class="col s10 push-s1">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row no-margin-bot">
+                            <div class="col s10 push-s1">
+                                <p class="flow-text welcome-text centralized">@order.Car.Brand @order.Car.ModelName</p>
+                                <p class="flow-text sub-welcome-text centralized">@order.FromDate.ToShortDateString() - @order.ToDate.ToShortDateString()</p>
+                            </div>
+                        </div>
+                        <hr class="colored-hr-thin"/>
+                        <div class="row">
+                            <div class="col s5 push-s1 centralized">
+                                <p class="flow-text sub-welcome-text">Status:
+                                    @if (order.OrderStatus == OrderViewModel.Status.Unwatched)
+                                    {
+                                        <span class="flow-text sub-welcome-text grey-text">Unwatched</span>
+                                    }
+                                    else if (order.OrderStatus == OrderViewModel.Status.Accepted)
+                                    {
+                                        <span class="flow-text sub-welcome-text yellow-text">Accepted</span>
+                                    }
+                                    else if (order.OrderStatus == OrderViewModel.Status.Declined)
+                                    {
+                                        <span class="flow-text sub-welcome-text red-text">Declined</span>
+                                    }
+                                    else if (order.OrderStatus == OrderViewModel.Status.Paid)
+                                    {
+                                        <span class="flow-text sub-welcome-text green-text">Paid</span>
+                                    }
+                                </p>
+                            </div>
+                            <div class="col s5 push-s1 centralized">
+                                <p class="flow-text sub-welcome-text">Price: $@order.TotalPrice</p>
+                            </div>
+                        </div>
+                        <div class="row no-margin-bot">
+                            <div class="col s10 push-s1">
+                                @if (order.OrderStatus == OrderViewModel.Status.Unwatched)
+                                {                                
+                                    <div class="col s10 push-s1">
+                                        <p class="flow-text sub-welcome-text centralized">Wait for accepting of this order by our managers..</p>
+                                    </div>
+                                }
+                                else if (order.OrderStatus == OrderViewModel.Status.Accepted)
+                                {
+                                    <div class="col s10 push-s1">
+                                        <div class="collection centralized">
+                                            @Html.RouteLink("Get the bill", new { controller = "Order", action = "Bill" }, new { @class = "collection-item main-color-text" })
+                                        </div>
+                                    </div>
+                                }
+                                else if (order.OrderStatus == OrderViewModel.Status.Declined)
+                                {
+                                    <div class="col s10 push-s1">
+                                        @if (order.DeclineIssue != null)
+                                        {
+                                            <p class="flow-text sub-welcome-text">Decline issue: @order.DeclineIssue</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="flow-text sub-welcome-text">Your order was declined for some reasons</p>
+                                        }                                       
+                                    </div>
+                                }
+                                else if (order.OrderStatus == OrderViewModel.Status.Paid)
+                                {
+                                    <div class="col s10 push-s1">
+                                        <p class="flow-text sub-welcome-text centralized">This order was successfully paid. Come by specified address and get your car!</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

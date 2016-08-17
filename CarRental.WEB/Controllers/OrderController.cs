@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -88,6 +89,28 @@ namespace CarRental.WEB.Controllers
                 ModelState.AddModelError(ex.Property, ex.Message);
                 return View(order);
             }           
+        }
+
+        [HttpGet]
+        public ActionResult UserOrders()
+        {
+            try
+            {
+                var ordersDto = _rentService.GetOrders(User.Identity.GetUserId());
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+
+                return View(mapper.Map<IEnumerable<OrderViewModel>>(ordersDto));
+            }
+            catch (ValidationException ex)
+            {
+                return View("Error", ex);
+            }
         }
     }
 }

@@ -87,6 +87,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
     padding-right: 0 !important;
 }
 
+.no-padding-bot {
+    padding-bottom: 0 !important;
+}
+
 .centralized{
     text-align: center;
 }

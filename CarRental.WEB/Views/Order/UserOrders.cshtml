@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "My orders";
+}
+
+<div class="row no-margin-bot">
+  
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <!-- Min body header -->
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">My orders</p>
+            <p class="flow-text sub-welcome-text centralized">Here you can get information and check status of your current orders</p>
+            <hr class="colored-hr" />
+            <!-- Orders list -->
+            <div id="orders_target" class="row">
+                <div id="loading" class="loading-el">
+                    <br />
+                    <p class="flow-text welcome-text centralized">Loading...</p>
+                </div>
+                @Html.Partial("Partials/_OrdersList")
+            </div>
+        </div>
+    </div>
+
+    <!-- Rigth side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { controller = "Home", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { controller = "Car", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { controller = "Review", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Contacts", new { controller = "Home", action = "Contacts" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -17,6 +17,7 @@
                     {
                         @Html.RouteLink("Manage panel", new { area = "Manage", controller = "Manage", action = "Index" }, new { @class = "collection-item main-color-text" })
                     }
+                    @Html.RouteLink("My orders", new { controller = "Order", action = "UserOrders" }, new { @class = "collection-item main-color-text" })
                     @Html.RouteLink("LogOut", new { controller = "Account", action = "Logout" }, new { @class = "collection-item main-color-text" })
                 </div>
             </div>
