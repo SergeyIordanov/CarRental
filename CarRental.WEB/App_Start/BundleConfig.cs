@@ -29,7 +29,10 @@ namespace CarRental.WEB
                         "~/Scripts/noUiSlider/nouislider.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/init").Include(
-                        "~/Scripts/initializer.js"));           
+                        "~/Scripts/initializer.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/order").Include(
+                        "~/Scripts/order.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css"));

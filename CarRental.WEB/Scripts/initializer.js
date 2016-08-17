@@ -9,10 +9,21 @@ $(document).ready(function () {
 });
 
 // datepickers
-$('.datepicker').pickadate({
+$('.datepickerFrom').pickadate({
+    clear: false,
     selectMonths: true, // Creates a dropdown to control month
-    selectYears: 10 // Creates a dropdown of 15 years to control year
+    selectYears: 10, // Creates a dropdown of 10 years to control year
+    min: new Date()
+    
 });
+$('.datepickerTo').pickadate({
+    clear: false,
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 10, // Creates a dropdown of 10 years to control year
+    min: 1
+
+});
+
 
 // range using noUiSlider
 var range = document.getElementById('range');

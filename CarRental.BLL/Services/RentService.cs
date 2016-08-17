@@ -55,6 +55,8 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be empty", "FromDate");
             if (orderDto.ToDate == null || orderDto.ToDate.Year == 1)
                 throw new ValidationException("This property cannot be empty", "ToDate");
+            if (orderDto.FromDate >= orderDto.ToDate)
+                throw new ValidationException("Date of drop-off has to be gratter than pick-up date", "FromDate");
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<OrderDTO, Order>();

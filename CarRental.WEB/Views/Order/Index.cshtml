@@ -34,7 +34,7 @@
                 </div>
                 <div class="col s3 push-s1 centralized">
                     <p class="flow-text sub-welcome-text no-margin-bot">Price per day:</p>
-                    <p class="flow-text welcome-text no-margin-top">$@Model.Car.PriceForDay</p>
+                    <p class="flow-text welcome-text no-margin-top">$@Model.Car.PriceForDay.ToString().Replace(",", ".")</p>
                 </div>
                 <div class="col s5 push-s1">
                     @if (Model.Car.AirConditioning)
