@@ -47,7 +47,7 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be empty", "FirstName");
             if (string.IsNullOrEmpty(orderDto.LastName))
                 throw new ValidationException("This property cannot be empty", "LastName");
-            if (Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
+            if (!Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
                 throw new ValidationException("Tel format: +38 xxx xxx xx xx (no spaces)", "PhoneNumber");
             if (string.IsNullOrEmpty(orderDto.PickUpAddress))
                 throw new ValidationException("This property cannot be empty", "PickUpAddress");

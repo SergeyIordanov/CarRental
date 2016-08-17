@@ -1,9 +1,11 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace CarRental.WEB.Controllers
 {
@@ -45,7 +47,47 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Index(OrderViewModel order, int carId)
         {
-            return View();
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderViewModel, OrderDTO>();
+                    cfg.CreateMap<CarViewModel, CarDTO>();
+                });
+                var mapper = config.CreateMapper();
+                var orderDto = mapper.Map<OrderDTO>(order);
+
+                orderDto.UserId = User.Identity.GetUserId();
+                orderDto.OrderStatus = OrderDTO.Status.Unwatched;
+                orderDto.Car = _rentService.GetCar(carId);
+                orderDto.TotalPrice = (orderDto.ToDate.ToUniversalTime() - orderDto.FromDate.ToUniversalTime()).Days *
+                                      orderDto.Car.PriceForDay;
+                if (orderDto.WithDriver)
+                    orderDto.TotalPrice += 20 *
+                                           (orderDto.ToDate.ToUniversalTime() - orderDto.FromDate.ToUniversalTime()).Days;
+
+                _rentService.CreateOrder(orderDto);
+
+                config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                mapper = config.CreateMapper();                
+
+                return View("OrderSuccess", mapper.Map<OrderViewModel>(orderDto));
+            }
+            catch (ValidationException ex)
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                order.Car = mapper.Map<CarViewModel>(_rentService.GetCar(carId));
+                ModelState.AddModelError(ex.Property, ex.Message);
+                return View(order);
+            }           
         }
     }
 }

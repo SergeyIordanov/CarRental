@@ -327,6 +327,7 @@
     <Content Include="Views\Review\Partials\_ReviewForm.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Order\Partials\_OrderForm.cshtml" />
+    <Content Include="Views\Order\OrderSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
