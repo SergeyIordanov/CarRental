@@ -65,7 +65,17 @@ namespace CarRental.WEB.Areas.Manage.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
-                return RedirectToAction("NewOrders");
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                return PartialView("Partials/_NewOrdersList",
+                        mapper.Map<IEnumerable<OrderViewModel>>(
+                            _rentService.GetOrders()
+                                .Select(or => or)
+                                .Where(or => or.OrderStatus == OrderDTO.Status.Unwatched).ToList()));
             }
             catch (ValidationException ex)
             {
@@ -84,7 +94,51 @@ namespace CarRental.WEB.Areas.Manage.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
-                return RedirectToAction("NewOrders");
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                return PartialView("Partials/_NewOrdersList",
+                        mapper.Map<IEnumerable<OrderViewModel>>(
+                            _rentService.GetOrders()
+                                .Select(or => or)
+                                .Where(or => or.OrderStatus == OrderDTO.Status.Unwatched).ToList()));
+            }
+            catch (ValidationException ex)
+            {
+                return View("Error", ex);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DeclineAccepted(OrderViewModel order)
+        {
+            try
+            {
+                var orderDto = _rentService.GetOrder(order.Id);
+
+                orderDto.OrderStatus = OrderDTO.Status.Declined;
+                orderDto.DeclineIssue = order.DeclineIssue;
+
+                _rentService.UpdateOrder(orderDto);
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                return PartialView("Partials/_CurrentOrdersList",
+                        mapper.Map<IEnumerable<OrderViewModel>>(
+                            _rentService.GetOrders()
+                                .Select(or => or)
+                                .Where(
+                                    or =>
+                                        or.OrderStatus == OrderDTO.Status.Accepted ||
+                                        or.OrderStatus == OrderDTO.Status.Paid ||
+                                        or.OrderStatus == OrderDTO.Status.ReturnedWithDamage).ToList()));
             }
             catch (ValidationException ex)
             {
@@ -103,7 +157,21 @@ namespace CarRental.WEB.Areas.Manage.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
-                return RedirectToAction("CurrentOrders");
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                return PartialView("Partials/_CurrentOrdersList",
+                        mapper.Map<IEnumerable<OrderViewModel>>(
+                            _rentService.GetOrders()
+                                .Select(or => or)
+                                .Where(
+                                    or =>
+                                        or.OrderStatus == OrderDTO.Status.Accepted ||
+                                        or.OrderStatus == OrderDTO.Status.Paid ||
+                                        or.OrderStatus == OrderDTO.Status.ReturnedWithDamage).ToList()));
             }
             catch (ValidationException ex)
             {
@@ -123,7 +191,21 @@ namespace CarRental.WEB.Areas.Manage.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
-                return RedirectToAction("CurrentOrders");
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+                return PartialView("Partials/_CurrentOrdersList",
+                        mapper.Map<IEnumerable<OrderViewModel>>(
+                            _rentService.GetOrders()
+                                .Select(or => or)
+                                .Where(
+                                    or =>
+                                        or.OrderStatus == OrderDTO.Status.Accepted ||
+                                        or.OrderStatus == OrderDTO.Status.Paid ||
+                                        or.OrderStatus == OrderDTO.Status.ReturnedWithDamage).ToList()));
             }
             catch (ValidationException ex)
             {

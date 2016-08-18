@@ -355,6 +355,7 @@
     <Content Include="Views\Order\Partials\_OrdersList.cshtml" />
     <Content Include="Views\Order\UserOrders.cshtml" />
     <Content Include="Views\Order\Bill.cshtml" />
+    <Content Include="Views\Order\RepairBill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Manage\Models\" />

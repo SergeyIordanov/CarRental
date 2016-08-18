@@ -46,6 +46,10 @@ else
                                     {
                                         <span class="flow-text sub-welcome-text green-text">: Paid</span>
                                     }
+                                    else if (order.OrderStatus == OrderViewModel.Status.ReturnedWithDamage)
+                                    {
+                                        <span class="flow-text sub-welcome-text red-text">: Returned with damage</span>
+                                    }
                                 </p>
                                 <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Pick-up address</span>: @order.PickUpAddress</p>
                                 @if (order.WithDriver)
@@ -96,6 +100,17 @@ else
                                 {
                                     <div class="col s10 push-s1">
                                         <p class="flow-text sub-welcome-text centralized">This order was successfully paid. Come by specified address and get your car!</p>
+                                    </div>
+                                }
+                                else if (order.OrderStatus == OrderViewModel.Status.ReturnedWithDamage)
+                                {
+                                    <div class="col s10 push-s1">
+                                        <p class="flow-text sub-welcome-text centralized">Your returned the damaged car. Please, foot the bill below:</p>
+                                        <div class="col s10 push-s1">
+                                            <div class="collection centralized">
+                                                @Html.RouteLink("Get the bill for repairing", new { controller = "Order", action = "RepairBill", orderId = order.Id }, new { @class = "collection-item main-color-text" })
+                                            </div>
+                                        </div>
                                     </div>
                                 }
                             </div>

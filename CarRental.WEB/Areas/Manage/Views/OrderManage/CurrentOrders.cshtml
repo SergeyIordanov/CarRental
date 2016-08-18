@@ -14,12 +14,12 @@
             <p class="flow-text sub-welcome-text centralized">Here you can mark the returned orders or send a bill for repair</p>
             <hr class="colored-hr" />
             <!-- Orders list -->
-            <div id="orders_target" class="row">
+            <div id="currentorders_target" class="row">
                 <div id="loading" class="loading-el">
                     <br />
                     <p class="flow-text welcome-text centralized">Loading...</p>
                 </div>
-                @Html.Partial("Partials/_NewOrdersList", Model)
+                @Html.Partial("Partials/_CurrentOrdersList", Model)
             </div>
         </div>
     </div>

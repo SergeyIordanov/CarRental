@@ -2,6 +2,11 @@
 
 @model IEnumerable<OrderViewModel>
 
+<div id="loading" class="loading-el">
+    <br />
+    <p class="flow-text welcome-text centralized">Loading...</p>
+</div>
+
 @if (!Model.Any())
 {
     <p class="flow-text centralized welcome-text">There are no new orders</p>
@@ -61,22 +66,30 @@ else
                         <div class="row no-margin-bot">
                             <div class="col s12">
                                 <div class="row">
-                                    @using (Html.BeginForm("Accept", "OrderManage", FormMethod.Post))
+                                    @using (Ajax.BeginForm("Accept", "OrderManage", new AjaxOptions
+                                    {
+                                        HttpMethod = "post",
+                                        UpdateTargetId = "neworders_target",
+                                        LoadingElementId = "loading"
+                                    }))
                                     {
                                         <div class="col s5 push-s1 centralized">
 
-                                            @Html.AntiForgeryToken()
-                                            @Html.Hidden("Id", order.Id)
+                                            <input id="Id" name="Id" type="hidden" value="@order.Id">
                                             <input type="submit" value="Accept" class="btn btn-default green"/>
 
                                         </div>
                                     }
-                                    @using (Html.BeginForm("Decline", "OrderManage", FormMethod.Post))
+                                    @using (Ajax.BeginForm("Decline", "OrderManage", new AjaxOptions
+                                    {
+                                        HttpMethod = "post",
+                                        UpdateTargetId = "neworders_target",
+                                        LoadingElementId = "loading"
+                                    }))
                                     {
                                         <div class="col s5 push-s1 centralized">
 
-                                            @Html.AntiForgeryToken()
-                                            @Html.Hidden("Id", order.Id)
+                                            <input id="Id" name="Id" type="hidden" value="@order.Id">
                                             <input type="submit" value="Decline" class="btn btn-default red"/>
 
                                         </div>
