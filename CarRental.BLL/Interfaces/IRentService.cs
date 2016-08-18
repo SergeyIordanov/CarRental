@@ -44,6 +44,8 @@ namespace CarRental.BLL.Interfaces
 
         IEnumerable<ReviewDTO> GetReviews();
 
+        OrderDTO GetOrder(int? id);
+
         IEnumerable<OrderDTO> GetOrders();
 
         IEnumerable<OrderDTO> GetOrders(string userId);

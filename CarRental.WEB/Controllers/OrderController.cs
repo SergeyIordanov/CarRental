@@ -112,5 +112,50 @@ namespace CarRental.WEB.Controllers
                 return View("Error", ex);
             }
         }
+
+        [HttpGet]
+        public ActionResult Bill(int? orderId)
+        {
+            if (orderId == null)
+            {
+                return HttpNotFound();
+            }
+            try
+            {
+                var orderDto = _rentService.GetOrder(orderId);
+
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<OrderDTO, OrderViewModel>();
+                    cfg.CreateMap<CarDTO, CarViewModel>();
+                });
+                var mapper = config.CreateMapper();
+
+                return View(mapper.Map<OrderViewModel>(orderDto));
+            }
+            catch (ValidationException ex)
+            {
+                return View("Error", ex);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Bill(OrderViewModel order)
+        {
+            try
+            {
+                var orderDto = _rentService.GetOrder(order.Id);
+
+                orderDto.OrderStatus = OrderDTO.Status.Paid;
+
+                _rentService.UpdateOrder(orderDto);
+
+                return RedirectToAction("UserOrders");
+            }
+            catch (ValidationException ex)
+            {
+                return View("Error", ex);
+            }
+        }
     }
 }

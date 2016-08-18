@@ -52,7 +52,7 @@ else
                         <div class="row no-margin-bot">
                             <div class="col s10 push-s1">
                                 @if (order.OrderStatus == OrderViewModel.Status.Unwatched)
-                                {                                
+                                {
                                     <div class="col s10 push-s1">
                                         <p class="flow-text sub-welcome-text centralized">Wait for accepting of this order by our managers..</p>
                                     </div>
@@ -61,7 +61,7 @@ else
                                 {
                                     <div class="col s10 push-s1">
                                         <div class="collection centralized">
-                                            @Html.RouteLink("Get the bill", new { controller = "Order", action = "Bill" }, new { @class = "collection-item main-color-text" })
+                                            @Html.RouteLink("Get the bill", new { controller = "Order", action = "Bill", orderId = order.Id }, new { @class = "collection-item main-color-text" })
                                         </div>
                                     </div>
                                 }

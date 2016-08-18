@@ -155,6 +155,24 @@ namespace CarRental.BLL.Services
             return mapper.Map<IEnumerable<ReviewDTO>>(Database.Reviews.GetAll());
         }
 
+        public OrderDTO GetOrder(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("Order's id wasn't set", "");
+            var order = Database.Orders.Get(id.Value);
+            if (order == null)
+                throw new ValidationException("The order wasn't found", "");
+
+            //using of Automapper for projection the Order class on the OrderDTO
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<Car, CarDTO>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper.Map<OrderDTO>(order);
+        }
+
         public IEnumerable<OrderDTO> GetOrders()
         {
             var config = new MapperConfiguration(cfg =>
