@@ -182,7 +182,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Areas\Manage\Controllers\ManageController.cs" />
-    <Compile Include="Areas\Manage\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Manage\Controllers\OrderManageController.cs" />
     <Compile Include="Areas\Manage\ManageAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CarController.cs" />
@@ -292,8 +292,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Areas\Manage\Views\Partials\_LoginBlock.cshtml" />
-    <Content Include="Areas\Manage\Views\Order\NewOrders.cshtml" />
-    <Content Include="Areas\Manage\Views\Order\CurrentOrders.cshtml" />
+    <Content Include="Areas\Manage\Views\OrderManage\NewOrders.cshtml" />
+    <Content Include="Areas\Manage\Views\OrderManage\CurrentOrders.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

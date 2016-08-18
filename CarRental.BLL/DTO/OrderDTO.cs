@@ -9,8 +9,8 @@ namespace CarRental.BLL.DTO
             Unwatched,
             Declined,
             Accepted,
-            Unpaid,
             Paid,
+            ReturnedWithDamage,
             Returned
         }
 
@@ -35,6 +35,8 @@ namespace CarRental.BLL.DTO
         public Status OrderStatus { get; set; }
 
         public string DeclineIssue { get; set; }
+
+        public decimal RepairPrice { get; set; }
 
         public string UserId { get; set; }
 

@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col s5 push-s1">
                         <div class="collection">
-                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Manage/Order/NewOrders">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Manage/OrderManage/NewOrders">
                                 New orders
                                 <br />
                                 <br />
@@ -24,7 +24,7 @@
                     </div>
                     <div class="col s5 push-s1">
                         <div class="collection">
-                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Manage/Order/CurrentOrders">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Manage/OrderManage/CurrentOrders">
                                 Current orders
                                 <br />
                                 <br />
@@ -49,8 +49,8 @@
                 <p class="card-title flow-text">Menu</p>
                 <div class="collection with-header">
                     @Html.RouteLink("Main", new { area = "Manage", controller = "Manage", action = "Index" }, new { @class = "collection-item main-color-background active" })
-                    @Html.RouteLink("New orders", new { area = "Manage", controller = "Order", action = "NewOrders" }, new { @class = "collection-item main-color-text" })
-                    @Html.RouteLink("Current orders", new { area = "Manage", controller = "Order", action = "CurrentOrders" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("New orders", new { area = "Manage", controller = "OrderManage", action = "NewOrders" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Current orders", new { area = "Manage", controller = "OrderManage", action = "CurrentOrders" }, new { @class = "collection-item main-color-text" })
                 </div>
             </div>
         </div>

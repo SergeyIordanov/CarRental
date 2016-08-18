@@ -10,8 +10,8 @@ namespace CarRental.Entities.General
             Unwatched,
             Declined,
             Accepted,
-            Unpaid,
             Paid,
+            ReturnedWithDamage,
             Returned
         }
 
@@ -41,6 +41,9 @@ namespace CarRental.Entities.General
 
         [DataType(DataType.MultilineText)]
         public string DeclineIssue { get; set; }
+
+        [DataType(DataType.Currency)]
+        public decimal RepairPrice { get; set; }
 
         public string UserId { get; set; }
 

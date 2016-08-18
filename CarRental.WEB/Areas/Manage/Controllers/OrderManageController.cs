@@ -2,7 +2,7 @@
 
 namespace CarRental.WEB.Areas.Manage.Controllers
 {
-    public class OrderController : Controller
+    public class OrderManageController : Controller
     {
         [HttpGet]
         public ActionResult NewOrders()

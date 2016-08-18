@@ -10,9 +10,9 @@ namespace CarRental.WEB.ViewModels
         {
             Unwatched,
             Declined,
-            Accepted,
-            Unpaid,
+            Accepted,            
             Paid,
+            ReturnedWithDamage,
             Returned
         }
 
@@ -57,6 +57,9 @@ namespace CarRental.WEB.ViewModels
 
         [DisplayName("Decline issue")]
         public string DeclineIssue { get; set; }
+
+        [DisplayName("Repair price")]
+        public decimal RepairPrice { get; set; }
 
         [Required]
         public string UserId { get; set; }

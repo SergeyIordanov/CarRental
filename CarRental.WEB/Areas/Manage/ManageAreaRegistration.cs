@@ -11,7 +11,7 @@ namespace CarRental.WEB.Areas.Manage
             context.MapRoute(
                 "Manage_default",
                 "Manage/{controller}/{action}/{id}",
-                new { controller = "Manage", action = "Index", id = UrlParameter.Optional }
+                new {controller = "Manage", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
