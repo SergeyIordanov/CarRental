@@ -1,0 +1,96 @@
+﻿@using CarRental.WEB.ViewModels
+
+@model IEnumerable<OrderViewModel>
+
+@if (!Model.Any())
+{
+    <p class="flow-text centralized welcome-text">There are no new orders</p>
+}
+else
+{
+    foreach (var order in Model.Reverse())
+    {
+        if (order.OrderStatus == OrderViewModel.Status.Returned)
+        {
+            continue;
+        }
+        <div class="row">
+            <div class="col s10 push-s1">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row no-margin-bot">
+                            <div class="col s10 push-s1">
+                                <p class="flow-text welcome-text centralized">@order.Car.Brand @order.Car.ModelName</p>
+                                <p class="flow-text sub-welcome-text centralized">@order.FromDate.ToShortDateString() - @order.ToDate.ToShortDateString()</p>
+                            </div>
+                        </div>
+                        <hr class="colored-hr-thin" />
+                        <div class="row">
+                            <div class="col s10 push-s1">
+                                <p class="flow-text sub-welcome-text centralized">Client info</p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">First name</span>: @order.FirstName</p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Last name</span>: @order.LastName</p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Tel</span>: @order.PhoneNumber</p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">E-mail</span>: @User.Identity.Name</p>
+                            </div>
+                            <div class="col s10 push-s1">
+                                <p class="flow-text sub-welcome-text centralized">Order info</p>
+                                <p class="flow-text sub-welcome-text black-text">
+                                    Status
+                                    @if (order.OrderStatus == OrderViewModel.Status.Unwatched)
+                                    {
+                                        <span class="flow-text sub-welcome-text grey-text">: Unwatched</span>
+                                    }
+                                </p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Pick-up address</span>: @order.PickUpAddress</p>
+                                @if (order.WithDriver)
+                                {
+                                    <p class="flow-text sub-welcome-text">
+                                        <span class="flow-text sub-welcome-text black-text">Driver</span>: Yes
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="flow-text sub-welcome-text">
+                                        <span class="flow-text sub-welcome-text black-text">Driver</span>: No
+                                    </p>
+                                }
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Price</span>: $@order.TotalPrice</p>
+                            </div>
+                        </div>                       
+                        <div class="row no-margin-bot">
+                            <div class="col s12">
+                                <div class="row">
+                                    @using (Html.BeginForm("Accept", "OrderManage", FormMethod.Post))
+                                    {
+                                        <div class="col s5 push-s1 centralized">
+
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("Id", order.Id)
+                                            <input type="submit" value="Accept" class="btn btn-default green"/>
+
+                                        </div>
+                                    }
+                                    @using (Html.BeginForm("Decline", "OrderManage", FormMethod.Post))
+                                    {
+                                        <div class="col s5 push-s1 centralized">
+
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("Id", order.Id)
+                                            <input type="submit" value="Decline" class="btn btn-default red"/>
+
+                                        </div>
+                                        <div class="input-field col s10 push-s1">
+                                            <label for="decline_issue">Decline issue:</label>
+                                            <textarea class="materialize-textarea" cols="20" id="decline_issue" name="DeclineIssue" rows="1"></textarea>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

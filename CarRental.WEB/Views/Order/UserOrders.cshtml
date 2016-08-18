@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<CarRental.WEB.ViewModels.OrderViewModel>
 @{
     ViewBag.Title = "My orders";
 }
@@ -19,7 +19,7 @@
                     <br />
                     <p class="flow-text welcome-text centralized">Loading...</p>
                 </div>
-                @Html.Partial("Partials/_OrdersList")
+                @Html.Partial("Partials/_OrdersList", Model)
             </div>
         </div>
     </div>

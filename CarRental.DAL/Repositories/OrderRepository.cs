@@ -18,7 +18,7 @@ namespace CarRental.DAL.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            return _db.Orders;
+            return _db.Orders.ToList();
         }
 
         public Order Get(int id)

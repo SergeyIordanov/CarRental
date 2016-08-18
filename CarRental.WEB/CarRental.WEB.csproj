@@ -294,6 +294,8 @@
     <Content Include="Areas\Manage\Views\Partials\_LoginBlock.cshtml" />
     <Content Include="Areas\Manage\Views\OrderManage\NewOrders.cshtml" />
     <Content Include="Areas\Manage\Views\OrderManage\CurrentOrders.cshtml" />
+    <Content Include="Areas\Manage\Views\OrderManage\Partials\_NewOrdersList.cshtml" />
+    <Content Include="Areas\Manage\Views\OrderManage\Partials\_CurrentOrdersList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

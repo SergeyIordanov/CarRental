@@ -1,7 +1,47 @@
-﻿
+﻿@model IEnumerable<CarRental.WEB.ViewModels.OrderViewModel>
 @{
-    ViewBag.Title = "CurrentOrders";
+    ViewBag.Title = "Manage/Current orders";
 }
 
-<h2>CurrentOrders</h2>
+<div class="row no-margin-bot">
+
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <!-- Min body header -->
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Current orders</p>
+            <p class="flow-text sub-welcome-text centralized">Here you can mark the returned orders or send a bill for repair</p>
+            <hr class="colored-hr" />
+            <!-- Orders list -->
+            <div id="orders_target" class="row">
+                <div id="loading" class="loading-el">
+                    <br />
+                    <p class="flow-text welcome-text centralized">Loading...</p>
+                </div>
+                @Html.Partial("Partials/_NewOrdersList", Model)
+            </div>
+        </div>
+    </div>
+
+    <!-- Rigth side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { area = "Manage", controller = "Manage", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("New orders", new { area = "Manage", controller = "OrderManage", action = "NewOrders" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Current orders", new { area = "Manage", controller = "OrderManage", action = "CurrentOrders" }, new { @class = "collection-item main-color-background active" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

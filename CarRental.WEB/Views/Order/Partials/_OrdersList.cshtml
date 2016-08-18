@@ -1,4 +1,5 @@
 ﻿@using CarRental.WEB.ViewModels
+
 @model IEnumerable<OrderViewModel>
 
 @if (!Model.Any())
@@ -25,28 +26,41 @@ else
                         </div>
                         <hr class="colored-hr-thin"/>
                         <div class="row">
-                            <div class="col s5 push-s1 centralized">
-                                <p class="flow-text sub-welcome-text">Status:
+                            <div class="col s10 push-s1">
+                                <p class="flow-text sub-welcome-text centralized">Order info</p>
+                                <p class="flow-text sub-welcome-text black-text">
+                                    Status
                                     @if (order.OrderStatus == OrderViewModel.Status.Unwatched)
                                     {
-                                        <span class="flow-text sub-welcome-text grey-text">Unwatched</span>
+                                        <span class="flow-text sub-welcome-text grey-text">: Unwatched</span>
                                     }
                                     else if (order.OrderStatus == OrderViewModel.Status.Accepted)
                                     {
-                                        <span class="flow-text sub-welcome-text yellow-text">Accepted</span>
+                                        <span class="flow-text sub-welcome-text yellow-text">: Accepted</span>
                                     }
                                     else if (order.OrderStatus == OrderViewModel.Status.Declined)
                                     {
-                                        <span class="flow-text sub-welcome-text red-text">Declined</span>
+                                        <span class="flow-text sub-welcome-text red-text">: Declined</span>
                                     }
                                     else if (order.OrderStatus == OrderViewModel.Status.Paid)
                                     {
-                                        <span class="flow-text sub-welcome-text green-text">Paid</span>
+                                        <span class="flow-text sub-welcome-text green-text">: Paid</span>
                                     }
                                 </p>
-                            </div>
-                            <div class="col s5 push-s1 centralized">
-                                <p class="flow-text sub-welcome-text">Price: $@order.TotalPrice</p>
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Pick-up address</span>: @order.PickUpAddress</p>
+                                @if (order.WithDriver)
+                                {
+                                    <p class="flow-text sub-welcome-text">
+                                        <span class="flow-text sub-welcome-text black-text">Driver</span>: Yes
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="flow-text sub-welcome-text">
+                                        <span class="flow-text sub-welcome-text black-text">Driver</span>: No
+                                    </p>
+                                }
+                                <p class="flow-text sub-welcome-text"><span class="flow-text sub-welcome-text black-text">Price</span>: $@order.TotalPrice</p>
                             </div>
                         </div>
                         <div class="row no-margin-bot">
