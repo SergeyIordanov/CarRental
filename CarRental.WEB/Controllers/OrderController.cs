@@ -46,6 +46,7 @@ namespace CarRental.WEB.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(OrderViewModel order, int carId)
         {
             try
@@ -140,6 +141,7 @@ namespace CarRental.WEB.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Bill(OrderViewModel order)
         {
             try
