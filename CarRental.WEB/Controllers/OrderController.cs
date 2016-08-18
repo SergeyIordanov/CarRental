@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -60,15 +59,9 @@ namespace CarRental.WEB.Controllers
                 var orderDto = mapper.Map<OrderDTO>(order);
 
                 orderDto.UserId = User.Identity.GetUserId();
-                orderDto.OrderStatus = OrderDTO.Status.Unwatched;
-                orderDto.Car = _rentService.GetCar(carId);
-                orderDto.TotalPrice = (orderDto.ToDate.ToUniversalTime() - orderDto.FromDate.ToUniversalTime()).Days *
-                                      orderDto.Car.PriceForDay;
-                if (orderDto.WithDriver)
-                    orderDto.TotalPrice += 20 *
-                                           (orderDto.ToDate.ToUniversalTime() - orderDto.FromDate.ToUniversalTime()).Days;
+                orderDto.OrderStatus = OrderDTO.Status.Unwatched;                             
 
-                _rentService.CreateOrder(orderDto);
+                _rentService.CreateOrder(orderDto, carId);
 
                 config = new MapperConfiguration(cfg =>
                 {

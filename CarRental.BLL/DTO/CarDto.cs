@@ -1,4 +1,6 @@
-﻿namespace CarRental.BLL.DTO
+﻿using System.Collections.Generic;
+
+namespace CarRental.BLL.DTO
 {
     public class CarDTO
     {

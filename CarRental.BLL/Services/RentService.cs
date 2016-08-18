@@ -35,14 +35,14 @@ namespace CarRental.BLL.Services
             Database.Save();
         }
 
-        public void CreateOrder(OrderDTO orderDto)
+        public void CreateOrder(OrderDTO orderDto, int? carId)
         {
+            if (carId == null)
+                throw new ValidationException("Car's id wasn't set", "");
             if (orderDto == null)
                 throw new ValidationException("Cannot create order from null", "");
             if (orderDto.UserId == null)
                 throw new ValidationException("This property cannot be null", "UserId");
-            if (orderDto.Car == null)
-                throw new ValidationException("This property cannot be null", "Car");
             if (string.IsNullOrEmpty(orderDto.FirstName))
                 throw new ValidationException("This property cannot be empty", "FirstName");
             if (string.IsNullOrEmpty(orderDto.LastName))
@@ -64,6 +64,15 @@ namespace CarRental.BLL.Services
             });
             var mapper = config.CreateMapper();
             var order = mapper.Map<Order>(orderDto);
+            var car = Database.Cars.Get(carId.Value);
+            if (car == null)
+                throw new ValidationException("The car wasn't found", "");
+            order.Car = car;
+            order.TotalPrice = (order.ToDate.ToUniversalTime() - order.FromDate.ToUniversalTime()).Days *
+                                      order.Car.PriceForDay;
+            if (order.WithDriver)
+                order.TotalPrice += 20 *
+                                       (order.ToDate.ToUniversalTime() - order.FromDate.ToUniversalTime()).Days;
             Database.Orders.Create(order);
             Database.Save();
         }
@@ -103,21 +112,33 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("The car wasn't found", "");
 
             //using of Automapper for projection the Car class on the CarDTO
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Car, CarDTO>();
+                cfg.CreateMap<Order, OrderDTO>();
+            });
             var mapper = config.CreateMapper();
             return mapper.Map<CarDTO>(car);
         }
 
         public IEnumerable<CarDTO> GetCars()
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Car, CarDTO>();
+                cfg.CreateMap<Order, OrderDTO>();
+            });
             var mapper = config.CreateMapper();
             return mapper.Map<IEnumerable<CarDTO>>(Database.Cars.GetAll());
         }
 
         public IEnumerable<CarDTO> GetCars(string searchString)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Car, CarDTO>();
+                cfg.CreateMap<Order, OrderDTO>();
+            });
             var mapper = config.CreateMapper();
 
             if (string.IsNullOrEmpty(searchString))
@@ -128,7 +149,11 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<CarDTO> GetCars(FilterDTO searchModel)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Car, CarDTO>());
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Car, CarDTO>();
+                cfg.CreateMap<Order, OrderDTO>();
+            });
             var mapper = config.CreateMapper();
 
             if (searchModel == null)

@@ -12,7 +12,7 @@ namespace CarRental.BLL.Interfaces
 
         void CreateReview(ReviewDTO review);
 
-        void CreateOrder(OrderDTO order);
+        void CreateOrder(OrderDTO order, int? carId);
 
         #endregion
 
