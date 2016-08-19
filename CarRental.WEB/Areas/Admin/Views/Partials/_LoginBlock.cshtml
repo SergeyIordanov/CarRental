@@ -1,0 +1,35 @@
+﻿<div class="card centralized">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="card-content no-padding">
+            <div class="row no-margin-vert">
+                <div class="row"></div>
+                <p class="flow-text sub-welcome-text">Hello, @User.Identity.Name</p>
+                <div class="row"></div>
+            </div>
+            <div class="row">
+                <div class="collection no-margin-vert">
+                    @Html.RouteLink("Close admin panel", new { area = "", controller = "Home", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("LogOut", new { area = "", controller = "Account", action = "Logout" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card-content no-padding">
+            <div class="row no-margin-bot">
+                <div class="col s6 no-padding-hor">
+                    <div class="collection no-margin-vert">
+                        @Html.RouteLink("LogIn", new { area = "", controller = "Account", action = "Login" }, new { @class = "collection-item main-color-text" })
+                    </div>
+                </div>
+                <div class="col s6 no-padding-hor">
+                    <div class="collection no-margin-vert">
+                        @Html.RouteLink("Register", new { area = "", controller = "Account", action = "Register" }, new { @class = "collection-item main-color-text" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
