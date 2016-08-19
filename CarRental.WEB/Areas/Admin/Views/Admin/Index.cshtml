@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Admin";
+}
+
+<div class="row no-margin-bot">
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Administration</p>
+            <p class="flow-text sub-welcome-text centralized">Welcome to the admin panel!</p>
+            <hr class="colored-hr" />
+            <div class="row">
+                <div class="row">
+                    <div class="col s5 push-s1">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Admin/CarAdmin/Index">
+                                Cars
+                                <br/>
+                                <br/>
+                                <img width="120" class="responsive-img" src="~/Content/Images/car-icon.png"/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s5 push-s1">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Admin/ReviewAdmin/Index">
+                                Reviews
+                                <br/>
+                                <br/>
+                                <img width="120" class="responsive-img" src="~/Content/Images/review-icon.png"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s5 push-s1">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Admin/OrderAdmin/Index">
+                                Orders
+                                <br />
+                                <br />
+                                <img width="120" class="responsive-img" src="~/Content/Images/neworder-icon.png" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s5 push-s1">
+                        <div class="collection">
+                            <a class="collection-item admin-menu-item flow-text centralized black-text" href="/Admin/UserAdmin/Index">
+                                Users
+                                <br />
+                                <br />
+                                <img width="120" class="responsive-img" src="~/Content/Images/group-icon.png" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Right side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_LoginBlock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Cars", new { area = "Admin", controller = "CarAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Reviews", new { area = "Admin", controller = "ReviewAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Orders", new { area = "Admin", controller = "OrderAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Users", new { area = "Admin", controller = "UserAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
