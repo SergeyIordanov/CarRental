@@ -30,9 +30,9 @@ namespace CarRental.Auth.DAL.Repositories
 
         public ApplicationRoleManager RoleManager => _roleManager;
 
-        public async Task SaveAsync()
+        public void Save()
         {
-            await _db.SaveChangesAsync();
+            _db.SaveChanges();
         }
 
         public void Dispose()

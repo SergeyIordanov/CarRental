@@ -33,7 +33,7 @@ namespace CarRental.Auth.BLL.Services
                 // create user profile
                 var clientProfile = new ClientProfile { Id = user.Id, Name = userDto.Name };
                 Database.ClientManager.Create(clientProfile);
-                Database.SaveAsync();
+                Database.Save();
                 return new OperationDetails(true, "Registration succeed", "");
             }
             return new OperationDetails(false, "User with such login already exists", "Email");
@@ -53,6 +53,29 @@ namespace CarRental.Auth.BLL.Services
                 };
             }
             return null;
+        }
+
+        public OperationDetails SetRole(UserDTO userDto, string roleName)
+        {
+            // search for user
+            ApplicationUser user = Database.UserManager.Find(userDto.Email, userDto.Password);
+            if (user != null)
+            {
+                var role = Database.RoleManager.FindByName(roleName);
+                // if the role has already existed
+                if (role != null)
+                {
+                    Database.UserManager.AddToRole(user.Id, roleName);
+                    Database.Save();
+                    return new OperationDetails(true, "Role successfuly set", "");
+                }
+                // if the role has NOT existed
+                Database.RoleManager.Create(new ApplicationRole {Name = roleName});
+                Database.UserManager.AddToRole(user.Id, roleName);
+                Database.Save();
+                return new OperationDetails(true, "Role successfuly created and set", "");
+            }            
+            return new OperationDetails(false, "User wasn't found", ""); ;
         }
 
         public ClaimsIdentity Authenticate(UserDTO userDto)

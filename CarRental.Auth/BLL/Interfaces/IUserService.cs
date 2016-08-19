@@ -12,6 +12,8 @@ namespace CarRental.Auth.BLL.Interfaces
 
         UserDTO Get(string id);
 
+        OperationDetails SetRole(UserDTO userDto, string role);
+
         ClaimsIdentity Authenticate(UserDTO userDto);
 
         void SetInitialData(UserDTO adminDto, List<string> roles);
