@@ -60,7 +60,22 @@ namespace CarRental.BLL.Interfaces
 
         IEnumerable<OrderDTO> GetOrders();
 
+        /// <summary>
+        /// Gets orders by special user
+        /// </summary>
+        /// <param name="userId">id of user who's orders you want to get</param>
+        /// <returns>Orders of special user</returns>
         IEnumerable<OrderDTO> GetOrders(string userId);
+
+        /// <summary>
+        /// Filters cars by: 
+        ///     - comparing 'searchCar' arg with car's brand & model
+        ///     - comparing 'searchUser' arg with user's first & last name
+        /// </summary>
+        /// <param name="searchCar">car's brand and/or model</param>
+        /// <param name="searchUser">user's first and/or last name</param>
+        /// <returns>Filtred orders collection</returns>
+        IEnumerable<OrderDTO> GetOrders(string searchCar, string searchUser);
 
         #endregion
 

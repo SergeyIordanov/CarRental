@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AutoMapper;
@@ -273,6 +274,25 @@ namespace CarRental.BLL.Services
             var mapper = config.CreateMapper();
 
             return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.Find(order => order.UserId.Equals(userId)));
+        }
+
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+        public IEnumerable<OrderDTO> GetOrders(string searchCar, string searchUser)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<Car, CarDTO>();
+            });
+            var mapper = config.CreateMapper();
+
+            bool isCar = !string.IsNullOrEmpty(searchCar);
+            bool isUser = !string.IsNullOrEmpty(searchUser);
+
+            return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.Find(order => 
+                    (!isCar || (order.Car.Brand + " " + order.Car.ModelName).ToLower().Contains(searchCar.ToLower())) &&
+                    (!isUser || (order.FirstName + " " + order.LastName).ToLower().Contains(searchUser.ToLower()))
+                    ));
         }
 
         #endregion

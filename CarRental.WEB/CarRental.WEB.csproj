@@ -312,6 +312,7 @@
     <Content Include="Areas\Admin\Views\UserAdmin\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Partials\_LoginBlock.cshtml" />
     <Content Include="Areas\Admin\Views\ReviewAdmin\Partials\_ReviewsList.cshtml" />
+    <Content Include="Areas\Admin\Views\OrderAdmin\Partials\_OrdersList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
