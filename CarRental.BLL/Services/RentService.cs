@@ -286,13 +286,15 @@ namespace CarRental.BLL.Services
             });
             var mapper = config.CreateMapper();
 
+            var orders = mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.GetAll());
+
             bool isCar = !string.IsNullOrEmpty(searchCar);
             bool isUser = !string.IsNullOrEmpty(searchUser);
 
-            return mapper.Map<IEnumerable<OrderDTO>>(Database.Orders.Find(order => 
+            return orders.Select(x => x).Where(order => 
                     (!isCar || (order.Car.Brand + " " + order.Car.ModelName).ToLower().Contains(searchCar.ToLower())) &&
                     (!isUser || (order.FirstName + " " + order.LastName).ToLower().Contains(searchUser.ToLower()))
-                    ));
+                    );
         }
 
         #endregion

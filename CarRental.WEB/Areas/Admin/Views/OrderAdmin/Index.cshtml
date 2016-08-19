@@ -11,6 +11,27 @@
             <!-- Min body header -->
             <div class="row"></div>
             <p class="flow-text welcome-text centralized">Orders</p>
+            @using (Ajax.BeginForm("Search", "OrderAdmin", new AjaxOptions
+            {
+                HttpMethod = "post",
+                UpdateTargetId = "orders_target",
+                LoadingElementId = "loading"
+            }))
+            {
+                <div class="row">
+                    <div class="input-field col s5 push-s1">
+                        <label for="carsearch-field">Car brand and/or model</label>
+                        <input class="text-box single-line" id="carsearch-field" maxlength="100" name="searchCar" type="text">
+                    </div>
+                    <div class="input-field col s5 push-s1">
+                        <label for="usersearch-field">User name</label>
+                        <input class="text-box single-line" id="usersearch-field" maxlength="100" name="searchUser" type="text">
+                    </div>
+                    <div class="input-field col s12 centralized">
+                        <input type="submit" value="Search" class="btn btn-default main-color-background">
+                    </div>
+                </div>
+            }
             <hr class="colored-hr" />
             <!-- Orders list -->
             <div id="orders_target" class="row">

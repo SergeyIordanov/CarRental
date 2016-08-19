@@ -38,6 +38,19 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        public ActionResult Search(string searchCar, string searchUser)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<OrderDTO, OrderViewModel>();
+                cfg.CreateMap<CarDTO, CarViewModel>();
+            });
+            var mapper = config.CreateMapper();
+            var orders = mapper.Map<IEnumerable<OrderViewModel>>(_rentService.GetOrders(searchCar, searchUser));
+            return PartialView("Partials/_OrdersList", orders);
+        }
+
+        [HttpPost]
         public ActionResult Delete(int? id)
         {
             if (id == null)
