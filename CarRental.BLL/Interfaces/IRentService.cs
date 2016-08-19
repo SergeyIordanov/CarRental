@@ -18,7 +18,19 @@ namespace CarRental.BLL.Interfaces
 
         #region Update
 
+        void UpdateCar(CarDTO car);
+
         void UpdateOrder(OrderDTO order);
+
+        #endregion
+
+        #region Delete
+
+        void DeleteCar(int? id);
+
+        void DeleteReview(int? id);
+
+        void DeleteOrder(int? id);
 
         #endregion
 

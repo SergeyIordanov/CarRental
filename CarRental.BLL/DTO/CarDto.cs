@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace CarRental.BLL.DTO
+﻿namespace CarRental.BLL.DTO
 {
     public class CarDTO
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string Brand { get; set; }
 

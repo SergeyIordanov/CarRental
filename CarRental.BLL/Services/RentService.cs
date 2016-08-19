@@ -81,6 +81,23 @@ namespace CarRental.BLL.Services
 
         #region Update
 
+        public void UpdateCar(CarDTO carDto)
+        {
+            if (Database.Cars.Get(carDto.Id) == null)
+                throw new ValidationException("Car wasn't found", "");
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CarDTO, Car>();
+            });
+            var mapper = config.CreateMapper();
+            var car = mapper.Map<Car>(carDto);
+
+            Database.Cars.Update(car);
+
+            Database.Save();
+        }
+
         public void UpdateOrder(OrderDTO orderDto)
         {
             if (Database.Orders.Get(orderDto.Id) == null)
@@ -96,6 +113,40 @@ namespace CarRental.BLL.Services
 
             Database.Orders.Update(order);
 
+            Database.Save();
+        }
+
+        #endregion
+
+        #region Delete
+
+        public void DeleteCar(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("Id is null", "");
+            if (!Database.Cars.Find(x => x.Id == id).Any())
+                throw new ValidationException("Car wasn't found", "");
+            Database.Cars.Delete(id.Value);
+            Database.Save();
+        }
+
+        public void DeleteReview(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("Id is null", "");
+            if (!Database.Reviews.Find(x => x.Id == id).Any())
+                throw new ValidationException("Review wasn't found", "");
+            Database.Reviews.Delete(id.Value);
+            Database.Save();
+        }
+
+        public void DeleteOrder(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("Id is null", "");
+            if (!Database.Orders.Find(x => x.Id == id).Any())
+                throw new ValidationException("Order wasn't found", "");
+            Database.Orders.Delete(id.Value);
             Database.Save();
         }
 

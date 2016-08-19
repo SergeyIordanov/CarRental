@@ -6,7 +6,7 @@ namespace CarRental.WEB.ViewModels
     public class CarViewModel
     {
         [Required]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Brand { get; set; }
