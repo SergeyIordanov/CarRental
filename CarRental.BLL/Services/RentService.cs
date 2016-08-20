@@ -32,6 +32,8 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be empty", "Brand");
             if (string.IsNullOrEmpty(carDto.Class))
                 throw new ValidationException("This property cannot be empty", "Class");
+            if (carDto.Seats != null && carDto.Seats < 0)
+                throw new ValidationException("This property cannot be less than 0", "Seats");
             Mapper.Initialize(cfg => cfg.CreateMap<CarDTO, Car>());
             var car = Mapper.Map<Car>(carDto);
             Database.Cars.Create(car);

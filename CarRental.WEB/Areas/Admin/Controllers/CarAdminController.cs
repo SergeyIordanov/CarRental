@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -58,8 +60,19 @@ namespace CarRental.WEB.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CarViewModel carView)
+        public ActionResult Create(CarViewModel carView, HttpPostedFileBase uploadImage)
         {
+            if (uploadImage != null)
+            {
+                byte[] imageData;
+                // reads uploaded file to byte array
+                using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                {
+                    imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                }
+                carView.Photo = imageData;
+            }
+
             try
             {
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<CarViewModel, CarDTO>());

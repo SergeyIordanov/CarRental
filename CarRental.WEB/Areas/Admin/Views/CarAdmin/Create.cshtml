@@ -1,7 +1,48 @@
-﻿
+﻿@model CarRental.WEB.ViewModels.CarViewModel
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Admin/Cars/Create";
 }
 
-<h2>Create</h2>
+<div class="row no-margin-bot">
+
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <!-- Min body header -->
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Create car</p>
+            <p class="flow-text sub-welcome-text centralized">Fill the fields bellow to create a new car</p> 
+            <hr class="colored-hr" />
+            <!-- Car form -->
+            <div class="row">
+                <div class="col s10 push-s1">
+                    @Html.Partial("Partials/_CarCreateForm")                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rigth side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { area = "Admin", controller = "CarAdmin", action = "Index" }, new { @class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Reviews", new { area = "Admin", controller = "ReviewAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Orders", new { area = "Admin", controller = "OrderAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Users", new { area = "Admin", controller = "UserAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
