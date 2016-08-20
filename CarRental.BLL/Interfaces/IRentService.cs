@@ -10,6 +10,8 @@ namespace CarRental.BLL.Interfaces
     {
         #region Create
 
+        void CreateCar(CarDTO review);
+
         void CreateReview(ReviewDTO review);
 
         void CreateOrder(OrderDTO order, int? carId);

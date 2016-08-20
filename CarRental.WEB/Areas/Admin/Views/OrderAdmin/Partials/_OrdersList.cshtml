@@ -20,7 +20,7 @@ else
                                 <p class="flow-text sub-welcome-text centralized">@order.FromDate.ToShortDateString() - @order.ToDate.ToShortDateString()</p>
                             </div>
                             <div class="col s1 push-s1">
-                                <a data-ajax="true" data-ajax-confirm="Are you sure you want to delete this review?"
+                                <a data-ajax="true" data-ajax-confirm="Are you sure you want to delete this order?"
                                    data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#orders_target" href="/Admin/OrderAdmin/Delete/@order.Id">
                                     <i class="material-icons">clear</i>
                                 </a>

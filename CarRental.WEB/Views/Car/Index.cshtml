@@ -48,15 +48,18 @@
                             <div class="collapsible-body">
                                 <div class="collection no-margin-vert">
                                     @Ajax.RouteLink("Alphabet", new {controller = "Car", action = "SortByName"},
-                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target", LoadingElementId = "loading", LoadingElementDuration = 400}, 
+                                            new {@class = "collection-item black-text"})
                                 </div>
                                 <div class="collection no-margin-vert">
                                     @Ajax.RouteLink("Price (low to high)", new {controller = "Car", action = "SortByPrice"},
-                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target", LoadingElementId = "loading", LoadingElementDuration = 400 }, 
+                                            new {@class = "collection-item black-text"})
                                 </div>
                                 <div class="collection no-margin-vert">
                                     @Ajax.RouteLink("Price (high to low)", new {controller = "Car", action = "SortByPrice", desc = true},
-                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target"}, new {@class = "collection-item black-text"})
+                                        new AjaxOptions {HttpMethod = "post", UpdateTargetId = "cars_target", LoadingElementId = "loading", LoadingElementDuration = 400 }, 
+                                            new {@class = "collection-item black-text"})
                                 </div>
                             </div>
                         </li>

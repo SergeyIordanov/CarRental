@@ -1,7 +1,78 @@
-﻿
+﻿@model IEnumerable<CarRental.WEB.ViewModels.CarViewModel>
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Admin/Cars";
 }
 
-<h2>Index</h2>
+<div class="row no-margin-bot">
+   
+    <!-- Main body -->
+    <div class="col s7 push-s1">
+        <div id="main-body" class="card">
+            <!-- Min body header -->
+            <div class="row"></div>
+            <p class="flow-text welcome-text centralized">Cars</p>
+            @using (Ajax.BeginForm("Search", "CarAdmin", new AjaxOptions
+            {
+                HttpMethod = "post",
+                UpdateTargetId = "cars_target",
+                LoadingElementId = "loading",
+                LoadingElementDuration = 400
+            }))
+            {
+                <div class="row">
+                    <div class="input-field col s8 push-s1">
+                        <label for="search-field">Search</label>
+                        <input class="text-box single-line" id="search-field" maxlength="100" name="search" type="text">
+                    </div>
+                    <div class="input-field col s2 push-s1">
+                        <input type="submit" value="Search" class="btn btn-default main-color-background z-depth-0 search-btn">
+                    </div>
+                </div>
+            }
+            <hr class="colored-hr"/>
+            <div class="row">
+                <div class="col s10 push-s1">
+                    <div class="card">
+                        <div class="collection no-margin-vert centralized">
+                            @Html.RouteLink("+ ADD NEW CAR", new { area = "Admin", controller = "CarAdmin", action = "Create" }, 
+                                new { @class = "collection-item main-color-text" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Cars list -->
+            <div id="cars_target" class="row">
+                <div id="loading" class="loading-el">
+                    <br />
+                    <p class="flow-text welcome-text centralized">Loading...</p>
+                </div>
+                @Html.Partial("Partials/_CarsList")
+            </div>
+        </div>
+    </div>
+
+    <!-- Rigth side -->
+    <div class="col s3 push-s1">
+        <!-- Login block -->
+        <div class="row">
+            @Html.Partial("../Partials/_Loginblock")
+        </div>
+        <!-- Menu block -->
+        <div class="row">
+            <div id="right-sidebar" class="card centralized">
+                <div class="row"></div>
+                <p class="card-title flow-text">Menu</p>
+                <div class="collection with-header">
+                    @Html.RouteLink("Main", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Cars", new { area = "Admin", controller = "CarAdmin", action = "Index" }, new { @class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Reviews", new { area = "Admin", controller = "ReviewAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Orders", new { area = "Admin", controller = "OrderAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Users", new { area = "Admin", controller = "UserAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 

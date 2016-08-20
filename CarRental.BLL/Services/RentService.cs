@@ -22,6 +22,22 @@ namespace CarRental.BLL.Services
 
         #region Create
 
+        public void CreateCar(CarDTO carDto)
+        {
+            if (carDto == null)
+                throw new ValidationException("Cannot create car from null", "");
+            if (string.IsNullOrEmpty(carDto.ModelName))
+                throw new ValidationException("This property cannot be empty", "ModelName");
+            if (string.IsNullOrEmpty(carDto.Brand))
+                throw new ValidationException("This property cannot be empty", "Brand");
+            if (string.IsNullOrEmpty(carDto.Class))
+                throw new ValidationException("This property cannot be empty", "Class");
+            Mapper.Initialize(cfg => cfg.CreateMap<CarDTO, Car>());
+            var car = Mapper.Map<Car>(carDto);
+            Database.Cars.Create(car);
+            Database.Save();
+        }
+
         public void CreateReview(ReviewDTO reviewDto)
         {
             if (reviewDto == null)

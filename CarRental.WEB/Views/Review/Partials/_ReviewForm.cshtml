@@ -1,6 +1,12 @@
 ﻿@model CarRental.WEB.ViewModels.ReviewViewModel
 
-@using (Ajax.BeginForm("Index", "Review", new AjaxOptions { UpdateTargetId = "reviews_target" }))
+@using (Ajax.BeginForm("Index", "Review", new AjaxOptions
+{
+    UpdateTargetId = "reviews_target",
+    HttpMethod = "post",
+    LoadingElementId = "loading",
+    LoadingElementDuration = 400
+}))
 {
     <div class="row">
         <div class="input-field col s10 push-s1">

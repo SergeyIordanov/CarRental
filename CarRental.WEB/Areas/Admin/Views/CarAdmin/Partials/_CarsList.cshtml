@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CarRental.WEB.ViewModels.CarViewModel>
+
+@if (!Model.Any())
+{
+    <p class="flow-text centralized welcome-text">There are no cars found..</p>
+}
+else
+{
+    foreach (var car in Model)
+    {
+        <div class="row">
+            <div class="col s10 push-s1">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row no-margin-bot">
+                            <div class="col s5 no-padding">
+                                <div class="row">
+                                    @if (car.Photo != null && car.Photo.Length > 0)
+                                    {
+                                        <img class="responsive-img materialboxed" data-caption="@car.Brand @car.ModelName" src="data:image/jpeg;base64,@Convert.ToBase64String(car.Photo)" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-car-photo.png" alt="" class="responsive-img">
+                                    }
+                                </div>
+                                <div class="row no-margin-bot">
+                                    <p class="flow-text centralized sub-welcome-text">Price per day:</p>
+                                    <p class="flow-text centralized welcome-text">$@car.PriceForDay</p>
+                                </div>
+                            </div>
+                            <div class="col s7">
+                                <div class="row centralized">
+                                    <p class="flow-text black-text">@car.Brand @car.ModelName</p>
+                                    <p class="flow-text centralized sub-welcome-text main-color-text">@car.Class</p>
+                                </div>
+                                <div class="row">
+                                    @if (car.AirConditioning)
+                                    {
+                                        <p class="flow-text sub-welcome-text">
+                                            <i class="material-icons left">done</i>Air Conditioning
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="flow-text sub-welcome-text">
+                                            <i class="material-icons left">clear</i>Air Conditioning
+                                        </p>
+                                    }
+                                    @if (car.AutomaticTransmission)
+                                    {
+                                        <p class="flow-text sub-welcome-text">
+                                            <i class="material-icons left">done</i>Automatic
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p class="flow-text sub-welcome-text">
+                                            <i class="material-icons left">clear</i>Automatic
+                                        </p>
+                                    }
+                                    @if (car.Seats != null)
+                                    {
+                                        <p class="flow-text sub-welcome-text">
+                                            <i class="material-icons left">group</i>
+                                            @car.Seats seats
+                                        </p>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col s6 right-align">
+                                        <a class="btn btn-default yellow black-text" href="/Admin/CarAdmin/Edit/@car.Id">
+                                            Edit
+                                        </a>
+                                    </div> 
+                                    <div class="col s6">
+                                        <a class="btn btn-default red" data-ajax="true" data-ajax-confirm="Are you sure you want to delete this car?"
+                                           data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#cars_target" href="/Admin/CarAdmin/Delete?carId=@car.Id">
+                                            Delete
+                                        </a>
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
