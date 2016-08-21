@@ -12,6 +12,9 @@ namespace CarRental.Entities.General
         [DataType(DataType.DateTime)]
         public DateTime PublishDate { get; set; }
 
+        /// <summary>
+        /// User id from AuthDB
+        /// </summary>
         public string UserId { get; set; }
     }
 }

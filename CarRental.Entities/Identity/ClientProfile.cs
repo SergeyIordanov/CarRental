@@ -13,8 +13,14 @@ namespace CarRental.Entities.Identity
 
         public string Name { get; set; }
 
+        /// <summary>
+        /// Navigation property for (related to client profile) user
+        /// </summary>
         public virtual ApplicationUser ApplicationUser { get; set; }
 
+        /// <summary>
+        /// Navigation property for (related to user) reviews
+        /// </summary>
         public virtual ICollection<Review> Reviews { get; set; }
     }
 }

@@ -45,8 +45,14 @@ namespace CarRental.Entities.General
         [DataType(DataType.Currency)]
         public decimal RepairPrice { get; set; }
 
+        /// <summary>
+        /// User id from AuthDB
+        /// </summary>
         public string UserId { get; set; }
 
+        /// <summary>
+        /// Navigation property for related car
+        /// </summary>
         public virtual Car Car { get; set; }
     }
 }
