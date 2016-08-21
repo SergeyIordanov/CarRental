@@ -3,6 +3,9 @@ using CarRental.Entities.General;
 
 namespace CarRental.DAL.EF
 {
+    /// <summary>
+    /// Context for working with related database
+    /// </summary>
     public class RentContext : DbContext
     {
         public DbSet<Car> Cars { get; set; }

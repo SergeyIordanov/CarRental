@@ -10,10 +10,19 @@ namespace CarRental.DAL.Interfaces
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
+        /// <summary>
+        /// Gives access to cars repository
+        /// </summary>
         IRepository<Car> Cars { get; }
 
+        /// <summary>
+        /// Gives access to orders repository
+        /// </summary>
         IRepository<Order> Orders { get; }
 
+        /// <summary>
+        /// Gives access to reviews repository
+        /// </summary>
         IRepository<Review> Reviews { get; }
        
         /// <summary>

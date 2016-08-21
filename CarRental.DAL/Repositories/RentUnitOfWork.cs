@@ -35,7 +35,7 @@ namespace CarRental.DAL.Repositories
             {
                 if (disposing)
                 {
-                    // frees db resources
+                    // Frees db resources
                     _db.Dispose();
                 }
                 _disposed = true;
@@ -45,7 +45,7 @@ namespace CarRental.DAL.Repositories
         public void Dispose()
         {
             Dispose(true);
-            // all unmanaged resources was disposed so GC needn't to call finalize method
+            //All unmanaged resources was disposed so GC needn't to call finalize method
             GC.SuppressFinalize(this);
         }
     }
