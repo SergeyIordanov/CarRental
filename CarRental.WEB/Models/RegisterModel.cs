@@ -8,6 +8,7 @@ namespace CarRental.WEB.Models
         public string Email { get; set; }
 
         [Required]
+        [RegularExpression(@"^(?=.*[A-z])(?=.*\d)(?!.*\s)(?=^.{8,16}$).*$", ErrorMessage = "Password have to contain at least 1 digit character & letter. Length: 8 - 16")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
