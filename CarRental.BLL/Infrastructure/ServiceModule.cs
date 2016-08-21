@@ -4,6 +4,9 @@ using Ninject.Modules;
 
 namespace CarRental.BLL.Infrastructure
 {
+    /// <summary>
+    /// Ninject service for sending dependency injection configuration to presentation layer
+    /// </summary>
     public class ServiceModule : NinjectModule
     {
         private readonly string _connectionString;

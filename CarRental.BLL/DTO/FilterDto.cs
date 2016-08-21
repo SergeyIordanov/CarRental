@@ -1,5 +1,8 @@
 ﻿namespace CarRental.BLL.DTO
 {
+    /// <summary>
+    /// Class that is used for filtering cars collections
+    /// </summary>
     public class FilterDTO
     {
         public string[] Brands { get; set; }
