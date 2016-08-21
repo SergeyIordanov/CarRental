@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using CarRental.Auth.DAL.EF;
 using CarRental.Auth.DAL.Identity;
 using CarRental.Auth.DAL.Interfaces;
@@ -12,23 +11,19 @@ namespace CarRental.Auth.DAL.Repositories
     {
         private readonly AuthContext _db;
 
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationRoleManager _roleManager;
-        private readonly IClientManager _clientManager;
-
         public IdentityUnitOfWork(string connectionString)
         {
             _db = new AuthContext(connectionString);
-            _userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_db));
-            _roleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_db));
-            _clientManager = new ClientManager(_db);
+            UserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_db));
+            RoleManager = new ApplicationRoleManager(new RoleStore<ApplicationRole>(_db));
+            ClientManager = new ClientManager(_db);
         }
 
-        public ApplicationUserManager UserManager => _userManager;
+        public ApplicationUserManager UserManager { get; }
 
-        public IClientManager ClientManager => _clientManager;
+        public IClientManager ClientManager { get; }
 
-        public ApplicationRoleManager RoleManager => _roleManager;
+        public ApplicationRoleManager RoleManager { get; }
 
         public void Save()
         {
@@ -38,6 +33,7 @@ namespace CarRental.Auth.DAL.Repositories
         public void Dispose()
         {
             Dispose(true);
+            //All unmanaged resources was disposed so GC needn't to call finalize method
             GC.SuppressFinalize(this);
         }
         private bool _disposed;
@@ -48,9 +44,10 @@ namespace CarRental.Auth.DAL.Repositories
             {
                 if (disposing)
                 {
-                    _userManager.Dispose();
-                    _roleManager.Dispose();
-                    _clientManager.Dispose();
+                    // Frees resources
+                    UserManager.Dispose();
+                    RoleManager.Dispose();
+                    ClientManager.Dispose();
                 }
                 _disposed = true;
             }

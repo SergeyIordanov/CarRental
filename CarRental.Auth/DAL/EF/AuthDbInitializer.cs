@@ -1,8 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.IO;
-using CarRental.Entities.General;
-using CarRental.Entities.Identity;
+﻿using System.Data.Entity;
 
 namespace CarRental.Auth.DAL.EF
 {

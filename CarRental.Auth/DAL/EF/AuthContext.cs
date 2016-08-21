@@ -4,6 +4,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CarRental.Auth.DAL.EF
 {
+    /// <summary>
+    /// Context for working with related database
+    /// </summary>
     public class AuthContext : IdentityDbContext<ApplicationUser>
     {
         /// <summary>

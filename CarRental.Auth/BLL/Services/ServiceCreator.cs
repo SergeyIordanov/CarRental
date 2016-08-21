@@ -7,6 +7,7 @@ namespace CarRental.Auth.BLL.Services
     {
         public IUserService CreateUserService(string connection)
         {
+            // Here you can change IUnitOfWork implementation & IUserService implementation
             return new UserService(new IdentityUnitOfWork(connection));
         }
     }
