@@ -8,17 +8,17 @@ namespace CarRental.WEB.ViewModels
         [Required]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Brand is required")]
         public string Brand { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Model name is required")]
         [DisplayName("Model")]
         public string ModelName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Class is required")]
         public string Class { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Price for day is required")]
         [DisplayName("Price/day")]
         public decimal PriceForDay { get; set; }
 

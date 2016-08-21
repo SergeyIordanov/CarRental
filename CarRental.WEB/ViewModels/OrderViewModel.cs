@@ -19,31 +19,31 @@ namespace CarRental.WEB.ViewModels
         [Required]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
         [DisplayName("First name")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
         [DisplayName("Last name")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Phone number is required")]
         [DisplayName("Tel")]
         public string PhoneNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Address of pick-up is required")]
         [DisplayName("Address of pick-up")]
         public string PickUpAddress { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pick-up date is required")]
         [DisplayName("Pick-up date")]
         public DateTime FromDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Drop-off date is required")]
         [DisplayName("Drop-off date")]
         public DateTime ToDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Total price is required")]
         [DisplayName("Total price")]
         public decimal TotalPrice { get; set; }
 
@@ -51,7 +51,7 @@ namespace CarRental.WEB.ViewModels
         [DisplayName("With driver")]
         public bool WithDriver { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Status is required")]
         [DisplayName("Status")]
         public Status OrderStatus { get; set; }
 

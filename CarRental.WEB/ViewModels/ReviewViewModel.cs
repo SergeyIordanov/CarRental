@@ -8,7 +8,7 @@ namespace CarRental.WEB.ViewModels
         [Required]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Review text is required")]
         public string Text { get; set; }
 
         [Required]

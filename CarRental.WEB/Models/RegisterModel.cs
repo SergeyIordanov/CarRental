@@ -4,20 +4,20 @@ namespace CarRental.WEB.Models
 {
     public class RegisterModel
     {
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [RegularExpression(@"^(?=.*[A-z])(?=.*\d)(?!.*\s)(?=^.{8,16}$).*$", ErrorMessage = "Password have to contain at least 1 digit character & letter. Length: 8 - 16")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Confirm password is required")]
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
     }
 }
