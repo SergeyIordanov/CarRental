@@ -62,19 +62,25 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CarViewModel carView, HttpPostedFileBase uploadImage)
         {
-            if (uploadImage != null)
-            {
-                byte[] imageData;
-                // reads uploaded file to byte array
-                using (var binaryReader = new BinaryReader(uploadImage.InputStream))
-                {
-                    imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-                }
-                carView.Photo = imageData;
-            }
-
             try
             {
+                if (uploadImage != null)
+                {
+                    //validate file format
+                    string[] fileNameArr = uploadImage.FileName.Split('.');
+                    if(!fileNameArr[fileNameArr.Length-1].Equals("jpg") && !fileNameArr[fileNameArr.Length - 1].Equals("png") &&
+                        !fileNameArr[fileNameArr.Length - 1].Equals("jpeg"))
+                        throw new ValidationException("Wrong file format", "Photo");
+
+                    byte[] imageData;
+                    // reads uploaded file to byte array
+                    using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                    }
+                    carView.Photo = imageData;
+                }
+           
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<CarViewModel, CarDTO>());
                 var mapper = config.CreateMapper();
                 _rentService.CreateCar(mapper.Map<CarDTO>(carView));
@@ -91,7 +97,7 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         public ActionResult Edit(int? id)
         {
             try
-            {
+            {               
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<CarDTO, CarViewModel>());
                 var mapper = config.CreateMapper();
                 return View(mapper.Map<CarViewModel>(_rentService.GetCar(id)));
@@ -104,10 +110,27 @@ namespace CarRental.WEB.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(CarViewModel carView)
+        public ActionResult Edit(CarViewModel carView, HttpPostedFileBase uploadImage)
         {
             try
             {
+                if (uploadImage != null)
+                {
+                    //validate file format
+                    string[] fileNameArr = uploadImage.FileName.Split('.');
+                    if (!fileNameArr[fileNameArr.Length - 1].Equals("jpg") && !fileNameArr[fileNameArr.Length - 1].Equals("png") &&
+                        !fileNameArr[fileNameArr.Length - 1].Equals("jpeg"))
+                        throw new ValidationException("Wrong file format", "Photo");
+
+                    byte[] imageData;
+                    // reads uploaded file to byte array
+                    using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                    {
+                        imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                    }
+                    carView.Photo = imageData;
+                }
+
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<CarViewModel, CarDTO>());
                 var mapper = config.CreateMapper();
                 _rentService.UpdateCar(mapper.Map<CarDTO>(carView));

@@ -1,1 +1,96 @@
-﻿
+﻿@model CarRental.WEB.ViewModels.CarViewModel
+
+@using (Html.BeginForm("Edit", "CarAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="col s12">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="input-field col s6">
+                @if (Model.Photo != null && Model.Photo.Length > 0)
+                {
+                    <img class="responsive-img materialboxed" data-caption="@Model.Brand @Model.ModelName" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Photo)" />
+                }
+                else
+                {
+                    <img src="~/Content/Images/no-car-photo.png" alt="" class="responsive-img">
+                }
+                <div class="file-field input-field ">
+                    <div class="col s10 push-s1 centralized btn main-color-background">
+                        <span>New photo</span>
+                        <input type="file" name="uploadImage" accept="image/*">
+                    </div>
+                    <div class="col s12 file-path-wrapper">
+                        <input class="file-path validate" placeholder="Uploaded photo" type="text">
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Photo, "", new {@class = "text-danger"})
+                <p>
+                    @if (Model.AirConditioning)
+                    {
+                        <input data-val="true" data-val-required="Air Conditioning field required" id="airConditioning" name="AirConditioning" type="checkbox" checked="checked" value="true">
+                    }
+                    else
+                    {
+                        <input data-val="true" data-val-required="Air Conditioning field required" id="airConditioning" name="AirConditioning" type="checkbox" value="true">
+                    }                  
+                    <label for="airConditioning">Air Conditioning</label>
+                    <input name="AirConditioning" type="hidden" value="false">
+                </p>
+                @Html.ValidationMessageFor(model => model.AirConditioning, "", new { @class = "text-danger" })
+                <p>
+                    @if (Model.AirConditioning)
+                    {
+                        <input data-val="true" data-val-required="Automatic transmission field required" id="automaticTransmission" name="AutomaticTransmission" type="checkbox" checked="checked" value="true">
+                    }
+                    else
+                    {
+                        <input data-val="true" data-val-required="Automatic transmission field required" id="automaticTransmission" name="AutomaticTransmission" type="checkbox" value="true">
+                    } 
+                    <label for="automaticTransmission">Automatic</label>
+                    <input name="AutomaticTransmission" type="hidden" value="false">
+                </p>
+                @Html.ValidationMessageFor(model => model.AutomaticTransmission, "", new { @class = "text-danger" })
+            </div>
+            <div class="col s6">
+                <div class="input-field col s12">
+                    @Html.LabelFor(model => model.Brand)
+                    @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Brand, "", new { @class = "text-danger" })
+                </div>
+                <div class="input-field col s12">
+                    @Html.LabelFor(model => model.ModelName)
+                    @Html.EditorFor(model => model.ModelName, new {htmlAttributes = new {@required = "required"}})
+                    @Html.ValidationMessageFor(model => model.ModelName, "", new {@class = "text-danger"})
+                </div>
+                <div class="input-field col s12 no-margin-top">
+                    @Html.LabelFor(model => model.Class)
+                    @Html.EditorFor(model => model.Class, new { htmlAttributes = new { @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Class, "", new { @class = "text-danger" })
+                </div>
+                <div class="input-field col s12 no-margin-top">
+                    @Html.LabelFor(model => model.Seats)
+                    <input class="text-box single-line" data-val="true" data-val-number="The field Seats must be a number." id="Seats" name="Seats" type="number" value="@Model.Seats" min="0" max="200">
+                    @Html.ValidationMessageFor(model => model.Seats, "", new {@class = "text-danger"})
+                </div>
+                <div class="input-field col s12">
+                    @Html.LabelFor(model => model.PriceForDay)
+                    @Html.EditorFor(model => model.PriceForDay, new {htmlAttributes = new {@required = "required", pattern = @"^(\d+)|(\d+,\d+)"}})
+                    @Html.ValidationMessageFor(model => model.PriceForDay, "", new {@class = "text-danger"})
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s2 push-s3">
+                <a class="btn btn-default main-color-background" href="/Admin/CarAdmin/Index">
+                    Cancel
+                </a>
+            </div>
+            <div class="col s2 push-s4">
+                <input type="submit" value="Confirm" class="btn btn-default main-color-background"/>
+            </div>
+        </div>
+    </div>
+}

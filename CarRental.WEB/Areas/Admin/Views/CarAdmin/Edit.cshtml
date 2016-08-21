@@ -1,6 +1,6 @@
 ﻿@model CarRental.WEB.ViewModels.CarViewModel
 @{
-    ViewBag.Title = "Admin/Cars/Create";
+    ViewBag.Title = "Admin/Cars/Edit";
 }
 
 <div class="row no-margin-bot">
@@ -15,7 +15,9 @@
             <hr class="colored-hr" />
             <!-- Car form -->
             <div class="row">
-                @Html.Partial("Partials/_CarEditForm")
+                <div class="col s10 push-s1">
+                    @Html.Partial("Partials/_CarEditForm")
+                </div>                
             </div>
         </div>
     </div>
