@@ -39,17 +39,38 @@ namespace CarRental.Auth.BLL.Services
             return new OperationDetails(false, "User with such login already exists", "Email");
         }
 
+        public IEnumerable<UserDTO> GetAll()
+        {
+            List<UserDTO> usersDto = new List<UserDTO>();
+            IEnumerable<ApplicationUser> users = Database.UserManager.Users.ToList();
+            foreach (var user in users)
+            {
+                string role = Database.RoleManager.FindById(user.Roles.Last().RoleId).Name;
+                usersDto.Add(new UserDTO
+                {
+                    UserName = user.Email,
+                    Name = user.ClientProfile.Name,
+                    Email = user.Email,
+                    Id = user.Id,
+                    Role = role
+                });
+            }
+            return usersDto;
+        }
+
         public UserDTO Get(string id)
         {
             ApplicationUser user = Database.UserManager.FindById(id);
             if (user != null)
             {
+                string role = Database.RoleManager.FindById(user.Roles.Last().RoleId).Name;
                 return new UserDTO
                 {
                     UserName = user.Email,
                     Name = user.ClientProfile.Name,
                     Email = user.Email,
-                    Id = user.Id
+                    Id = user.Id,
+                    Role = role
                 };
             }
             return null;
@@ -58,13 +79,15 @@ namespace CarRental.Auth.BLL.Services
         public OperationDetails SetRole(UserDTO userDto, string roleName)
         {
             // search for user
-            ApplicationUser user = Database.UserManager.Find(userDto.Email, userDto.Password);
+            ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
             if (user != null)
             {
+                // removing old roles
+                Database.UserManager.RemoveFromRoles(user.Id, Database.UserManager.GetRoles(user.Id).ToArray());
                 var role = Database.RoleManager.FindByName(roleName);
                 // if the role has already existed
                 if (role != null)
-                {
+                {                   
                     Database.UserManager.AddToRole(user.Id, roleName);
                     Database.Save();
                     return new OperationDetails(true, "Role successfuly set", "");
@@ -75,7 +98,26 @@ namespace CarRental.Auth.BLL.Services
                 Database.Save();
                 return new OperationDetails(true, "Role successfuly created and set", "");
             }            
-            return new OperationDetails(false, "User wasn't found", ""); ;
+            return new OperationDetails(false, "User wasn't found", "");
+        }
+
+        public OperationDetails RemoveRole(UserDTO userDto, string roleName)
+        {
+            // search for user
+            ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
+            if (user != null)
+            {
+                var role = Database.RoleManager.FindByName(roleName);
+                // if the role exists
+                if (role != null)
+                {
+                    Database.UserManager.RemoveFromRole(user.Id, roleName);
+                    Database.Save();
+                    return new OperationDetails(true, "Role successfuly removed", "");
+                }
+                return new OperationDetails(false, "Role wasn't found", "");
+            }
+            return new OperationDetails(false, "User wasn't found", "");
         }
 
         public ClaimsIdentity Authenticate(UserDTO userDto)

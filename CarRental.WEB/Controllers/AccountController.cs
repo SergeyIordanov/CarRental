@@ -93,7 +93,7 @@ namespace CarRental.WEB.Controllers
                 Password = "admin123",
                 Name = "Admin Adminovich",
                 Role = "admin",
-            }, new List<string> { "user", "admin", "manager" });
+            }, new List<string> { "user", "admin", "manager", "blocked" });
         }
     }
 }

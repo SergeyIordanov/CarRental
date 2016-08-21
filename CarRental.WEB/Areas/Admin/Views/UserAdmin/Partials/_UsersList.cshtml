@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CarRental.WEB.ViewModels.UserViewModel>
+
+@if (!Model.Any())
+{
+    <p class="flow-text centralized welcome-text">There are no users yet</p>
+}
+else
+{
+    <div class="row">
+        <div class="col s10 push-s1">
+            <table class="striped">
+                <thead>
+                <tr>
+                    <th data-field="id"></th>
+                    <th data-field="name">Name</th>
+                    <th data-field="email">E-mail</th>
+                    <th data-field="role">Role</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Reverse())
+                    {
+                        <tr>
+                            @if (user.Role.Equals("user"))
+                            {
+                                <td><i class="material-icons">face</i></td>
+                            }
+                            else if (user.Role.Equals("blocked"))
+                            {
+                                <td><i class="material-icons">pan_tool</i></td>
+                            }
+                            else if (user.Role.Equals("manager"))
+                            {
+                                <td><i class="material-icons">perm_contact_calendar</i></td>
+                            }
+                            else if (user.Role.Equals("admin"))
+                            {
+                                <td><i class="material-icons">school</i></td>
+                            }
+                            else
+                            {
+                                <td><i class="material-icons">face</i></td>
+                            }                          
+                            <td>@user.Name</td>
+                            <td>@user.Email</td>
+                            <td>@user.Role</td>
+                            @if (user.Role.Equals("manager"))
+                            {
+                                <td>
+                                    @Ajax.ActionLink("to user", "SetUser", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "blue-text" })
+                                </td>
+                            }
+                            else if (user.Role.Equals("admin"))
+                            {
+                                <td>---</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Ajax.ActionLink("to manager", "SetManager", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "blue-text" })
+                                </td>
+                            }
+
+                            @if (user.Role.Equals("blocked"))
+                            {
+                                <td>
+                                    @Ajax.ActionLink("unblock", "Unblock", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "green-text" })
+                                </td>
+                            }
+                            else if (user.Role.Equals("admin"))
+                            {
+                                <td>---</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @Ajax.ActionLink("block", "Block", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "red-text" })
+                                </td>
+                            }                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>               
+}

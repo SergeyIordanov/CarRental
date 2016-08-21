@@ -318,6 +318,7 @@
     <Content Include="Areas\Admin\Views\CarAdmin\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\CarAdmin\Partials\_CarCreateForm.cshtml" />
     <Content Include="Areas\Admin\Views\CarAdmin\Partials\_CarEditForm.cshtml" />
+    <Content Include="Areas\Admin\Views\UserAdmin\Partials\_UsersList.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

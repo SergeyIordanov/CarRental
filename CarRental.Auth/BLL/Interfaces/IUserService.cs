@@ -10,9 +10,13 @@ namespace CarRental.Auth.BLL.Interfaces
     {
         OperationDetails Create(UserDTO userDto);
 
+        IEnumerable<UserDTO> GetAll();
+
         UserDTO Get(string id);
 
         OperationDetails SetRole(UserDTO userDto, string role);
+
+        OperationDetails RemoveRole(UserDTO userDto, string role);
 
         ClaimsIdentity Authenticate(UserDTO userDto);
 
