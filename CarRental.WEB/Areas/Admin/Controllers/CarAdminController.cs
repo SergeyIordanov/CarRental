@@ -15,11 +15,16 @@ namespace CarRental.WEB.Areas.Admin.Controllers
     public class CarAdminController : Controller
     {
         readonly IRentService _rentService;
+
         public CarAdminController(IRentService serv)
         {
             _rentService = serv;
         }
 
+        /// <summary>
+        /// Showing the list of cars
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -39,6 +44,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Searching cars by model name and/or brand
+        /// </summary>
+        /// <param name="search">String for search</param>
+        /// <returns>List of cars</returns>
         [HttpPost]
         public ActionResult Search(string search)
         {
@@ -52,12 +62,22 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return PartialView("Partials/_CarsList", cars);
         }
 
+        /// <summary>
+        /// Shows view for creating a new car
+        /// </summary>
+        /// <returns>View for creating</returns>
         [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
+        /// <summary>
+        /// Creating a new car
+        /// </summary>
+        /// <param name="carView">Car model</param>
+        /// <param name="uploadImage">Photo for model</param>
+        /// <returns>If creating was done, redirected to 'Index' action</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CarViewModel carView, HttpPostedFileBase uploadImage)
@@ -93,6 +113,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Shows view for updating a car
+        /// </summary>
+        /// <param name="id">Car's id to update</param>
+        /// <returns>View for editing</returns>
         [HttpGet]
         public ActionResult Edit(int? id)
         {
@@ -108,6 +133,12 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Updating a car
+        /// </summary>
+        /// <param name="carView">Updated ar model</param>
+        /// <param name="uploadImage">New car photo</param>
+        /// <returns>If updating was done, redirected to 'Index' action</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(CarViewModel carView, HttpPostedFileBase uploadImage)
@@ -143,6 +174,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Deleting a car
+        /// </summary>
+        /// <param name="carId">Car's id to delete</param>
+        /// <returns>List of cars</returns>
         [HttpPost]
         public ActionResult Delete(int? carId)
         {

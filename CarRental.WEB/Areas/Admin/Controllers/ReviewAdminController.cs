@@ -19,11 +19,16 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
         readonly IRentService _rentService;
+
         public ReviewAdminController(IRentService serv)
         {
             _rentService = serv;
         }
 
+        /// <summary>
+        /// Shows the list of reviews
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -37,6 +42,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return View(mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
         }
 
+        /// <summary>
+        /// Deleting a review
+        /// </summary>
+        /// <param name="id">Review id to delete</param>
+        /// <returns>List of reviews</returns>
         [HttpPost]
         public ActionResult Delete(int? id)
         {
@@ -59,6 +69,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return PartialView("Partials/_ReviewsList", mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
         }
 
+        /// <summary>
+        /// Uses UserService to get info about the user by its id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>UserViewModel mapped from got user</returns>
         private UserViewModel GetUserViewModel(string id)
         {
             UserDTO userDto = UserService.Get(id);

@@ -49,7 +49,7 @@ else
                             @if (user.Role.Equals("manager"))
                             {
                                 <td>
-                                    @Ajax.ActionLink("to user", "SetUser", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    @Ajax.ActionLink("to user", "SetRole", new { area = "Admin", controller = "UserAdmin", id = user.Id, role = "user" },
                                     new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "blue-text" })
                                 </td>
                             }
@@ -60,7 +60,7 @@ else
                             else
                             {
                                 <td>
-                                    @Ajax.ActionLink("to manager", "SetManager", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    @Ajax.ActionLink("to manager", "SetRole", new { area = "Admin", controller = "UserAdmin", id = user.Id, role = "manager" },
                                     new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "blue-text" })
                                 </td>
                             }
@@ -68,7 +68,7 @@ else
                             @if (user.Role.Equals("blocked"))
                             {
                                 <td>
-                                    @Ajax.ActionLink("unblock", "Unblock", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    @Ajax.ActionLink("unblock", "SetRole", new { area = "Admin", controller = "UserAdmin", id = user.Id, role = "user" },
                                     new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "green-text" })
                                 </td>
                             }
@@ -79,7 +79,7 @@ else
                             else
                             {
                                 <td>
-                                    @Ajax.ActionLink("block", "Block", new { area = "Admin", controller = "UserAdmin", id = user.Id },
+                                    @Ajax.ActionLink("block", "SetRole", new { area = "Admin", controller = "UserAdmin", id = user.Id, role = "blocked" },
                                     new AjaxOptions { HttpMethod = "post", UpdateTargetId = "users_target" }, new { @class = "red-text" })
                                 </td>
                             }                           

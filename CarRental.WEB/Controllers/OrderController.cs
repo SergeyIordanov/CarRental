@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace CarRental.WEB.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "user, manager, admin")]
     public class OrderController : Controller
     {
         readonly IRentService _rentService;

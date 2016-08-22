@@ -101,25 +101,6 @@ namespace CarRental.Auth.BLL.Services
             return new OperationDetails(false, "User wasn't found", "");
         }
 
-        public OperationDetails RemoveRole(UserDTO userDto, string roleName)
-        {
-            // Search for user
-            ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
-            if (user != null)
-            {
-                var role = Database.RoleManager.FindByName(roleName);
-                // If the role exists
-                if (role != null)
-                {
-                    Database.UserManager.RemoveFromRole(user.Id, roleName);
-                    Database.Save();
-                    return new OperationDetails(true, "Role successfuly removed", "");
-                }
-                return new OperationDetails(false, "Role wasn't found", "");
-            }
-            return new OperationDetails(false, "User wasn't found", "");
-        }
-
         public ClaimsIdentity Authenticate(UserDTO userDto)
         {
             ClaimsIdentity claim = null;

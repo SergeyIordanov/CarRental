@@ -7,9 +7,13 @@ using Owin;
 
 namespace CarRental.WEB
 {
+    /// <summary>
+    /// Starts with the application
+    /// </summary>
     public class Startup
     {
         readonly IServiceCreator _serviceCreator = new ServiceCreator();
+
         public void Configuration(IAppBuilder app)
         {
             app.CreatePerOwinContext(CreateUserService);

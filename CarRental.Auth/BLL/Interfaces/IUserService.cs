@@ -33,14 +33,6 @@ namespace CarRental.Auth.BLL.Interfaces
         OperationDetails SetRole(UserDTO userDto, string role);
 
         /// <summary>
-        /// Removes specified role from user
-        /// </summary>
-        /// <param name="userDto">User to remove role of</param>
-        /// <param name="role">Role to remove</param>
-        /// <returns></returns>
-        OperationDetails RemoveRole(UserDTO userDto, string role);
-
-        /// <summary>
         /// Provide user authentification
         /// </summary>
         /// <param name="userDto">User to authenticate</param>

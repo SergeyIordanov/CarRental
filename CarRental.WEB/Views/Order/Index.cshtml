@@ -73,7 +73,11 @@
             <hr class="colored-hr-thin no-margin-top" />
             <!-- Order details -->
             <div id="order_target" class="row">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.IsInRole("blocked"))
+                {
+                    <p class="flow-text sub-welcome-text centralized">Your account is blocked. You cannot create an order</p>
+                }
+                else if (User.Identity.IsAuthenticated)
                 {
                     @Html.Partial("Partials/_OrderForm", Model)
                 }

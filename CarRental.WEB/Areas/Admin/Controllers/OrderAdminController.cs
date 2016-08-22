@@ -12,11 +12,16 @@ namespace CarRental.WEB.Areas.Admin.Controllers
     public class OrderAdminController : Controller
     {
         readonly IRentService _rentService;
+
         public OrderAdminController(IRentService serv)
         {
             _rentService = serv;
         }
 
+        /// <summary>
+        /// Shows the orders list
+        /// </summary>
+        /// <returns>View with the orders list</returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -37,6 +42,12 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// Seraching for orders by car brand & model and/or user name
+        /// </summary>
+        /// <param name="searchCar">Car brand and/or model</param>
+        /// <param name="searchUser">User name</param>
+        /// <returns>List of orders</returns>
         [HttpPost]
         public ActionResult Search(string searchCar, string searchUser)
         {
@@ -50,6 +61,11 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return PartialView("Partials/_OrdersList", orders);
         }
 
+        /// <summary>
+        /// Deleting an order
+        /// </summary>
+        /// <param name="id">Order id to delete</param>
+        /// <returns>List of orders</returns>
         [HttpPost]
         public ActionResult Delete(int? id)
         {

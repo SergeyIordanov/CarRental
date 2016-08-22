@@ -40,7 +40,7 @@ namespace CarRental.WEB
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
-            // set module from Util with connection string 
+            // Set module from Util with ServiceModule from BLL with connection string 
             var modules = new INinjectModule[] { new ServiceModule("RentContext") };
             var kernel = new StandardKernel(modules);
             try

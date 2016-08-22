@@ -22,6 +22,10 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             _rentService = serv;
         }
 
+        /// <summary>
+        /// Showing a table with all users of the application
+        /// </summary>
+        /// <returns>View with a table with all users of the application</returns>
         [HttpGet]
         public ActionResult Index()
         {
@@ -30,57 +34,21 @@ namespace CarRental.WEB.Areas.Admin.Controllers
             return View(mapper.Map<IEnumerable<UserViewModel>>(UserService.GetAll()));
         }
 
+        /// <summary>
+        /// Sets user role
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="role">Role to set</param>
+        /// <returns>List of users</returns>
         [HttpPost]
-        public ActionResult Block(string id)
+        public ActionResult SetRole(string id, string role)
         {
             if (string.IsNullOrEmpty(id))
             {
                 return HttpNotFound();
             }
             var user = UserService.Get(id);
-            UserService.SetRole(user, "blocked");
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>());
-            var mapper = config.CreateMapper();
-            return PartialView("Partials/_UsersList", mapper.Map<IEnumerable<UserViewModel>>(UserService.GetAll()));
-        }
-
-        [HttpPost]
-        public ActionResult SetManager(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return HttpNotFound();
-            }
-            var user = UserService.Get(id);
-            UserService.SetRole(user, "manager");
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>());
-            var mapper = config.CreateMapper();
-            return PartialView("Partials/_UsersList", mapper.Map<IEnumerable<UserViewModel>>(UserService.GetAll()));
-        }
-
-        [HttpPost]
-        public ActionResult Unblock(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return HttpNotFound();
-            }
-            var user = UserService.Get(id);
-            UserService.SetRole(user, "user");
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>());
-            var mapper = config.CreateMapper();
-            return PartialView("Partials/_UsersList", mapper.Map<IEnumerable<UserViewModel>>(UserService.GetAll()));
-        }
-
-        [HttpPost]
-        public ActionResult SetUser(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return HttpNotFound();
-            }
-            var user = UserService.Get(id);
-            UserService.SetRole(user, "user");
+            UserService.SetRole(user, role);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<UserDTO, UserViewModel>());
             var mapper = config.CreateMapper();
             return PartialView("Partials/_UsersList", mapper.Map<IEnumerable<UserViewModel>>(UserService.GetAll()));
