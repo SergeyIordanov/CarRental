@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using CarRental.DAL.EF;
 using CarRental.DAL.Interfaces;
@@ -18,7 +19,7 @@ namespace CarRental.DAL.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            return _db.Orders.ToList();
+            return _db.Orders.Include(x => x.Car).ToList(); 
         }
 
         public Order Get(int id)
