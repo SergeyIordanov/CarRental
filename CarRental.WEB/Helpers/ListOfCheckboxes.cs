@@ -6,7 +6,15 @@ namespace CarRental.WEB.Helpers
 {
     public static class ListOfCheckboxes
     {
-
+        /// <summary>
+        /// Creates a markup for the list of checkboxes that can be mapped into array
+        /// </summary>
+        /// <param name="html">Extention base</param>
+        /// <param name="id">Unique id (each checkbox will have id='[id]-[iterable number]')</param>
+        /// <param name="propName">Name of the array you want to map checkbox list</param>
+        /// <param name="values">Display text & values of each checkbox</param>
+        /// <param name="htmlAttributes">Object with deffs of html attributes</param>
+        /// <returns>Html markup</returns>
         public static MvcHtmlString CreateCheckboxesList(this HtmlHelper html, string id, string propName, IEnumerable<string> values, object htmlAttributes = null)
         {
             int currentIndex = 0;

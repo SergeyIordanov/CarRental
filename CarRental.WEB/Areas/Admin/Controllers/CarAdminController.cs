@@ -149,7 +149,8 @@ namespace CarRental.WEB.Areas.Admin.Controllers
                 {
                     //validate file format
                     string[] fileNameArr = uploadImage.FileName.Split('.');
-                    if (!fileNameArr[fileNameArr.Length - 1].Equals("jpg") && !fileNameArr[fileNameArr.Length - 1].Equals("png") &&
+                    if (!fileNameArr[fileNameArr.Length - 1].Equals("jpg") &&
+                        !fileNameArr[fileNameArr.Length - 1].Equals("png") &&
                         !fileNameArr[fileNameArr.Length - 1].Equals("jpeg"))
                         throw new ValidationException("Wrong file format", "Photo");
 
@@ -160,6 +161,10 @@ namespace CarRental.WEB.Areas.Admin.Controllers
                         imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
                     }
                     carView.Photo = imageData;
+                }
+                else
+                {
+                    carView.Photo = _rentService.GetCar(carView.Id).Photo;
                 }
 
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<CarViewModel, CarDTO>());

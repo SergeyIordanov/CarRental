@@ -9,14 +9,20 @@ using CarRental.WEB.ViewModels;
 
 namespace CarRental.WEB.Areas.Manage.Controllers
 {
+    [Authorize(Roles = "admin, manager")]
     public class OrderManageController : Controller
     {
         readonly IRentService _rentService;
+
         public OrderManageController(IRentService serv)
         {
             _rentService = serv;
         }
 
+        /// <summary>
+        /// Shows the orders with status 'Unwatched'
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult NewOrders()
         {
@@ -30,9 +36,13 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     mapper.Map<IEnumerable<OrderViewModel>>(
                         _rentService.GetOrders()
                             .Select(order => order)
-                            .Where(order => order.OrderStatus == OrderDTO.Status.Unwatched).ToList()));
+                                .Where(order => order.OrderStatus == OrderDTO.Status.Unwatched).ToList()));
         }
 
+        /// <summary>
+        /// Shows the orders with statuses: 'Accepted', 'Paid', 'ReturnedWithDamage'
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult CurrentOrders()
         {
@@ -53,6 +63,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                                     order.OrderStatus == OrderDTO.Status.ReturnedWithDamage).ToList()));
         }
 
+        /// <summary>
+        /// Sets order's status to 'Declined'
+        /// </summary>
+        /// <param name="order">Order with info from view</param>
+        /// <returns>List of new orders</returns>
         [HttpPost]
         public ActionResult Decline(OrderViewModel order)
         {
@@ -83,6 +98,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
         }
 
+        /// <summary>
+        /// Sets order's status to 'Accepted'
+        /// </summary>
+        /// <param name="order">Order with info from view</param>
+        /// <returns>List of new orders</returns>
         [HttpPost]
         public ActionResult Accept(OrderViewModel order)
         {
@@ -112,6 +132,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
         }
 
+        /// <summary>
+        /// Change status from 'Declined' to 'Accepted'
+        /// </summary>
+        /// <param name="order">Order with info from view</param>
+        /// <returns>List of current orders</returns>
         [HttpPost]
         public ActionResult DeclineAccepted(OrderViewModel order)
         {
@@ -146,6 +171,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
         }
 
+        /// <summary>
+        /// Set status to 'Returned'
+        /// </summary>
+        /// <param name="order">Order with info from view</param>
+        /// <returns>List of current orders</returns>
         [HttpPost]
         public ActionResult Return(OrderViewModel order)
         {
@@ -179,6 +209,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
         }
 
+        /// <summary>
+        /// Set status to 'ReturnedWithDamage'
+        /// </summary>
+        /// <param name="order">Order with info from view</param>
+        /// <returns>List of current orders</returns>
         [HttpPost]
         public ActionResult ReturnToRepair(OrderViewModel order)
         {

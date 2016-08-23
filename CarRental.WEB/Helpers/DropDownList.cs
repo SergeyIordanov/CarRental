@@ -6,6 +6,15 @@ namespace CarRental.WEB.Helpers
 {
     public static class DropDownList
     {
+        /// <summary>
+        /// Creates a drop-down list markup
+        /// </summary>
+        /// <param name="html">Extention base</param>
+        /// <param name="header">Header of the list</param>
+        /// <param name="activeHeader">Boolean: is header selectable</param>
+        /// <param name="options">Options of the list. Dictionary: key - displayed text, value - value</param>
+        /// <param name="htmlAttributes">Object with deffs of html attributes</param>
+        /// <returns>Html markup</returns>
         public static MvcHtmlString CreateDropDown(this HtmlHelper html, string header, bool activeHeader, Dictionary<string, string> options, object htmlAttributes = null)
         {
             TagBuilder select = new TagBuilder("select");

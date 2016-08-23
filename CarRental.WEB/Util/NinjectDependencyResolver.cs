@@ -7,6 +7,9 @@ using Ninject;
 
 namespace CarRental.WEB.Util
 {
+    /// <summary>
+    /// Class for implementing dependency injections (used at NinjectWebCommon)
+    /// </summary>
     public class NinjectDependencyResolver : IDependencyResolver
     {
         private readonly IKernel _kernel;

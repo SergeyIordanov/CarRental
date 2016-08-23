@@ -228,9 +228,13 @@
     <Content Include="Content\Images\cooperator2.jpg" />
     <Content Include="Content\Images\cooperator3.jpg" />
     <Content Include="Content\Images\facebook.png" />
+    <Content Include="Content\Images\group-icon.png" />
+    <Content Include="Content\Images\header-admin.png" />
+    <Content Include="Content\Images\header-manage.png" />
     <Content Include="Content\Images\header.png" />
     <Content Include="Content\Images\instagram.png" />
     <Content Include="Content\Images\layout.jpg" />
+    <Content Include="Content\Images\neworder-icon.png" />
     <Content Include="Content\Images\no-car-photo.png" />
     <Content Include="Content\Images\review-icon.png" />
     <Content Include="Content\Images\vk.png" />
@@ -380,10 +384,7 @@
     <Content Include="Views\Order\Bill.cshtml" />
     <Content Include="Views\Order\RepairBill.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Manage\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
