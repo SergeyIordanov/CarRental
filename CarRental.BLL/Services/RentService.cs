@@ -312,7 +312,7 @@ namespace CarRental.BLL.Services
             return orders.Select(x => x).Where(order =>
                 (!isCar || (order.Car.Brand + " " + order.Car.ModelName).ToLower().Contains(searchCar.ToLower())) &&
                 (!isUser || (order.FirstName + " " + order.LastName).ToLower().Contains(searchUser.ToLower()))
-                );
+                ).ToList();
         }
 
         #endregion

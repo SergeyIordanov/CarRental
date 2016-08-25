@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
 
@@ -30,13 +31,13 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("This property cannot be empty", "FirstName");
             if (string.IsNullOrEmpty(orderDto.LastName))
                 throw new ValidationException("This property cannot be empty", "LastName");
-            if (!Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
+            if (string.IsNullOrEmpty(orderDto.PhoneNumber) || !Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
                 throw new ValidationException("Tel format: +38 xxx xxx xx xx (no spaces)", "PhoneNumber");
             if (string.IsNullOrEmpty(orderDto.PickUpAddress))
                 throw new ValidationException("This property cannot be empty", "PickUpAddress");
-            if (orderDto.FromDate == null || orderDto.FromDate.Year == 1)
+            if (orderDto.FromDate == null || orderDto.FromDate == DateTime.MinValue)
                 throw new ValidationException("This property cannot be empty", "FromDate");
-            if (orderDto.ToDate == null || orderDto.ToDate.Year == 1)
+            if (orderDto.ToDate == null || orderDto.ToDate == DateTime.MinValue)
                 throw new ValidationException("This property cannot be empty", "ToDate");
             if (orderDto.FromDate >= orderDto.ToDate)
                 throw new ValidationException("Date of drop-off has to be gratter than pick-up date", "FromDate");
@@ -45,11 +46,11 @@ namespace CarRental.BLL.Services
         public static void ValidateReviewModel(ReviewDTO reviewDto)
         {
             if (reviewDto == null)
-                throw new ValidationException("Cannot create review from null", "");
+                throw new ValidationException("Cannot create review from empty", "");
             if (reviewDto.Text == null)
-                throw new ValidationException("This property cannot be null", "Text");
-            if (reviewDto.PublishDate == null)
-                throw new ValidationException("This property cannot be null", "PublishDate");
+                throw new ValidationException("This property cannot be empty", "Text");
+            if (reviewDto.PublishDate == null || reviewDto.PublishDate == DateTime.MinValue)
+                throw new ValidationException("This property cannot be empty", "PublishDate");
         }
     }
 }
