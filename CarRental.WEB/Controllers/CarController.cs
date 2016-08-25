@@ -70,8 +70,10 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Filter(FilterViewModel filterModel)
         {
-            filterModel.MaxPrice = System.Convert.ToInt32(Request.Form["MaxPrice"].Split('.')[0]);
-            filterModel.MinPrice = System.Convert.ToInt32(Request.Form["MinPrice"].Split('.')[0]);
+            if(Request.Form["MaxPrice"] != null)
+                filterModel.MaxPrice = System.Convert.ToInt32(Request.Form["MaxPrice"].Split('.')[0]);
+            if (Request.Form["MinPrice"] != null)
+                filterModel.MinPrice = System.Convert.ToInt32(Request.Form["MinPrice"].Split('.')[0]);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CarDTO, CarViewModel>();

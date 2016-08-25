@@ -69,10 +69,6 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return HttpNotFound();
-            }
             try
             {
                 _rentService.DeleteOrder(id);

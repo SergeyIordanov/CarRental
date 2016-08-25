@@ -16,12 +16,6 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         private IUserService UserService =>
             HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
-        readonly IRentService _rentService;
-        public UserAdminController(IRentService serv)
-        {
-            _rentService = serv;
-        }
-
         /// <summary>
         /// Showing a table with all users of the application
         /// </summary>
@@ -43,7 +37,7 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult SetRole(string id, string role)
         {
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(role))
             {
                 return HttpNotFound();
             }

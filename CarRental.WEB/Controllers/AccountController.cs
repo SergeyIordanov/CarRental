@@ -28,7 +28,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
-            SetInitialDataAsync();
+            SetInitialData();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO { Email = model.Email, Password = model.Password };
@@ -65,7 +65,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            SetInitialDataAsync();
+            SetInitialData();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO
@@ -84,7 +84,7 @@ namespace CarRental.WEB.Controllers
             }
             return View(model);
         }
-        private void SetInitialDataAsync()
+        private void SetInitialData()
         {
             UserService.SetInitialData(new UserDTO
             {

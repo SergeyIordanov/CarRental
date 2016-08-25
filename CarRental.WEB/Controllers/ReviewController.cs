@@ -16,13 +16,13 @@ namespace CarRental.WEB.Controllers
 {
     public class ReviewController : Controller
     {
-        private IUserService UserService =>
-            HttpContext.GetOwinContext().GetUserManager<IUserService>();
+
+        private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
         readonly IRentService _rentService;
         public ReviewController(IRentService serv)
         {
-            _rentService = serv;
+            _rentService = serv;            
         }
 
         [HttpGet]
@@ -62,7 +62,7 @@ namespace CarRental.WEB.Controllers
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
                     dest.UserName =
-                        GetUserViewModel(src.UserId) == null ? null : GetUserViewModel(src.UserId).Name);
+                        GetUserViewModel(src.UserId) == null || GetUserViewModel(src.UserId).Name == null ? null : GetUserViewModel(src.UserId).Name);
             });
             mapper = config.CreateMapper();
             return PartialView("Partials/_ReviewsList", mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
