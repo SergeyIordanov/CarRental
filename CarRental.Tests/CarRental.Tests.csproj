@@ -97,6 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\Services\RentServiceTest.cs" />
     <Compile Include="WEB\Controllers\Admin\AdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\CarAdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\OrderAdminControllerTest.cs" />
@@ -122,7 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Auth\" />
-    <Folder Include="BLL\" />
     <Folder Include="DAL\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AutoMapper;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
@@ -25,16 +24,7 @@ namespace CarRental.BLL.Services
         public void CreateCar(CarDTO carDto)
         {
             // Using ValidationException for transfer validation data to presentation layer
-            if (carDto == null)
-                throw new ValidationException("Cannot create car from null", "");
-            if (string.IsNullOrEmpty(carDto.ModelName))
-                throw new ValidationException("This property cannot be empty", "ModelName");
-            if (string.IsNullOrEmpty(carDto.Brand))
-                throw new ValidationException("This property cannot be empty", "Brand");
-            if (string.IsNullOrEmpty(carDto.Class))
-                throw new ValidationException("This property cannot be empty", "Class");
-            if (carDto.Seats != null && carDto.Seats < 0)
-                throw new ValidationException("This property cannot be less than 0", "Seats");
+            Validator.ValidateCarModel(carDto);
             // Mapping DTO object into DB entity
             Mapper.Initialize(cfg => cfg.CreateMap<CarDTO, Car>());
             var car = Mapper.Map<Car>(carDto);
@@ -46,12 +36,7 @@ namespace CarRental.BLL.Services
         public void CreateReview(ReviewDTO reviewDto)
         {
             // Using ValidationException for transfer validation data to presentation layer
-            if (reviewDto == null)
-                throw new ValidationException("Cannot create review from null", "");
-            if (reviewDto.Text == null)
-                throw new ValidationException("This property cannot be null", "Text");
-            if (reviewDto.PublishDate == null)
-                throw new ValidationException("This property cannot be null", "PublishDate");
+            Validator.ValidateReviewModel(reviewDto);
             // Mapping DTO object into DB entity
             Mapper.Initialize(cfg => cfg.CreateMap<ReviewDTO, Review>());
             var review = Mapper.Map<Review>(reviewDto);
@@ -65,24 +50,7 @@ namespace CarRental.BLL.Services
             // Using ValidationException for transfer validation data to presentation layer
             if (carId == null)
                 throw new ValidationException("Car's id wasn't set", "");
-            if (orderDto == null)
-                throw new ValidationException("Cannot create order from null", "");
-            if (orderDto.UserId == null)
-                throw new ValidationException("This property cannot be null", "UserId");
-            if (string.IsNullOrEmpty(orderDto.FirstName))
-                throw new ValidationException("This property cannot be empty", "FirstName");
-            if (string.IsNullOrEmpty(orderDto.LastName))
-                throw new ValidationException("This property cannot be empty", "LastName");
-            if (!Regex.IsMatch(orderDto.PhoneNumber, @"\+38\d\d\d\d\d\d\d\d\d\d"))
-                throw new ValidationException("Tel format: +38 xxx xxx xx xx (no spaces)", "PhoneNumber");
-            if (string.IsNullOrEmpty(orderDto.PickUpAddress))
-                throw new ValidationException("This property cannot be empty", "PickUpAddress");
-            if (orderDto.FromDate == null || orderDto.FromDate.Year == 1)
-                throw new ValidationException("This property cannot be empty", "FromDate");
-            if (orderDto.ToDate == null || orderDto.ToDate.Year == 1)
-                throw new ValidationException("This property cannot be empty", "ToDate");
-            if (orderDto.FromDate >= orderDto.ToDate)
-                throw new ValidationException("Date of drop-off has to be gratter than pick-up date", "FromDate");
+            Validator.ValidateOrderModel(orderDto);
             // Mapping DTO object into DB entity
             var config = new MapperConfiguration(cfg =>
             {
@@ -116,6 +84,7 @@ namespace CarRental.BLL.Services
             // Using ValidationException for transfer validation data to presentation layer
             if (Database.Cars.Get(carDto.Id) == null)
                 throw new ValidationException("Car wasn't found", "");
+            Validator.ValidateCarModel(carDto);
             // Mapping DTO object into DB entity
             var config = new MapperConfiguration(cfg => { cfg.CreateMap<CarDTO, Car>(); });
             var mapper = config.CreateMapper();
@@ -130,6 +99,7 @@ namespace CarRental.BLL.Services
             // Using ValidationException for transfer validation data to presentation layer
             if (Database.Orders.Get(orderDto.Id) == null)
                 throw new ValidationException("Order wasn't found", "");
+            Validator.ValidateOrderModel(orderDto);
             // Mapping DTO object into DB entity
             var config = new MapperConfiguration(cfg =>
             {
