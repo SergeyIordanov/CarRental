@@ -8,11 +8,11 @@ namespace CarRental.DAL.EF
     /// </summary>
     public class RentContext : DbContext
     {
-        public DbSet<Car> Cars { get; set; }
+        public virtual DbSet<Car> Cars { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
 
-        public DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<Review> Reviews { get; set; }
 
         /// <summary>
         /// Static constructor for setting DB initializer
@@ -21,6 +21,8 @@ namespace CarRental.DAL.EF
         {
             Database.SetInitializer(new RentDbInitializer());
         }
+
+        public RentContext() { }
 
         public RentContext(string connectionString)
             : base(connectionString)

@@ -18,7 +18,7 @@ namespace CarRental.DAL.Repositories
 
         public IEnumerable<Review> GetAll()
         {
-            return _db.Reviews;
+            return _db.Reviews.ToList();
         }
 
         public Review Get(int id)

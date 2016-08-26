@@ -117,6 +117,10 @@
     <Compile Include="Auth\Services\TestData.cs" />
     <Compile Include="Auth\Services\UserServiceTest.cs" />
     <Compile Include="BLL\Services\RentServiceTest.cs" />
+    <Compile Include="DAL\Repositories\CarRepositoryTest.cs" />
+    <Compile Include="DAL\Repositories\OrderRepositoryTest.cs" />
+    <Compile Include="DAL\Repositories\ReviewRepositoryTest.cs" />
+    <Compile Include="DAL\Repositories\TestData.cs" />
     <Compile Include="WEB\Controllers\Admin\AdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\CarAdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\OrderAdminControllerTest.cs" />
@@ -140,9 +144,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAL\Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CarRental.Auth\CarRental.Auth.csproj">
       <Project>{024bc0ba-e52d-493a-824d-f7305a40964e}</Project>
