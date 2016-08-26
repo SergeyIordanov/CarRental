@@ -84,6 +84,7 @@ namespace CarRental.WEB.Controllers
             }
             return View(model);
         }
+
         private void SetInitialData()
         {
             UserService.SetInitialData(new UserDTO

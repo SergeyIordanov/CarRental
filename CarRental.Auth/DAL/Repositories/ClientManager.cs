@@ -4,7 +4,7 @@ using CarRental.Entities.Identity;
 
 namespace CarRental.Auth.DAL.Repositories
 {
-    class ClientManager : IClientManager
+    public class ClientManager : IClientManager
     {
         public AuthContext Database { get; set; }
 

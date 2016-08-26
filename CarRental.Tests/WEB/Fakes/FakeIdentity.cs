@@ -15,7 +15,7 @@ namespace CarRental.Tests.WEB.Fakes
 
         public string AuthenticationType
         {
-            get { throw new System.NotImplementedException(); }
+            get { throw new NotImplementedException(); }
         }
 
         public bool IsAuthenticated => !String.IsNullOrEmpty(_name);

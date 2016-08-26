@@ -21,6 +21,9 @@ namespace CarRental.Auth.BLL.Services
 
         public OperationDetails Create(UserDTO userDto)
         {
+            OperationDetails validationResult = Validator.ValidateUser(userDto);
+            if (validationResult.Succedeed == false)
+                return validationResult;
             ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
             if (user == null)
             {
@@ -63,14 +66,17 @@ namespace CarRental.Auth.BLL.Services
             ApplicationUser user = Database.UserManager.FindById(id);
             if (user != null)
             {
-                string role = Database.RoleManager.FindById(user.Roles.Last().RoleId).Name;
+                var role = Database.RoleManager.FindById(user.Roles.Last().RoleId);
+                string roleName = null;
+                if (role != null)
+                    roleName = role.Name;
                 return new UserDTO
                 {
                     UserName = user.Email,
                     Name = user.ClientProfile.Name,
                     Email = user.Email,
                     Id = user.Id,
-                    Role = role
+                    Role = roleName
                 };
             }
             return null;
@@ -78,6 +84,10 @@ namespace CarRental.Auth.BLL.Services
 
         public OperationDetails SetRole(UserDTO userDto, string roleName)
         {
+            if(string.IsNullOrEmpty(userDto?.Email))
+                return new OperationDetails(false, "Email cannot be empty", "Email");
+            if (string.IsNullOrEmpty(roleName))
+                return new OperationDetails(false, "Role cannot be empty", "");
             // Search for user
             ApplicationUser user = Database.UserManager.FindByEmail(userDto.Email);
             if (user != null)
