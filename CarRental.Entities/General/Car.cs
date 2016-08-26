@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.Entities.General
 {
@@ -28,5 +29,7 @@ namespace CarRental.Entities.General
         public bool AirConditioning { get; set; }
 
         public bool AutomaticTransmission { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

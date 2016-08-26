@@ -124,15 +124,8 @@ namespace CarRental.BLL.Services
                 throw new ValidationException("Id is null", "");
             if (!Database.Cars.Find(x => x.Id == id).Any())
                 throw new ValidationException("Car wasn't found", "");
-            // Deleting car
+            // Deleting & saving
             Database.Cars.Delete(id.Value);
-            //Deleting related orders
-            var orders = Database.Orders.GetAll();
-            foreach (var order in orders)
-            {
-                if(order.Car.Id == id)
-                    Database.Orders.Delete(order.Id);
-            }
             Database.Save();
         }
 

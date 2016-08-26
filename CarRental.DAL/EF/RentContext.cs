@@ -26,5 +26,13 @@ namespace CarRental.DAL.EF
             : base(connectionString)
         {
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Car>()
+               .HasMany(a => a.Orders)
+               .WithRequired(a => a.Car)
+               .WillCascadeOnDelete(true);
+        }
     }
 }
