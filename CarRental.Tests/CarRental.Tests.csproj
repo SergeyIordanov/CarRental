@@ -141,7 +141,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DAL\" />
+    <Folder Include="DAL\Repositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CarRental.Auth\CarRental.Auth.csproj">
