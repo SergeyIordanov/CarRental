@@ -7,7 +7,6 @@ using CarRental.WEB.Areas.Admin.Controllers;
 using CarRental.WEB.ViewModels;
 using Moq;
 using NUnit.Framework;
-using CarRental.BLL.Infrastructure;
 
 namespace CarRental.Tests.WEB.Controllers.Admin
 {
@@ -21,6 +20,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             var mockRentService = new Mock<IRentService>();
             mockRentService.Setup(a => a.GetOrders()).Returns(new List<OrderDTO>());
             var controller = new OrderAdminController(mockRentService.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -61,6 +61,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             var mockRentService = new Mock<IRentService>();
 
             var controller = new OrderAdminController(mockRentService.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var resultCreate = controller.Delete(id) as PartialViewResult;

@@ -21,6 +21,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             var mockRentService = new Mock<IRentService>();
             mockRentService.Setup(a => a.GetCars()).Returns(new List<CarDTO>());
             var controller = new CarAdminController(mockRentService.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;

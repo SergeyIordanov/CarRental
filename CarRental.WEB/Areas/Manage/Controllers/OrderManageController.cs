@@ -6,12 +6,15 @@ using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
+using NLog;
 
 namespace CarRental.WEB.Areas.Manage.Controllers
 {
     [Authorize(Roles = "admin, manager")]
     public class OrderManageController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         readonly IRentService _rentService;
 
         public OrderManageController(IRentService serv)
@@ -26,6 +29,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpGet]
         public ActionResult NewOrders()
         {
+            Logger.Debug("Request to Manage/NewOrders page. User: {0}", User.Identity.Name);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<OrderDTO, OrderViewModel>();
@@ -46,6 +50,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpGet]
         public ActionResult CurrentOrders()
         {
+            Logger.Debug("Request to Manage/CurrentOrders page. User: {0}", User.Identity.Name);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<OrderDTO, OrderViewModel>();
@@ -71,6 +76,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpPost]
         public ActionResult Decline(OrderViewModel order)
         {
+            Logger.Debug("Attempt to decline order. Order id: {0}", order.Id);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -86,6 +92,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
                 var mapper = config.CreateMapper();
+
+                Logger.Info("Order #{6} declined by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return PartialView("Partials/_NewOrdersList",
                         mapper.Map<IEnumerable<OrderViewModel>>(
                             _rentService.GetOrders()
@@ -94,6 +105,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to decline order failed. Vlidation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}", ex.Property, ex.Message, order.Id);
                 return View("Error", ex);
             }
         }
@@ -106,6 +118,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpPost]
         public ActionResult Accept(OrderViewModel order)
         {
+            Logger.Debug("Attempt to accept order. Order id: {0}", order.Id);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -120,6 +133,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
                 var mapper = config.CreateMapper();
+
+                Logger.Info("Order #{6} accepted by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return PartialView("Partials/_NewOrdersList",
                         mapper.Map<IEnumerable<OrderViewModel>>(
                             _rentService.GetOrders()
@@ -128,6 +146,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to accept order failed. Vlidation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}", ex.Property, ex.Message, order.Id);
                 return View("Error", ex);
             }
         }
@@ -140,6 +159,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpPost]
         public ActionResult DeclineAccepted(OrderViewModel order)
         {
+            Logger.Debug("Attempt to decline accepted order. Order id: {0}", order.Id);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -155,6 +175,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
                 var mapper = config.CreateMapper();
+
+                Logger.Info("Order #{6} declined by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return PartialView("Partials/_CurrentOrdersList",
                         mapper.Map<IEnumerable<OrderViewModel>>(
                             _rentService.GetOrders()
@@ -167,6 +192,8 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to decline accepted order failed. Vlidation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}", 
+                    ex.Property, ex.Message, order.Id);
                 return View("Error", ex);
             }
         }
@@ -179,6 +206,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpPost]
         public ActionResult Return(OrderViewModel order)
         {
+            Logger.Debug("Attempt to return order. Order id: {0}", order.Id);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -193,6 +221,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
                 var mapper = config.CreateMapper();
+
+                Logger.Info("Order #{6} returned by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return PartialView("Partials/_CurrentOrdersList",
                         mapper.Map<IEnumerable<OrderViewModel>>(
                             _rentService.GetOrders()
@@ -205,6 +238,8 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to return order failed. Vlidation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}", 
+                    ex.Property, ex.Message, order.Id);
                 return View("Error", ex);
             }
         }
@@ -217,6 +252,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
         [HttpPost]
         public ActionResult ReturnToRepair(OrderViewModel order)
         {
+            Logger.Debug("Attempt to return order for repair. Order id: {0}", order.Id);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -232,6 +268,11 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
                 var mapper = config.CreateMapper();
+
+                Logger.Info("Order #{6} send for repairing by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return PartialView("Partials/_CurrentOrdersList",
                         mapper.Map<IEnumerable<OrderViewModel>>(
                             _rentService.GetOrders()
@@ -244,6 +285,8 @@ namespace CarRental.WEB.Areas.Manage.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to return order for repairing failed. Vlidation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}",
+                    ex.Property, ex.Message, order.Id);
                 return View("Error", ex);
             }
         }

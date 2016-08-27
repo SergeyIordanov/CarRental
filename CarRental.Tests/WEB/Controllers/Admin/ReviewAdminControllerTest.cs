@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Interfaces;
+using CarRental.Tests.WEB.Fakes;
 using CarRental.WEB.Areas.Admin.Controllers;
 using CarRental.WEB.ViewModels;
 using Moq;
@@ -19,6 +20,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetReviews()).Returns(new List<ReviewDTO>());
             var controller = new ReviewAdminController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var result = controller.Index() as ViewResult;
@@ -41,6 +43,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             var mockRentService = new Mock<IRentService>();
 
             var controller = new ReviewAdminController(mockRentService.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var resultCreate = controller.Delete(id) as PartialViewResult;

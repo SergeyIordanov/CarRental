@@ -9,12 +9,15 @@ using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 
 namespace CarRental.WEB.Areas.Admin.Controllers
 {
     [Authorize(Roles = "admin")]
     public class ReviewAdminController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private IUserService UserService =>
             HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
@@ -32,6 +35,7 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            Logger.Debug("Request to Admin/Reviews page. User: {0}", User.Identity.Name);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
@@ -50,11 +54,15 @@ namespace CarRental.WEB.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int? id)
         {
+            Logger.Debug("Attempt to delete a review. Review id: {0}", id);
             try
             {
                 _rentService.DeleteReview(id);
             }
-            catch (ValidationException) { }
+            catch (ValidationException ex)
+            {
+                Logger.Debug("Review deleting failed. Validation error (Property: {0}, Message: {1})", ex.Property, ex.Message);
+            }
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
@@ -62,6 +70,9 @@ namespace CarRental.WEB.Areas.Admin.Controllers
                         GetUserViewModel(src.UserId) == null ? null : GetUserViewModel(src.UserId).Name);
             });
             var mapper = config.CreateMapper();
+
+            Logger.Info("Review #{0} was deleted by {1}.", id, User.Identity.Name);
+
             return PartialView("Partials/_ReviewsList", mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
         }
 

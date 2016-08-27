@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
+using CarRental.Tests.WEB.Fakes;
 using CarRental.WEB.Areas.Manage.Controllers;
 using CarRental.WEB.ViewModels;
 using Moq;
@@ -19,7 +21,8 @@ namespace CarRental.Tests.WEB.Controllers.Manage
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetOrders()).Returns(new List<OrderDTO>());
-            OrderManageController controller = new OrderManageController(mock.Object);
+            var controller = new OrderManageController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.NewOrders() as ViewResult;
@@ -36,7 +39,8 @@ namespace CarRental.Tests.WEB.Controllers.Manage
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetOrders()).Returns(new List<OrderDTO>());
-            OrderManageController controller = new OrderManageController(mock.Object);
+            var controller = new OrderManageController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.CurrentOrders() as ViewResult;
@@ -52,13 +56,32 @@ namespace CarRental.Tests.WEB.Controllers.Manage
         {
             // Arrange
             var mock = new Mock<IRentService>();
-            mock.Setup(a => a.GetOrder(It.IsAny<int>())).Returns(new OrderDTO());
+            mock.Setup(a => a.GetOrder(It.IsAny<int>())).Returns(new OrderDTO
+            {
+                Car = new CarDTO { Brand = "test", ModelName = "test" },
+                FirstName = "test",
+                LastName = "test",
+                ToDate = DateTime.Now.AddDays(2),
+                FromDate = DateTime.Now,
+                Id = 1,
+                TotalPrice = 100
+            });
             mock.Setup(a => a.GetOrders()).Returns(new List<OrderDTO>());
 
-            OrderManageController controller = new OrderManageController(mock.Object);
+            var controller = new OrderManageController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
-            PartialViewResult resultDecline = controller.Decline(new OrderViewModel()) as PartialViewResult;
+            PartialViewResult resultDecline = controller.Decline(new OrderViewModel
+                {
+                    Car = new CarViewModel { Brand = "test", ModelName = "test" },
+                    FirstName = "test",
+                    LastName = "test",
+                    ToDate = DateTime.Now.AddDays(2),
+                    FromDate = DateTime.Now,
+                    Id = 1,
+                    TotalPrice = 100
+                }) as PartialViewResult;
             PartialViewResult resultAccept = controller.Accept(new OrderViewModel()) as PartialViewResult;
             PartialViewResult resultReturn = controller.Return(new OrderViewModel()) as PartialViewResult;
             PartialViewResult resultReturnToRepair = controller.ReturnToRepair(new OrderViewModel()) as PartialViewResult;
@@ -94,7 +117,8 @@ namespace CarRental.Tests.WEB.Controllers.Manage
             mock.Setup(a => a.GetOrder(It.IsAny<int>())).Throws(new ValidationException("test", "test"));
             mock.Setup(a => a.GetOrders()).Returns(new List<OrderDTO>());
             
-            OrderManageController controller = new OrderManageController(mock.Object);
+            var controller = new OrderManageController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult resultDecline = controller.Decline(new OrderViewModel()) as ViewResult;

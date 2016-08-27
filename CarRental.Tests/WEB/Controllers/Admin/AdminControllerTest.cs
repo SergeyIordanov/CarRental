@@ -1,4 +1,6 @@
-﻿using CarRental.WEB.Areas.Admin.Controllers;
+﻿using System.Web.Mvc;
+using CarRental.Tests.WEB.Fakes;
+using CarRental.WEB.Areas.Admin.Controllers;
 using NUnit.Framework;
 
 namespace CarRental.Tests.WEB.Controllers.Admin
@@ -12,6 +14,7 @@ namespace CarRental.Tests.WEB.Controllers.Admin
             // Arrange
 
             AdminController controller = new AdminController();
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var result = controller.Index();

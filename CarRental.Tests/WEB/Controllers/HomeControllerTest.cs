@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using CarRental.Tests.WEB.Fakes;
 using CarRental.WEB.Controllers;
 using NUnit.Framework;
 
@@ -12,6 +13,7 @@ namespace CarRental.Tests.WEB.Controllers
         {
             // Arrange
             var controller = new HomeController();
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -25,6 +27,7 @@ namespace CarRental.Tests.WEB.Controllers
         {
             // Arrange
             var controller = new HomeController();
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Contacts() as ViewResult;
