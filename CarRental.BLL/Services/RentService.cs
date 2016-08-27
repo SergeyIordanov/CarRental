@@ -7,11 +7,14 @@ using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.DAL.Interfaces;
 using CarRental.Entities.General;
+using NLog;
 
 namespace CarRental.BLL.Services
 {
     public class RentService : IRentService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private IUnitOfWork Database { get; }
 
         public RentService(IUnitOfWork uow)
@@ -23,6 +26,7 @@ namespace CarRental.BLL.Services
 
         public void CreateCar(CarDTO carDto)
         {
+            Logger.Debug("BLL: CreateCar() called");
             // Using ValidationException for transfer validation data to presentation layer
             Validator.ValidateCarModel(carDto);
             // Mapping DTO object into DB entity
@@ -35,6 +39,7 @@ namespace CarRental.BLL.Services
 
         public void CreateReview(ReviewDTO reviewDto)
         {
+            Logger.Debug("BLL: CreateReview() called");
             // Using ValidationException for transfer validation data to presentation layer
             Validator.ValidateReviewModel(reviewDto);
             // Mapping DTO object into DB entity
@@ -47,6 +52,7 @@ namespace CarRental.BLL.Services
 
         public void CreateOrder(OrderDTO orderDto, int? carId)
         {
+            Logger.Debug("BLL: CreateOrder() called");
             // Using ValidationException for transfer validation data to presentation layer
             if (carId == null)
                 throw new ValidationException("Car's id wasn't set", "");
@@ -81,6 +87,7 @@ namespace CarRental.BLL.Services
 
         public void UpdateCar(CarDTO carDto)
         {
+            Logger.Debug("BLL: UpdateCar() called");
             // Using ValidationException for transfer validation data to presentation layer
             if (Database.Cars.Get(carDto.Id) == null)
                 throw new ValidationException("Car wasn't found", "");
@@ -96,6 +103,7 @@ namespace CarRental.BLL.Services
 
         public void UpdateOrder(OrderDTO orderDto)
         {
+            Logger.Debug("BLL: UpdateOrder() called");
             // Using ValidationException for transfer validation data to presentation layer
             if (Database.Orders.Get(orderDto.Id) == null)
                 throw new ValidationException("Order wasn't found", "");
@@ -119,6 +127,7 @@ namespace CarRental.BLL.Services
 
         public void DeleteCar(int? id)
         {
+            Logger.Debug("BLL: DeleteCar({0}) called", id);
             // Using ValidationException for transfer validation data to presentation layer
             if (id == null)
                 throw new ValidationException("Id is null", "");
@@ -131,6 +140,7 @@ namespace CarRental.BLL.Services
 
         public void DeleteReview(int? id)
         {
+            Logger.Debug("BLL: DeleteReview({0}) called", id);
             // Using ValidationException for transfer validation data to presentation layer
             if (id == null)
                 throw new ValidationException("Id is null", "");
@@ -143,6 +153,7 @@ namespace CarRental.BLL.Services
 
         public void DeleteOrder(int? id)
         {
+            Logger.Debug("BLL: DeleteOrder({0}) called", id);
             // Using ValidationException for transfer validation data to presentation layer
             if (id == null)
                 throw new ValidationException("Id is null", "");
@@ -159,6 +170,7 @@ namespace CarRental.BLL.Services
 
         public CarDTO GetCar(int? id)
         {
+            Logger.Debug("BLL: GetCar({0}) called", id);
             // Using ValidationException for transfer validation data to presentation layer
             if (id == null)
                 throw new ValidationException("Car's id wasn't set", "");
@@ -178,6 +190,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<CarDTO> GetCars()
         {
+            Logger.Debug("BLL: GetCars() called");
             // Using of Automapper for projection the Car entity into the CarDTO
             var config = new MapperConfiguration(cfg =>
             {
@@ -190,6 +203,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<CarDTO> GetCars(string searchString)
         {
+            Logger.Debug("BLL: GetCars({0}) called", searchString);
             // Using of Automapper for projection the Car entity into the CarDTO
             var config = new MapperConfiguration(cfg =>
             {
@@ -206,6 +220,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<CarDTO> GetCars(FilterDTO searchModel)
         {
+            Logger.Debug("BLL: GetCars(filter) called");
             // Using of Automapper for projection the Car entity into the CarDTO
             var config = new MapperConfiguration(cfg =>
             {
@@ -230,6 +245,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<ReviewDTO> GetReviews()
         {
+            Logger.Debug("BLL: GetReviews() called");
             // Using of Automapper for projection the Review entity into the ReviewDTO
             var config = new MapperConfiguration(cfg =>
             {
@@ -241,6 +257,7 @@ namespace CarRental.BLL.Services
 
         public OrderDTO GetOrder(int? id)
         {
+            Logger.Debug("BLL: GetOrder({0}) called", id);
             // Using ValidationException for transfer validation data to presentation layer
             if (id == null)
                 throw new ValidationException("Order's id wasn't set", "");
@@ -260,6 +277,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<OrderDTO> GetOrders()
         {
+            Logger.Debug("BLL: GetOrders() called");
             //Using of Automapper for projection the Order entity on the OrderDTO
             var config = new MapperConfiguration(cfg =>
             {
@@ -272,6 +290,7 @@ namespace CarRental.BLL.Services
 
         public IEnumerable<OrderDTO> GetOrders(string userId)
         {
+            Logger.Debug("BLL: GetOrders({0}) called", userId);
             // Using ValidationException for transfer validation data to presentation layer
             if (string.IsNullOrEmpty(userId))
                 throw new ValidationException("User's id wasn't set", "");
@@ -289,6 +308,7 @@ namespace CarRental.BLL.Services
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")] // all possible NullReferenceExceptions checked
         public IEnumerable<OrderDTO> GetOrders(string searchCar, string searchUser)
         {
+            Logger.Debug("BLL: GetOrders({0}, {1}) called", searchCar, searchUser);
             // Using of Automapper for projection the Order entity on the OrderDTO
             var config = new MapperConfiguration(cfg =>
             {
