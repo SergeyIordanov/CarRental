@@ -7,11 +7,14 @@ using CarRental.Auth.BLL.Interfaces;
 using CarRental.Auth.DAL.Interfaces;
 using CarRental.Entities.Identity;
 using Microsoft.AspNet.Identity;
+using NLog;
 
 namespace CarRental.Auth.BLL.Services
 {
     public class UserService : IUserService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         IUnitOfWork Database { get; }
 
         public UserService(IUnitOfWork uow)
@@ -21,6 +24,7 @@ namespace CarRental.Auth.BLL.Services
 
         public OperationDetails Create(UserDTO userDto)
         {
+            Logger.Debug("Auth: Create() called");
             OperationDetails validationResult = Validator.ValidateUser(userDto);
             if (validationResult.Succedeed == false)
                 return validationResult;
@@ -30,20 +34,26 @@ namespace CarRental.Auth.BLL.Services
                 user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
                 IdentityResult result = Database.UserManager.Create(user, userDto.Password);
                 if (result.Errors.Any())
+                {
+                    Logger.Debug("Auth: User creating failed: {0}", result.Errors.FirstOrDefault());
                     return new OperationDetails(false, result.Errors.FirstOrDefault(), "");
+                }                 
                 // Add role
                 Database.UserManager.AddToRole(user.Id, userDto.Role);
                 // Create user profile
                 var clientProfile = new ClientProfile { Id = user.Id, Name = userDto.Name };
                 Database.ClientManager.Create(clientProfile);
                 Database.Save();
+                Logger.Debug("Auth: User creating successful");
                 return new OperationDetails(true, "Registration succeed", "");
             }
+            Logger.Debug("Auth: User creating failed: user with such login already exists");
             return new OperationDetails(false, "User with such login already exists", "Email");
         }
 
         public IEnumerable<UserDTO> GetAll()
         {
+            Logger.Debug("Auth: GetAll() called");
             List<UserDTO> usersDto = new List<UserDTO>();
             IEnumerable<ApplicationUser> users = Database.UserManager.Users.ToList();
             foreach (var user in users)
@@ -63,6 +73,7 @@ namespace CarRental.Auth.BLL.Services
 
         public UserDTO Get(string id)
         {
+            Logger.Debug("Auth: Get({0}) called", id);
             ApplicationUser user = Database.UserManager.FindById(id);
             if (user != null)
             {
@@ -84,7 +95,8 @@ namespace CarRental.Auth.BLL.Services
 
         public OperationDetails SetRole(UserDTO userDto, string roleName)
         {
-            if(string.IsNullOrEmpty(userDto?.Email))
+            Logger.Debug("Auth: SetRole(user, {0}) called", roleName);
+            if (string.IsNullOrEmpty(userDto?.Email))
                 return new OperationDetails(false, "Email cannot be empty", "Email");
             if (string.IsNullOrEmpty(roleName))
                 return new OperationDetails(false, "Role cannot be empty", "");
@@ -100,19 +112,23 @@ namespace CarRental.Auth.BLL.Services
                 {                   
                     Database.UserManager.AddToRole(user.Id, roleName);
                     Database.Save();
+                    Logger.Debug("Auth: Role '{0}' successfully setted", roleName);
                     return new OperationDetails(true, "Role successfuly set", "");
                 }
                 // If the role has NOT existed
                 Database.RoleManager.Create(new ApplicationRole {Name = roleName});
                 Database.UserManager.AddToRole(user.Id, roleName);
                 Database.Save();
-                return new OperationDetails(true, "Role successfuly created and set", "");
-            }            
+                Logger.Debug("Auth: Role '{0}' successfully created and setted", roleName);
+                return new OperationDetails(true, "Role successfuly created and setted", "");
+            }
+            Logger.Debug("Auth: Role '{0}' was not created: user wasn't found", roleName);
             return new OperationDetails(false, "User wasn't found", "");
         }
 
         public ClaimsIdentity Authenticate(UserDTO userDto)
         {
+            Logger.Debug("Auth: Authentificate(user) called");
             ClaimsIdentity claim = null;
             // Search for user
             ApplicationUser user = Database.UserManager.Find(userDto.Email, userDto.Password);
@@ -125,6 +141,7 @@ namespace CarRental.Auth.BLL.Services
 
         public void SetInitialData(UserDTO adminDto, List<string> roles)
         {
+            Logger.Debug("Auth: SetInitialData(user, roles) called");
             foreach (string roleName in roles)
             {
                 ApplicationRole role = Database.RoleManager.FindByName(roleName);
