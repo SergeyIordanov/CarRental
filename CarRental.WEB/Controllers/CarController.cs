@@ -5,11 +5,14 @@ using AutoMapper;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
+using NLog;
 
 namespace CarRental.WEB.Controllers
-{
+{ 
     public class CarController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         readonly IRentService _rentService;
         public CarController(IRentService serv)
         {
@@ -19,6 +22,8 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            Logger.Debug("Request to Car/Index page");
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CarDTO, CarViewModel>();
@@ -30,6 +35,7 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Search(string search)
         {
+            Logger.Debug("Search request. Data: '{0}'", search);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CarDTO, CarViewModel>();
@@ -37,6 +43,9 @@ namespace CarRental.WEB.Controllers
             var mapper = config.CreateMapper();
             var cars = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(search));
             Session["CurrentCars"] = cars;
+
+            Logger.Debug("Search result. Found {0} cars", cars.Count());
+
             return PartialView("Partials/_CarsList", cars);
         }
 
@@ -70,7 +79,9 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Filter(FilterViewModel filterModel)
         {
-            if(Request.Form["MaxPrice"] != null)
+            Logger.Debug("Filter request.");
+
+            if (Request.Form["MaxPrice"] != null)
                 filterModel.MaxPrice = System.Convert.ToInt32(Request.Form["MaxPrice"].Split('.')[0]);
             if (Request.Form["MinPrice"] != null)
                 filterModel.MinPrice = System.Convert.ToInt32(Request.Form["MinPrice"].Split('.')[0]);
@@ -83,12 +94,17 @@ namespace CarRental.WEB.Controllers
             var filterDTO = mapper.Map<FilterDTO>(filterModel);
             var cars = mapper.Map<IEnumerable<CarViewModel>>(_rentService.GetCars(filterDTO));
             Session["CurrentCars"] = cars;
+
+            Logger.Debug("Filter result. Found {0} cars", cars.Count());
+
             return PartialView("Partials/_CarsList", cars);
         }
 
         [HttpPost]
         public ActionResult SortByName(bool desc = false)
         {
+            Logger.Debug("Sort by name ({0}) request.", desc ? "descending" : "ascending");
+
             if (Session["CurrentCars"] == null)
             {
                 var config = new MapperConfiguration(cfg =>
@@ -113,6 +129,8 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult SortByPrice(bool desc = false)
         {
+            Logger.Debug("Sort by price ({0}) request.", desc ? "descending" : "ascending");
+
             if (Session["CurrentCars"] == null)
             {
                 var config = new MapperConfiguration(cfg =>

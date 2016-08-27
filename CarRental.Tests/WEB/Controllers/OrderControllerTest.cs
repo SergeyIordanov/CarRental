@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using CarRental.BLL.DTO;
 using CarRental.BLL.Infrastructure;
@@ -20,7 +21,8 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCar(1)).Returns(new CarDTO());
-            OrderController controller = new OrderController(mock.Object);            
+            OrderController controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var result = controller.Index(null);
@@ -39,7 +41,8 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCar(id)).Throws(new ValidationException("test", "test"));
-            OrderController controller = new OrderController(mock.Object);
+            var controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index(id) as ViewResult;
@@ -60,7 +63,8 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCar(id)).Returns(new CarDTO());
-            OrderController controller = new OrderController(mock.Object);
+            var controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index(id) as ViewResult;
@@ -81,11 +85,21 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCar(id)).Returns(new CarDTO());
-            OrderController controller = new OrderController(mock.Object);
-            controller.ControllerContext = new FakeControllerContext(controller);
+
+            var controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
-            ViewResult result = controller.Index(new OrderViewModel(), id) as ViewResult;
+            ViewResult result = controller.Index(new OrderViewModel
+                {
+                    Car = new CarViewModel {Brand = "test", ModelName = "test"},
+                    FirstName = "test",
+                    LastName = "test",
+                    ToDate = DateTime.Now.AddDays(2),
+                    FromDate = DateTime.Now,
+                    Id = 1,
+                    TotalPrice = 100
+                }, id) as ViewResult;
 
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -136,6 +150,7 @@ namespace CarRental.Tests.WEB.Controllers
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetOrder(1)).Returns(new OrderDTO());
             OrderController controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             var result = controller.Bill(orderId: null);
@@ -155,6 +170,7 @@ namespace CarRental.Tests.WEB.Controllers
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetOrder(id)).Throws(new ValidationException("test", "test"));
             OrderController controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Bill(id) as ViewResult;
@@ -176,6 +192,7 @@ namespace CarRental.Tests.WEB.Controllers
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetOrder(id)).Returns(new OrderDTO());
             OrderController controller = new OrderController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Bill(id) as ViewResult;

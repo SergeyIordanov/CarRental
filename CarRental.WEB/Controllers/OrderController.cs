@@ -6,13 +6,17 @@ using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
 using Microsoft.AspNet.Identity;
+using NLog;
 
 namespace CarRental.WEB.Controllers
 {
     [Authorize(Roles = "user, manager, admin")]
     public class OrderController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         readonly IRentService _rentService;
+
         public OrderController(IRentService serv)
         {
             _rentService = serv;
@@ -23,8 +27,10 @@ namespace CarRental.WEB.Controllers
         [AllowAnonymous]
         public ActionResult Index(int? carId)
         {
+            Logger.Debug("Request to order page. Car id:{0}  User: {1}", carId, string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
             if (carId == null)
             {
+                Logger.Debug("Wrong request. Car id is null. 404 returned");
                 return HttpNotFound();
             }
             try
@@ -40,6 +46,7 @@ namespace CarRental.WEB.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Debug("Wrong request. Car id was not found. Error page returned");
                 return View("Error", ex);
             }
         }
@@ -48,6 +55,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(OrderViewModel order, int carId)
         {
+            Logger.Debug("Order creation attempt. User: {0}", User.Identity.Name);
             try
             {
                 var config = new MapperConfiguration(cfg =>
@@ -68,7 +76,11 @@ namespace CarRental.WEB.Controllers
                     cfg.CreateMap<OrderDTO, OrderViewModel>();
                     cfg.CreateMap<CarDTO, CarViewModel>();
                 });
-                mapper = config.CreateMapper();                
+                mapper = config.CreateMapper();
+
+                Logger.Info("New order is created. Data (id: {6}, car: {0}, user: {1}, user_name: {2} sum: {3}, from: {4}, to: {5})", 
+                    orderDto.Car.Brand + " " + orderDto.Car.Class, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
                 return View("OrderSuccess", mapper.Map<OrderViewModel>(orderDto));
             }
@@ -81,6 +93,9 @@ namespace CarRental.WEB.Controllers
                 var mapper = config.CreateMapper();
                 order.Car = mapper.Map<CarViewModel>(_rentService.GetCar(carId));
                 ModelState.AddModelError(ex.Property, ex.Message);
+
+                Logger.Debug("Order creation failed. Validation error");
+
                 return View(order);
             }           
         }
@@ -88,6 +103,7 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult UserOrders()
         {
+            Logger.Debug("Request to user orders page. User: {0}", User.Identity.Name);
             try
             {
                 var ordersDto = _rentService.GetOrders(User.Identity.GetUserId());
@@ -103,6 +119,9 @@ namespace CarRental.WEB.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Request to user orders page failed. Validation error (Property: {0}, Message: {1}). Error page returned. User: {2}", 
+                    ex.Property, ex.Message,  User.Identity.Name);
+
                 return View("Error", ex);
             }
         }
@@ -110,8 +129,10 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult Bill(int? orderId)
         {
+            Logger.Debug("Request to Bill page. Order id: {0}, User: {1}", orderId, User.Identity.Name);
             if (orderId == null)
             {
+                Logger.Debug("Wrong request. Order id is null. 404 returned");
                 return HttpNotFound();
             }
             try
@@ -129,6 +150,7 @@ namespace CarRental.WEB.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Debug("Wrong request. Order was not found. Error page returned");
                 return View("Error", ex);
             }
         }
@@ -137,6 +159,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Bill(OrderViewModel order)
         {
+            Logger.Debug("Attempt to pay the bill. Order id: {0}, User: {1}", order.Id, User.Identity.Name);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -145,10 +168,15 @@ namespace CarRental.WEB.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
+                Logger.Info("The order #{6} is paid. Data ( id: {6}, car: {0}, user: {1}, user_name: {2} sum: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.Class, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
                 return RedirectToAction("UserOrders");
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to pay the bill failed. Validation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}, User: {3}", 
+                    ex.Property, ex.Message, order.Id, User.Identity.Name);
                 return View("Error", ex);
             }
         }
@@ -156,8 +184,10 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult RepairBill(int? orderId)
         {
+            Logger.Debug("Request to RepairBill page. Order id: {0}, User: {1}", orderId, User.Identity.Name);
             if (orderId == null)
             {
+                Logger.Debug("Wrong request. Order id is null. 404 returned");
                 return HttpNotFound();
             }
             try
@@ -175,6 +205,7 @@ namespace CarRental.WEB.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Debug("Wrong request. Order was not found. Error page returned");
                 return View("Error", ex);
             }
         }
@@ -183,6 +214,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RepairBill(OrderViewModel order)
         {
+            Logger.Debug("Attempt to pay the repair bill. Order id: {0}, User: {1}", order.Id, User.Identity.Name);
             try
             {
                 var orderDto = _rentService.GetOrder(order.Id);
@@ -191,10 +223,16 @@ namespace CarRental.WEB.Controllers
 
                 _rentService.UpdateOrder(orderDto);
 
+                Logger.Info("The repair bill for order #{6} is paid. Data ( id: {6}, car: {0}, user: {1}, user_name: {2} repair_price: {3}, from: {4}, to: {5})",
+                    orderDto.Car.Brand + " " + orderDto.Car.Class, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.RepairPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+
                 return RedirectToAction("UserOrders");
             }
             catch (ValidationException ex)
             {
+                Logger.Warn("Attempt to pay the bill failed. Validation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}, User: {3}",
+                    ex.Property, ex.Message, order.Id, User.Identity.Name);
                 return View("Error", ex);
             }
         }

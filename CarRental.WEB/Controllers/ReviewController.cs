@@ -11,15 +11,18 @@ using CarRental.BLL.Interfaces;
 using CarRental.WEB.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using NLog;
 
 namespace CarRental.WEB.Controllers
 {
     public class ReviewController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private IUserService UserService => HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
         readonly IRentService _rentService;
+
         public ReviewController(IRentService serv)
         {
             _rentService = serv;            
@@ -28,6 +31,7 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            Logger.Debug("Request to Reviews page");
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ReviewDTO, ReviewViewModel>().AfterMap((src, dest) =>
@@ -41,6 +45,7 @@ namespace CarRental.WEB.Controllers
         [HttpPost]
         public ActionResult Index(ReviewViewModel reviewViewModel)
         {
+            Logger.Debug("Attempt to leave a review. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
             MapperConfiguration config;
             IMapper mapper;
             try
@@ -55,6 +60,7 @@ namespace CarRental.WEB.Controllers
             }
             catch (ValidationException ex)
             {
+                Logger.Debug("Attempt to leave a review faild. Validation error. (Property: {0}, Message: {1})", ex.Property, ex.Message);
                 ModelState.AddModelError(ex.Property, ex.Message);
             }
                       
@@ -65,6 +71,9 @@ namespace CarRental.WEB.Controllers
                         GetUserViewModel(src.UserId) == null || GetUserViewModel(src.UserId).Name == null ? null : GetUserViewModel(src.UserId).Name);
             });
             mapper = config.CreateMapper();
+
+            Logger.Info("New review is added. User: {0}, Review: {1}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name, reviewViewModel.Text);
+
             return PartialView("Partials/_ReviewsList", mapper.Map<IEnumerable<ReviewViewModel>>(_rentService.GetReviews()));
         }
 

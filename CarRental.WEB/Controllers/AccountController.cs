@@ -8,11 +8,14 @@ using CarRental.Auth.BLL.Interfaces;
 using CarRental.WEB.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NLog;
 
 namespace CarRental.WEB.Controllers
 {
     public class AccountController : Controller
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private IUserService UserService => 
             HttpContext.GetOwinContext().GetUserManager<IUserService>();
 
@@ -21,6 +24,7 @@ namespace CarRental.WEB.Controllers
 
         public ActionResult Login()
         {
+            Logger.Debug("Request to login page. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
             return View();
         }
 
@@ -28,6 +32,7 @@ namespace CarRental.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
+            Logger.Debug("Login attempt");
             SetInitialData();
             if (ModelState.IsValid)
             {
@@ -35,6 +40,7 @@ namespace CarRental.WEB.Controllers
                 ClaimsIdentity claim = UserService.Authenticate(userDto);
                 if (claim == null)
                 {
+                    Logger.Debug("Login attempt failed: Invalid login or password");
                     ModelState.AddModelError("", "Invalid login or password");
                 }
                 else
@@ -44,20 +50,24 @@ namespace CarRental.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
+                    Logger.Info("Login successful. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
                     return RedirectToAction("Index", "Home");
                 }
             }
+            Logger.Debug("Login attempt failed: model is not valid");
             return View(model);
         }
 
         public ActionResult Logout()
         {
+            Logger.Info("Logout. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
             AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
         public ActionResult Register()
         {
+            Logger.Debug("Request to register page. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
             return View();
         }
 
@@ -66,6 +76,7 @@ namespace CarRental.WEB.Controllers
         public ActionResult Register(RegisterModel model)
         {
             SetInitialData();
+            Logger.Debug("Registration attempt");
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO
@@ -78,10 +89,17 @@ namespace CarRental.WEB.Controllers
                 OperationDetails operationDetails = UserService.Create(userDto);
 
                 if (!operationDetails.Succedeed)
+                {
+                    Logger.Debug("Registration failed. Validation error");
                     ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                }
                 else
-                    return View("SuccessRegister");                    
+                {
+                    Logger.Info("Registration successful. Data: email: {0}, name: {1}", userDto.Email, userDto.Name);
+                    return View("SuccessRegister");
+                }                 
             }
+            Logger.Debug("Registration failed. Invalid model");
             return View(model);
         }
 
