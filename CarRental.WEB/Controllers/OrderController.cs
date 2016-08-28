@@ -93,6 +93,7 @@ namespace CarRental.WEB.Controllers
                 var mapper = config.CreateMapper();
                 order.Car = mapper.Map<CarViewModel>(_rentService.GetCar(carId));
                 ModelState.AddModelError(ex.Property, ex.Message);
+                ViewBag.ValidationError = ex.Property + " '" + ex.Message + "'";
 
                 Logger.Debug("Order creation failed. Validation error");
 

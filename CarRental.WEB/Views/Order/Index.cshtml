@@ -12,7 +12,14 @@
             <!-- Min body header -->
             <div class="row"></div>
             <p class="flow-text welcome-text centralized">Rent</p>
-            <p class="flow-text sub-welcome-text centralized">Just fill form for rent (you have to be registred)</p>
+            @if (string.IsNullOrEmpty(ViewBag.ValidationError))
+            {
+                <p class="flow-text sub-welcome-text centralized">Just fill form for rent (you have to be registred)</p>
+            }
+            else
+            {
+                <p class="flow-text sub-welcome-text centralized red-text">@ViewBag.ValidationError</p>
+            }          
             <hr class="colored-hr"/>
             <!-- Car details -->
             <div class="row no-margin-bot">

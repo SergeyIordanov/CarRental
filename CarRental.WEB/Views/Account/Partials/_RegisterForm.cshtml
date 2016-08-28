@@ -11,12 +11,23 @@
     <div class="row">
         <div class="input-field col s8 push-s2">
             @Html.LabelFor(model => model.Email, "Email")
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @required = "required" } })
+            @Html.EditorFor(model => model.Email, new
+               { htmlAttributes = new
+                   { @required = "required", pattern = @"^.+@.+\..+$",
+                       oninvalid = "this.setCustomValidity('Wrong e-mail format')", oninput = "setCustomValidity('')"
+                   }
+               })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
         <div class="input-field col s8 push-s2">
             @Html.LabelFor(model => model.Password, "Password")
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @required = "required" } })
+            @Html.EditorFor(model => model.Password, new
+               { htmlAttributes = new
+                   {
+                       @required = "required", pattern = @"^(?=.*[A-z])(?=.*\d)(?!.*\s)(?=^.{8,16}$).*$",
+                       oninvalid = "this.setCustomValidity('Password have to contain at least 1 digit character & letter. Length: 8 - 16')", oninput = "setCustomValidity('')"
+                   }
+               })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
         <div class="input-field col s8 push-s2">

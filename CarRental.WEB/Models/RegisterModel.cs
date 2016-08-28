@@ -5,6 +5,7 @@ namespace CarRental.WEB.Models
     public class RegisterModel
     {
         [Required(ErrorMessage = "Email is required")]
+        [RegularExpression(@"^.+@.+\..+$", ErrorMessage = "Wrong e-mail format")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
