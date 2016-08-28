@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -331,6 +333,31 @@ namespace CarRental.BLL.Services
                 (!isCar || (order.Car.Brand + " " + order.Car.ModelName).ToLower().Contains(searchCar.ToLower())) &&
                 (!isUser || (order.FirstName + " " + order.LastName).ToLower().Contains(searchUser.ToLower()))
                 ).ToList();
+        }
+
+        public string GetCurrentLog(string pathToDir)
+        {
+            Logger.Debug("BLL: GetCurrentLog() called");
+
+            string[] dateArr = DateTime.Now.ToShortDateString().Split('.').Reverse().ToArray();
+            string fileName = dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2] + ".log";
+
+            string[] dirs;
+
+            try
+            {
+                dirs =
+                    Directory.GetFiles(pathToDir,
+                        fileName);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return "Could not find logs ditectory. Path: " + pathToDir + @"\" + fileName;
+            }
+            if (dirs.Length < 1)
+                return "";
+
+            return File.ReadAllText(dirs[0]);
         }
 
         #endregion

@@ -79,6 +79,13 @@ namespace CarRental.BLL.Interfaces
         /// <returns>Filtred orders collection</returns>
         IEnumerable<OrderDTO> GetOrders(string searchCar, string searchUser);
 
+        /// <summary>
+        /// Reads current(today) log from the log file '{application-data}/Logs/Info'
+        /// </summary>
+        /// <param name="pathToDir">Path to log directory</param>
+        /// <returns>Log string</returns>
+        string GetCurrentLog(string pathToDir);
+
         #endregion
 
         void Dispose();

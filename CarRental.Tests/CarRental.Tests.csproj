@@ -123,12 +123,14 @@
     <Compile Include="DAL\Repositories\TestData.cs" />
     <Compile Include="WEB\Controllers\Admin\AdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\CarAdminControllerTest.cs" />
+    <Compile Include="WEB\Controllers\Admin\LogAdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\OrderAdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\ReviewAdminControllerTest.cs" />
     <Compile Include="WEB\Controllers\Admin\UserAdminControllerTest.cs" />
     <Compile Include="WEB\Fakes\FakeControllerContext.cs" />
     <Compile Include="WEB\Fakes\FakeHttpContext.cs" />
     <Compile Include="WEB\Fakes\FakeHttpRequest.cs" />
+    <Compile Include="WEB\Fakes\FakeHttpServerUtility.cs" />
     <Compile Include="WEB\Fakes\FakeHttpSessionState.cs" />
     <Compile Include="WEB\Fakes\FakeIdentity.cs" />
     <Compile Include="WEB\Fakes\FakePrincipal.cs" />

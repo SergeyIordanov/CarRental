@@ -432,6 +432,21 @@ namespace CarRental.Tests.BLL.Services
             Assert.That(result, Is.TypeOf(typeof(List<OrderDTO>)));
         }
 
+        [Test]
+        public void GetCurrentLogReturnsString()
+        {
+            //Arrange
+            var mockUow = new Mock<IUnitOfWork>();
+            mockUow.Setup(a => a.Orders.GetAll()).Returns(new List<Order>());
+
+            //Act
+            var service = new RentService(mockUow.Object);
+            var result = service.GetCurrentLog("somePath");
+
+            //Assert
+            Assert.That(result, Is.TypeOf(typeof(string)));
+        }
+
         #endregion
 
     }

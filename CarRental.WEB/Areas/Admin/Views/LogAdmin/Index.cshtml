@@ -1,32 +1,40 @@
-﻿@model CarRental.WEB.ViewModels.CarViewModel
+﻿@model string
+
+@using CarRental.WEB.Helpers
+
 @{
-    ViewBag.Title = "Admin/Cars/Create";
+    ViewBag.Title = "Admin/Log";
 }
 
 <div class="row no-margin-bot">
-
     <!-- Main body -->
     <div class="col s7 push-s1">
         <div id="main-body" class="card">
-            <!-- Min body header -->
             <div class="row"></div>
-            <p class="flow-text welcome-text centralized">Create car</p>
-            <p class="flow-text sub-welcome-text centralized">Fill the fields bellow to create a new car</p> 
+            <p class="flow-text welcome-text centralized">Log</p>
+            <p class="flow-text sub-welcome-text centralized">for @DateTime.Now.ToShortDateString()</p>
             <hr class="colored-hr" />
-            <!-- Car form -->
             <div class="row">
                 <div class="col s10 push-s1">
-                    @Html.Partial("Partials/_CarCreateForm")                   
+                    <pre>
+                        <span class="flow-text sub-welcome-text">
+                            @Html.WriteHtml("<br>" + Model
+                                .Replace("\r\n", "<br>")
+                                .Replace("INFO", "<span style='color: lightgreen;'>INFO</span>")
+                                .Replace("WARN", "<span style='color: red;'>WARN</span>")
+                                .Replace("---------- Applicaton starts ----------",
+                                    "<span style='color: green;'>---------- Applicaton starts ----------</span>").Trim())
+                        </span>
+                    </pre>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Rigth side -->
+    <!-- Right side -->
     <div class="col s3 push-s1">
         <!-- Login block -->
         <div class="row">
-            @Html.Partial("../Partials/_Loginblock")
+            @Html.Partial("../Partials/_LoginBlock")
         </div>
         <!-- Menu block -->
         <div class="row">
@@ -35,15 +43,16 @@
                 <p class="card-title flow-text">Menu</p>
                 <div class="collection with-header">
                     @Html.RouteLink("Main", new { area = "Admin", controller = "Admin", action = "Index" }, new { @class = "collection-item main-color-text" })
-                    @Html.RouteLink("Cars", new { area = "Admin", controller = "CarAdmin", action = "Index" }, new { @class = "collection-item main-color-background active" })
+                    @Html.RouteLink("Cars", new { area = "Admin", controller = "CarAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
                     @Html.RouteLink("Reviews", new { area = "Admin", controller = "ReviewAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
                     @Html.RouteLink("Orders", new { area = "Admin", controller = "OrderAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
                     @Html.RouteLink("Users", new { area = "Admin", controller = "UserAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
-                    @Html.RouteLink("Log", new { area = "Admin", controller = "LogAdmin", action = "Index" }, new { @class = "collection-item main-color-text" })
+                    @Html.RouteLink("Log", new { area = "Admin", controller = "LogAdmin", action = "Index" }, new { @class = "collection-item main-color-background active" })
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 

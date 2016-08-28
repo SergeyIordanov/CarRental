@@ -33,5 +33,7 @@ namespace CarRental.Tests.WEB.Fakes
         }
 
         public override HttpSessionStateBase Session => new FakeHttpSessionState(_sessionItems);
+
+        public override HttpServerUtilityBase Server => new FakeHttpServerUtility();
     }
 }
