@@ -34,7 +34,7 @@ namespace CarRental.DAL.EF
             modelBuilder.Entity<Car>()
                .HasMany(a => a.Orders)
                .WithRequired(a => a.Car)
-               .WillCascadeOnDelete(true);
+               .WillCascadeOnDelete(true);           
         }
     }
 }
