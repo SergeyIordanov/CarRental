@@ -11,7 +11,7 @@ namespace CarRental.WEB
 
         protected void Application_Start()
         {
-            Logger.Info("Applicaton starts");
+            Logger.Info("---------- Applicaton starts ----------");
             AreaRegistration.RegisterAllAreas();
             Logger.Debug("Areas registered");
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

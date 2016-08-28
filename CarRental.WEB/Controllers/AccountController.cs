@@ -50,7 +50,9 @@ namespace CarRental.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    Logger.Info("Login successful. User: {0}", string.IsNullOrEmpty(User.Identity.Name) ? "Anonymous" : User.Identity.Name);
+
+                    Logger.Info("Login successful. User: {0}", userDto.Email);
+
                     return RedirectToAction("Index", "Home");
                 }
             }

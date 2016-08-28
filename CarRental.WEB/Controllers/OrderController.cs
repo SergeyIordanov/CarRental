@@ -78,9 +78,9 @@ namespace CarRental.WEB.Controllers
                 });
                 mapper = config.CreateMapper();
 
-                Logger.Info("New order is created. Data (id: {6}, car: {0}, user: {1}, user_name: {2} sum: {3}, from: {4}, to: {5})", 
-                    orderDto.Car.Brand + " " + orderDto.Car.Class, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
-                    orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
+                Logger.Info("New order is created. Data (id: {5}, car id: {0}, user: {1}, user_name: {2}, from: {3}, to: {4})", 
+                    carId, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
+                    orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
                 return View("OrderSuccess", mapper.Map<OrderViewModel>(orderDto));
             }

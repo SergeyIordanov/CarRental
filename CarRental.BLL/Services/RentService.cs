@@ -26,7 +26,7 @@ namespace CarRental.BLL.Services
 
         public void CreateCar(CarDTO carDto)
         {
-            Logger.Debug("BLL: CreateCar() called");
+            Logger.Debug("BLL: CreateCar(car) called");
             // Using ValidationException for transfer validation data to presentation layer
             Validator.ValidateCarModel(carDto);
             // Mapping DTO object into DB entity
@@ -35,6 +35,7 @@ namespace CarRental.BLL.Services
             // Creating and saving
             Database.Cars.Create(car);
             Database.Save();
+            Logger.Debug("BLL: Car created");
         }
 
         public void CreateReview(ReviewDTO reviewDto)
@@ -48,6 +49,7 @@ namespace CarRental.BLL.Services
             // Creating and saving
             Database.Reviews.Create(review);
             Database.Save();
+            Logger.Debug("BLL: Review created");
         }
 
         public void CreateOrder(OrderDTO orderDto, int? carId)
@@ -79,6 +81,7 @@ namespace CarRental.BLL.Services
             // Creating and saving
             Database.Orders.Create(order);
             Database.Save();
+            Logger.Debug("BLL: Order created");
         }
 
         #endregion
@@ -99,6 +102,7 @@ namespace CarRental.BLL.Services
             // Updating & saving
             Database.Cars.Update(car);
             Database.Save();
+            Logger.Debug("BLL: Car updated");
         }
 
         public void UpdateOrder(OrderDTO orderDto)
@@ -119,6 +123,7 @@ namespace CarRental.BLL.Services
             // Updating & saving
             Database.Orders.Update(order);
             Database.Save();
+            Logger.Debug("BLL: Order updated");
         }
 
         #endregion
