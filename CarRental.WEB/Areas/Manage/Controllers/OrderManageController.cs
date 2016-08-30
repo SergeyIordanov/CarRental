@@ -93,7 +93,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                Logger.Info("Order #{6} declined by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                Logger.Info("Order #{6} declined by manager ({1}). Data (id: {6}, car: {0}, user: {2}, sum: {3}, from: {4}, to: {5})",
                     orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
                     orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
@@ -134,7 +134,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                Logger.Info("Order #{6} accepted by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                Logger.Info("Order #{6} accepted by manager ({1}). Data (id: {6}, car: {0}, user: {2}, sum: {3}, from: {4}, to: {5})",
                     orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
                     orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
@@ -176,7 +176,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                Logger.Info("Order #{6} declined by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                Logger.Info("Order #{6} declined by manager ({1}). Data (id: {6}, car: {0}, user: {2}, sum: {3}, from: {4}, to: {5})",
                     orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
                     orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
@@ -222,7 +222,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                Logger.Info("Order #{6} returned by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                Logger.Info("Order #{6} returned by manager ({1}). Data (id: {6}, car: {0}, user: {2}, sum: {3}, from: {4}, to: {5})",
                     orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
                     orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
@@ -269,7 +269,7 @@ namespace CarRental.WEB.Areas.Manage.Controllers
                 });
                 var mapper = config.CreateMapper();
 
-                Logger.Info("Order #{6} send for repairing by manager ({2}). Data (id: {6}, car: {0}, user: {1}, sum: {3}, from: {4}, to: {5})",
+                Logger.Info("Order #{6} send for repairing by manager ({1}). Data (id: {6}, car: {0}, user: {2}, sum: {3}, from: {4}, to: {5})",
                     orderDto.Car.Brand + " " + orderDto.Car.ModelName, User.Identity.Name, orderDto.FirstName + " " + orderDto.LastName,
                     orderDto.TotalPrice, orderDto.FromDate.ToShortDateString(), orderDto.ToDate.ToShortDateString(), orderDto.Id);
 
