@@ -2,7 +2,7 @@
 
 @model IEnumerable<OrderViewModel>
 
-@if (!Model.Any())
+@if (!Model.Any() || Model.All(x => x.OrderStatus == OrderViewModel.Status.Returned))
 {
     <p class="flow-text centralized welcome-text">You have no orders yet..</p>
 }

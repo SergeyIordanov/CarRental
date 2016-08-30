@@ -7,7 +7,7 @@
     <p class="flow-text welcome-text centralized">Loading...</p>
 </div>
 
-@if (!Model.Any())
+@if (!Model.Any() || Model.All(x => x.OrderStatus == OrderViewModel.Status.Returned))
 {
     <p class="flow-text centralized welcome-text">There are no current orders</p>
 }

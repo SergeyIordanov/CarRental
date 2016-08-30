@@ -22,8 +22,9 @@ namespace CarRental.WEB.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            Logger.Debug("Request to Car/Index page");
+            Logger.Debug("Request to Car/Index page. User: {0}", User.Identity.IsAuthenticated ? User.Identity.Name : "Anonymous");
 
+            Session["CurrentCars"] = null;
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CarDTO, CarViewModel>();

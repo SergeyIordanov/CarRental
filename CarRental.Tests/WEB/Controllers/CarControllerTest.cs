@@ -19,7 +19,8 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCars()).Returns(new List<CarDTO>());
-            CarController controller = new CarController(mock.Object);
+            var controller = new CarController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
@@ -34,7 +35,8 @@ namespace CarRental.Tests.WEB.Controllers
             // Arrange
             var mock = new Mock<IRentService>();
             mock.Setup(a => a.GetCars()).Returns(new List<CarDTO>());
-            CarController controller = new CarController(mock.Object);
+            var controller = new CarController(mock.Object);
+            controller.ControllerContext = new FakeControllerContext(controller, new FormCollection());
 
             // Act
             ViewResult result = controller.Index() as ViewResult;
