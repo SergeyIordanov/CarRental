@@ -9,6 +9,8 @@ using CarRental.BLL.Infrastructure;
 using CarRental.BLL.Interfaces;
 using CarRental.DAL.Interfaces;
 using CarRental.Entities.General;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using NLog;
 
 namespace CarRental.BLL.Services
@@ -84,6 +86,53 @@ namespace CarRental.BLL.Services
             Database.Orders.Create(order);
             Database.Save();
             Logger.Debug("BLL: Order created");
+        }
+
+        public bool CreateBillPDF(OrderDTO orderDto, string path)
+        {
+            Validator.ValidateOrderModel(orderDto);
+            try
+            {
+                var doc = new Document();
+                PdfWriter.GetInstance(doc, new FileStream(path, FileMode.Create));
+                doc.Open();
+                var table = new PdfPTable(2);
+                var cellHeader = new PdfPCell(new Phrase("Bill " + (orderDto.RepairPrice > 0 ? "for repair" : "") + " #" + orderDto.Id,
+                    new Font(Font.FontFamily.TIMES_ROMAN, 16,
+                        Font.NORMAL)))
+                {
+                    Padding = 5,
+                    Colspan = 2,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                };
+                table.AddCell(cellHeader);
+                table.AddCell(new Phrase("Client info", new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD)));
+                table.AddCell(new Phrase("Order info", new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD)));
+                table.AddCell("First name: " + orderDto.FirstName + "\n\n" +
+                    "Last name: " + orderDto.LastName + "\n\n" +
+                    "Tel: " + orderDto.PhoneNumber + "\n\n");
+                table.AddCell("Car: " + orderDto.Car.Brand + " " + orderDto.Car.ModelName + "\n\n" +
+                    "Pick-up address: " + orderDto.PickUpAddress + "\n\n" +
+                    "Driver: " + (orderDto.WithDriver ? "Yes" : "No") + "\n\n" +
+                    "From: " + orderDto.FromDate.ToShortDateString() + "\n\n" +
+                    "To: " + orderDto.ToDate.ToShortDateString() + "\n\n");
+                var cellFooter = new PdfPCell(new Phrase(orderDto.RepairPrice > 0 ? "Repair price: " + orderDto.RepairPrice : "Payment amount: " + orderDto.TotalPrice,
+                    new Font(Font.FontFamily.TIMES_ROMAN, 16,
+                        Font.NORMAL)))
+                {
+                    Padding = 5,
+                    Colspan = 2,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                };
+                table.AddCell(cellFooter);
+                doc.Add(table);
+                doc.Close();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         #endregion

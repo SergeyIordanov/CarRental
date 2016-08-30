@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 using AutoMapper;
 using CarRental.BLL.DTO;
@@ -235,6 +236,59 @@ namespace CarRental.WEB.Controllers
                 Logger.Warn("Attempt to pay the bill failed. Validation error (Property: {0}, Message: {1}). Error page returned. Order id: {2}, User: {3}",
                     ex.Property, ex.Message, order.Id, User.Identity.Name);
                 return View("Error", ex);
+            }
+        }
+
+        [HttpGet]
+        public FileResult GetBillPDF(int? orderId)
+        {
+            try
+            {
+                Logger.Debug("Request to GetBillPDF. Order id: {0}, User: {1}", orderId, User.Identity.Name);
+
+                string fileType = "application/pdf";
+                string fileName;
+                string path;
+
+                if (orderId == null || _rentService.GetOrder(orderId) == null)
+                {
+                    Logger.Debug("Wrong request. Order id is null or invalid.  Returned default PDF");
+                    path = Server.MapPath("~/App_Data/Bills/default.pdf");
+                    byte[] masF1 = System.IO.File.ReadAllBytes(path);
+                    return File(masF1, fileType, "default.pdf");
+                }
+
+                var orderDto = _rentService.GetOrder(orderId);
+                if (orderDto.RepairPrice > 0)
+                {
+                    fileName = "RepairBill_" + orderDto.Id + ".pdf";
+                    path = Server.MapPath("~/App_Data/Bills/Repairs/" + fileName);
+                }
+                else
+                {
+                    fileName = "Bill_" + orderDto.Id + ".pdf";
+                    path = Server.MapPath("~/App_Data/Bills/Orders/" + fileName);
+                }
+                if (_rentService.CreateBillPDF(orderDto, path))
+                {
+                    byte[] masS = System.IO.File.ReadAllBytes(path);
+                    Logger.Debug("PDF creation success. Returned bill's PDF");
+
+                    return File(masS, fileType, fileName);
+                }
+
+                Logger.Debug("PDF creation failed. Returned default PDF");
+                path = Server.MapPath("~/App_Data/Bills/default.pdf");
+                byte[] masF2 = System.IO.File.ReadAllBytes(path);               
+                return File(masF2, fileType, "default.pdf");
+            }
+            catch (ValidationException)
+            {
+                return null;
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
             }
         }
     }

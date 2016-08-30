@@ -16,6 +16,8 @@ namespace CarRental.BLL.Interfaces
 
         void CreateOrder(OrderDTO order, int? carId);
 
+        bool CreateBillPDF(OrderDTO order, string path);
+
         #endregion
 
         #region Update

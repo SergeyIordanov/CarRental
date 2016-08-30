@@ -60,9 +60,12 @@
                     {
                         @Html.AntiForgeryToken()
                         <div class="row">
-                            <div class="col s10 push-s1 centralized">
+                            <div class="col s5 push-s1 centralized">
+                                <a href="~/Order/GetBillPDF/?orderId=@Model.Id" class="btn btn-default main-color-background">Save PDF</a>
+                            </div>
+                            <div class="col s5 push-s1 centralized">
                                 @Html.Hidden("Id", Model.Id)
-                                <input type="submit" value="Confirm payment" class="btn btn-default main-color-background" />
+                                <input type="submit" value="Confirm payment" class="btn btn-default main-color-background"/>
                             </div>
                         </div>
                     }
